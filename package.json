@@ -1,0 +1,42 @@
+{
+  "name": "web-porridge",
+  "version": "0.0.0",
+  "description": "Feature-enhanced wrappers for the WebStorage interface",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --pretty --project ./",
+    "dev": "tsc --watch --pretty --project ./",
+    "lint": "tslint --project ./",
+    "lint:fix": "tslint --fix --project ./",
+    "test": "npm run lint"
+  },
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/idleberg/web-porridge.git"
+  },
+  "keywords": [
+    "webstorage",
+    "local-storage",
+    "localStorage",
+    "session-storage",
+    "sessionStorage"
+  ],
+  "dependencies": {
+    "dot-prop": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^13.7.1",
+    "husky": "^4.2.3",
+    "ts-loader": "^6.2.1",
+    "tslint": "^6.0.0",
+    "typescript": "^3.6.4",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  }
+}

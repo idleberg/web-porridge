@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "inlineSourceMap": false,
+        "lib": [
+            "dom",
+            "es7"
+        ],
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": false,
+        "outDir": "./lib",
+        "removeComments": false,
+        "rootDir": "./src",
+        "sourceMap": true,
+        "target": "es5",
+        "incremental": false
+    },
+    "exclude": [
+        "lib",
+        "node_modules"
+    ]
+}

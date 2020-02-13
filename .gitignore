@@ -1,0 +1,16 @@
+# dependencies
+bower_components/
+node_modules/
+vendor/
+
+# package manager files
+npm-debug.log*
+yarn-error.log
+
+# development
+lib/*.map
+
+# project specific
+test.js
+test.ts
+todo.md

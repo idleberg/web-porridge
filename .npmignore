@@ -1,0 +1,19 @@
+# Folders
+.circleci/
+.editorconfig
+src/
+test/
+types/
+
+# Files
+*.tsbuildinfo
+.gitignore
+.travis.yml
+gulpfile.js
+tsconfig.json
+tslint.json
+
+# project specific
+test.js
+test.ts
+todo.md
