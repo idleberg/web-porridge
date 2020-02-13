@@ -51,7 +51,7 @@ localPorridge.removeItem('demo', 'personal.deleteMe');
 localPorridge.removeItem('demo');
 sessionPorridge.setItem('sessionEnd', Date.now());
 
-// PS, for consistency there are naked wrapper methods available
+// PS, for consistency there are naked wrappers available
 localPorridge.key(0);
 localPorridge.length;
 localPorridge.clear();
