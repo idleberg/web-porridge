@@ -52,6 +52,7 @@ localPorridge.removeItem('demo');
 sessionPorridge.setItem('sessionEnd', Date.now());
 
 // PS, for consistency there are naked wrapper methods available
+localPorridge.key(0);
 localPorridge.length;
 localPorridge.clear();
 ```
