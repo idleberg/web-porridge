@@ -104,7 +104,7 @@ Deletes a storage key or any object key through the use of [dot notation][dot-no
 
 ### Event Listeners
 
-The library provides methods to setup event listeners and dispatch WebPorridge actions. These actions are after <[WebPorridge methods][#methods].
+The library provides methods to setup event listeners and dispatch WebPorridge actions. These actions are after [WebPorridge methods][#methods].
 
 **Example:**
 
