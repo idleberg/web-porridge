@@ -84,7 +84,7 @@ Deletes a storage key or any object key through the use of [dot notation][dot-no
 
 #### clear
 
-> The `clear()` method of the [`Storage`][storage] interface clears all keys stored in a given `Storage object`.
+> The `clear()` method of the [`Storage`][storage] interface clears all keys stored in a given `Storage` object.
 
 📘 *[`Storage.clear()`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear) on MDN*
 
