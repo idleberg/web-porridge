@@ -35,6 +35,8 @@ function isValidAction(action: string) {
   return [
     'clear',
     'getItem',
+    'key',
+    'length',
     'removeItem',
     'setItem',
   ].includes(action);
