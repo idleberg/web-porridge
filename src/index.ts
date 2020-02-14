@@ -1,7 +1,7 @@
 import * as dotProp from 'dot-prop';
 
 import {
-  isValidAction,
+  validateAction,
   maybeDeserialize,
   maybeSerialize
 } from './util';
@@ -133,9 +133,7 @@ export default class WebPorridge {
    * @returns {*}
    */
   dispatch(action: string, payload: any) {
-    if (!isValidAction(action)) {
-      throw 'Invalid action argument provided';
-    }
+    validateAction(action);
 
     const customEvent = new CustomEvent(
       this.title,
@@ -156,6 +154,8 @@ export default class WebPorridge {
    * @returns {void}
    */
   private eventHandler(event: Event) {
+    validateAction((<any>event).detail.action);
+
     let key, value, subkey;
 
     switch ((<any>event).detail.action) {
@@ -188,7 +188,7 @@ export default class WebPorridge {
         return this.clear();
 
       default:
-        throw 'Invalid action argument provided';
+        break;
     }
   }
 }

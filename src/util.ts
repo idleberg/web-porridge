@@ -31,19 +31,21 @@ function maybeSerialize(data: string | Object): boolean {
   return serializables.includes(type);
 }
 
-function isValidAction(action: string) {
-  return [
+function validateAction(action: string) {
+  if (![
     'clear',
     'getItem',
     'key',
     'length',
     'removeItem',
     'setItem',
-  ].includes(action);
+  ].includes(action)) {
+    throw 'Invalid action argument provided';
+  }
 }
 
 export {
-  isValidAction,
+  validateAction,
   maybeDeserialize,
   maybeSerialize
 };

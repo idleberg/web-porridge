@@ -10,5 +10,5 @@ declare function maybeDeserialize(data: any): boolean;
  * @returns {boolean}
  */
 declare function maybeSerialize(data: string | Object): boolean;
-declare function isValidAction(action: string): boolean;
-export { isValidAction, maybeDeserialize, maybeSerialize };
+declare function validateAction(action: string): void;
+export { validateAction, maybeDeserialize, maybeSerialize };
