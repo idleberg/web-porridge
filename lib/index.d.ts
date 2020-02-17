@@ -1,4 +1,4 @@
-export default class WebPorridge {
+declare class WebPorridge {
     title: string;
     storageType: string;
     constructor(type: string);

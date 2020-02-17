@@ -6,7 +6,7 @@ import {
   maybeSerialize
 } from './util';
 
-export default class WebPorridge {
+class WebPorridge {
   title: string;
   storageType: string;
 
