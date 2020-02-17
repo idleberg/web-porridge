@@ -8,7 +8,7 @@
     "dev": "tsc --watch --pretty --project ./",
     "lint": "tslint --project ./",
     "lint:fix": "tslint --fix --project ./",
-    "test": "npm run lint"
+    "test": "ava ./test/web-porridge.js --verbose"
   },
   "main": "lib/index.js",
   "repository": {
@@ -27,7 +27,10 @@
   },
   "devDependencies": {
     "@types/node": "^13.7.1",
+    "ava": "^2.4.0",
+    "browser-env": "^3.3.0",
     "husky": "^4.2.3",
+    "localstorage-polyfill": "^1.0.1",
     "ts-loader": "^6.2.1",
     "tslint": "^6.0.0",
     "typescript": "^3.6.4",
