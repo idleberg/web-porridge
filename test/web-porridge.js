@@ -1,7 +1,8 @@
-import test from 'ava';
-import { localPorridge } from '../lib';
-import 'localstorage-polyfill'
-import browserEnv from 'browser-env';
+const { localPorridge } = require('../lib');
+const browserEnv = require('browser-env');
+const test = require('ava');
+
+require('localstorage-polyfill');
 browserEnv(['window']);
 
 const actualString = 'Hello World!';
