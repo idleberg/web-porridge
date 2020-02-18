@@ -31,11 +31,8 @@
     "browser-env": "^3.3.0",
     "husky": "^4.2.3",
     "localstorage-polyfill": "^1.0.1",
-    "ts-loader": "^6.2.1",
     "tslint": "^6.0.0",
-    "typescript": "^3.6.4",
-    "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11"
+    "typescript": "^3.6.4"
   },
   "husky": {
     "hooks": {
