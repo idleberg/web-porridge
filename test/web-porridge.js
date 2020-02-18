@@ -45,6 +45,24 @@ test(`getItem() true`, t => {
 	t.is(actual, expected);
 });
 
+test(`getItem() false`, t => {
+	localStorage.setItem('demo', 'false');
+
+  const expected = false;
+  const actual = localPorridge.getItem('demo');
+
+	t.is(actual, expected);
+});
+
+test(`getItem() null`, t => {
+	localStorage.setItem('demo', 'null');
+
+  const expected = null;
+  const actual = localPorridge.getItem('demo');
+
+	t.is(actual, expected);
+});
+
 test(`getItem() Object key`, t => {
 
 	localStorage.setItem('demo', JSON.stringify(actualObject));
@@ -76,6 +94,30 @@ test(`setItem() Object key`, t => {
   const expected = JSON.parse(localStorage.getItem('demo')).nested;
 
 	t.deepEqual(actualString, expected);
+});
+
+test(`setItem() true`, t => {
+	localPorridge.setItem('demo', true);
+
+  const expected = localStorage.getItem('demo');
+
+	t.is('true', expected);
+});
+
+test(`setItem() false`, t => {
+	localPorridge.setItem('demo', false);
+
+  const expected = localStorage.getItem('demo');
+
+	t.is('false', expected);
+});
+
+test(`setItem() null`, t => {
+	localPorridge.setItem('demo', null);
+
+  const expected = localStorage.getItem('demo');
+
+	t.is('null', expected);
 });
 
 test(`removeItem() String`, t => {
