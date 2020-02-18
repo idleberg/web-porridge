@@ -1,5 +1,7 @@
 const serializables = [
   '[object Array]',
+  '[object Boolean]',
+  '[object Null]',
   '[object Object]'
 ];
 

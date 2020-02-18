@@ -23,17 +23,26 @@ test(`getItem() String`, t => {
 test(`getItem() Valid JSON`, t => {
 	localStorage.setItem('demo', JSON.stringify(actualObject));
 
-  const expected = localPorridge.getItem('demo');
+  const actual = localPorridge.getItem('demo');
 
-	t.deepEqual(actualObject, expected);
+	t.deepEqual(actualObject, actual);
 });
 
 test(`getItem() Invalid JSON`, t => {
 	localStorage.setItem('demo', invalidJSON);
 
-  const expected = localPorridge.getItem('demo');
+  const actual = localPorridge.getItem('demo');
 
-	t.is(invalidJSON, expected);
+	t.is(invalidJSON, actual);
+});
+
+test(`getItem() true`, t => {
+	localStorage.setItem('demo', 'true');
+
+  const expected = true;
+  const actual = localPorridge.getItem('demo');
+
+	t.is(actual, expected);
 });
 
 test(`getItem() Object key`, t => {
