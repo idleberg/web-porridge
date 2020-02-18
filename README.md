@@ -129,13 +129,13 @@ localPorridge.mute();
 
 #### listen
 
-Usage: `listen(element: Element = window)`
+Usage: `listen(element: Element)`
 
 Adds an event listener for WebPorridge actions
 
 #### mute
 
-Usage: `mute(element: Element = window)`
+Usage: `mute(element: Element)`
 
 Removes an event listener
 
