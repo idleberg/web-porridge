@@ -9,6 +9,8 @@ const actualString = 'Hello World!';
 const actualObject = {
   nested: actualString
 };
+const invalidJSON = '{"nested":"Hello World!"';
+
 
 test(`getItem() String`, t => {
 	localStorage.setItem('demo', actualString);
@@ -18,12 +20,20 @@ test(`getItem() String`, t => {
 	t.is(actualString, expected);
 });
 
-test(`getItem() JSON`, t => {
+test(`getItem() Valid JSON`, t => {
 	localStorage.setItem('demo', JSON.stringify(actualObject));
 
   const expected = localPorridge.getItem('demo');
 
 	t.deepEqual(actualObject, expected);
+});
+
+test(`getItem() Invalid JSON`, t => {
+	localStorage.setItem('demo', invalidJSON);
+
+  const expected = localPorridge.getItem('demo');
+
+	t.is(invalidJSON, expected);
 });
 
 test(`getItem() Object key`, t => {
