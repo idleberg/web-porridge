@@ -156,27 +156,27 @@ class WebPorridge {
   private eventHandler(event: Event) {
     validateAction((<any>event).detail.action);
 
-    let key, value, subkey;
+    let key, value, subKey;
 
     switch ((<any>event).detail.action) {
       case 'getItem':
         key = (<any>event).detail.payload.key;
-        subkey = (<any>event).detail.payload.subkey || '';
+        subKey = (<any>event).detail.payload.subKey || '';
 
-        return this.getItem(key, subkey);
+        return this.getItem(key, subKey);
 
       case 'removeItem':
         key = (<any>event).detail.payload.key;
-        subkey = (<any>event).detail.payload.subkey || '';
+        subKey = (<any>event).detail.payload.subKey || '';
 
-        return this.removeItem(key, subkey);
+        return this.removeItem(key, subKey);
 
       case 'setItem':
         key = (<any>event).detail.payload.key;
         value = (<any>event).detail.payload.value;
-        subkey = (<any>event).detail.payload.subkey || '';
+        subKey = (<any>event).detail.payload.subKey || '';
 
-        return this.setItem(key, value, subkey);
+        return this.setItem(key, value, subKey);
 
       case 'key':
         return this.key((<any>event).detail.payload);
