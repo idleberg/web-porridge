@@ -9,6 +9,7 @@ yarn-error.log
 
 # development
 lib/*.map
+*.tsbuildinfo
 
 # project specific
 test.js
