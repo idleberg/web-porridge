@@ -57,7 +57,7 @@ declare class WebPorridge {
      * @param {*} payload
      * @returns {*}
      */
-    dispatch(action: string, payload: any): void;
+    dispatch(action: string, payload: Number | PayloadOptions): void;
     /**
      * Event handler
      * @param {Event} event

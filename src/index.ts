@@ -132,7 +132,7 @@ class WebPorridge {
    * @param {*} payload
    * @returns {*}
    */
-  dispatch(action: string, payload: any) {
+  dispatch(action: string, payload: Number | PayloadOptions) {
     validateAction(action);
 
     const customEvent = new CustomEvent(
