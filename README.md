@@ -9,7 +9,7 @@ Feature-enhanced wrappers for the [WebStorage](https://developer.mozilla.org/en-
 
 - transparent (de)serialization
 - Object-level read & write access
-- event listener helpers
+- support for events
 
 ## Installation
 
@@ -103,7 +103,7 @@ Deletes a storage key or any object key through the use of [dot notation][dot-no
 
 📘 *[`Storage.length`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/length) on MDN*
 
-### Event Listeners
+### Events
 
 The library provides methods to setup event listeners and dispatch WebPorridge actions. These actions are name after the [WebPorridge methods](#methods).
 
