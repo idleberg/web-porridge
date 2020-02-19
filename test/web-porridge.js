@@ -54,6 +54,24 @@ test(`getItem() false`, t => {
 	t.is(actual, expected);
 });
 
+test(`getItem() Int`, t => {
+	localStorage.setItem('demo', '1');
+
+  const expected = 1;
+  const actual = localPorridge.getItem('demo');
+
+	t.is(actual, expected);
+});
+
+test(`getItem() Float`, t => {
+	localStorage.setItem('demo', '1.2');
+
+  const expected = 1.2;
+  const actual = localPorridge.getItem('demo');
+
+	t.is(actual, expected);
+});
+
 test(`getItem() null`, t => {
 	localStorage.setItem('demo', 'null');
 
@@ -118,6 +136,22 @@ test(`setItem() null`, t => {
   const expected = localStorage.getItem('demo');
 
 	t.is('null', expected);
+});
+
+test(`setItem() Int`, t => {
+	localPorridge.setItem('demo', 1);
+
+  const expected = localStorage.getItem('demo');
+
+	t.is('1', expected);
+});
+
+test(`setItem() Float`, t => {
+	localPorridge.setItem('demo', 1.2);
+
+  const expected = localStorage.getItem('demo');
+
+	t.is('1.2', expected);
 });
 
 test(`removeItem() String`, t => {

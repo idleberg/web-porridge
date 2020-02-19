@@ -2,6 +2,7 @@ const serializables = [
   '[object Array]',
   '[object Boolean]',
   '[object Null]',
+  '[object Number]',
   '[object Object]'
 ];
 
