@@ -66,15 +66,11 @@ Usage: `getItem(key, dot.notation.subkey? = '')`
 
 Returns the value of a storage key, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
 
-📘 *[`Storage.getItem()`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem) on MDN*
-
 #### setItem
 
 Usage: `setItem(key, value, dot.notation.subkey? = '')`
 
 Writes a key/value pair to the storage, automaticall stringifies objecs. Supports overwriting a single value inside an object through the use of [dot notation][dot-notation] syntax.
-
-📘 *[`Storage.setItem()`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/setItem) on MDN*
 
 #### removeItem
 
@@ -82,27 +78,19 @@ Usage: `removeItem(key, dot.notation.subkey? = '')`
 
 Deletes a storage key or any object key through the use of [dot notation][dot-notation] syntax.
 
-📘 *[`Storage.removeItem()`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/removeItem) on MDN*
-
 #### clear
 
 > The `clear()` method of the [`Storage`][storage] interface clears all keys stored in a given `Storage` object.
 
-📘 *[`Storage.clear()`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear) on MDN*
-
 #### key
 
 > The **`key()`** method of the [`Storage`][storage] interface, when passed a number n, returns the name of the nth key in a given `Storage` object. The order of keys is user-agent defined, so you should not rely on it.
-
-📘 *[`Storage.key()`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/key) on MDN*
 
 ### Properties
 
 #### length
 
 > The *`length`* read-only property of the [`Storage`][storage] interface returns the number of data items stored in a given `Storage` object.
-
-📘 *[`Storage.length`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/length) on MDN*
 
 ### Events
 
