@@ -1,10 +1,10 @@
 import * as dotProp from 'dot-prop';
 
 import {
-  validateAction,
   maybeBase64Decode,
   maybeDeserialize,
-  maybeSerialize
+  maybeSerialize,
+  validateAction
 } from './util';
 
 class WebPorridge {
