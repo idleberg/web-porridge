@@ -10,6 +10,9 @@ const actualObject = {
   nested: actualString
 };
 const invalidJSON = '{"nested":"Hello World!"';
+const actualBase64String = 'SGVsbG8gV29ybGQh';
+const actualBase64Object = 'eyJuZXN0ZWQiOiJIZWxsbyBXb3JsZCEifQ==';
+const invalidBase64JSON = 'eyJuZXN0ZWQiOiJIZWxsbyBXb3JsZCEi';
 
 
 test(`getItem() String`, t => {
@@ -79,6 +82,30 @@ test(`getItem() null`, t => {
   const actual = localPorridge.getItem('demo');
 
 	t.is(actual, expected);
+});
+
+test(`getItem() Base64 String`, t => {
+	localStorage.setItem('demo', actualBase64String);
+
+  const actual = localPorridge.getItem('demo');
+
+	t.is(actualString, actualString);
+});
+
+test(`getItem() Base64 Valid JSON`, t => {
+	localStorage.setItem('demo', actualBase64Object);
+
+  const actual = localPorridge.getItem('demo');
+
+	t.deepEqual(actualObject, actual);
+});
+
+test(`getItem() Base64 Invalid JSON`, t => {
+	localStorage.setItem('demo', invalidBase64JSON);
+
+  const actual = localPorridge.getItem('demo');
+
+	t.is(invalidJSON, actual);
 });
 
 test(`getItem() Object key`, t => {

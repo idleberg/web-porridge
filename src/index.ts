@@ -2,6 +2,7 @@ import * as dotProp from 'dot-prop';
 
 import {
   validateAction,
+  maybeBase64Decode,
   maybeDeserialize,
   maybeSerialize
 } from './util';
@@ -44,7 +45,7 @@ class WebPorridge {
       return dotProp.get(currentItem, subKeyName);
     }
 
-    return (value && maybeDeserialize(value)) ? JSON.parse(value) : value;
+    return (value && maybeDeserialize(value)) ? JSON.parse(value) : maybeBase64Decode(value);
   }
 
   /**

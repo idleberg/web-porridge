@@ -8,6 +8,7 @@
 Feature-enhanced wrappers for the [WebStorage](https://developer.mozilla.org/en-US/docs/Web/API/Storage) interface
 
 - transparent (de)serialization
+- transparent Base64 decoding
 - Object-level read & write access
 - support for events
 
@@ -63,7 +64,7 @@ localPorridge.clear();
 
 Usage: `getItem(key, dot.notation.subkey? = '')`
 
-Returns the value of a storage key, automatically parses JSON strings. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
+Returns the value of a storage key, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
 
 📘 *[`Storage.getItem()`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem) on MDN*
 
