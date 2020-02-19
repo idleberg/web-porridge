@@ -46,7 +46,18 @@ function maybeBase64Decode(inputString: string) {
 }
 
 /**
- * Base64-decodes input data if necessary. Supports deserialization
+ * Base64-encodes input string. Supports serialization
+ * @param {*} inputString
+ * @returns {string}
+ */
+function base64Encode(inputString: string): string {
+  const outputString: string = (maybeSerialize(inputString)) ? JSON.stringify(inputString) : inputString;
+
+  return new Buffer(outputString).toString('base64');
+}
+
+/**
+ * Base64-decodes input string
  * @param {*} inputString
  * @returns {string}
  */
@@ -84,7 +95,6 @@ function validateAction(action: string) {
 }
 
 export {
-  isBase64,
   maybeBase64Decode,
   maybeDeserialize,
   maybeSerialize,
