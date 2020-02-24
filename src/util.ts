@@ -95,6 +95,8 @@ function validateAction(action: string) {
 }
 
 export {
+  base64Decode,
+  base64Encode,
   maybeBase64Decode,
   maybeDeserialize,
   maybeSerialize,

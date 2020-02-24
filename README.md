@@ -132,6 +132,17 @@ Removes an event listener
 
 Usage: `dispatch(action: string, payload: any)`
 
+### Helpers
+
+This module exports two helper function to encode and decode Base64:
+
+```ts
+import { encode, decode } from 'web-porridge/base64';
+
+const encoded = encode('Hello World!');
+const decoded = decode(encoded);
+```
+
 ## License
 
 This work is licensed under [The MIT License](https://opensource.org/licenses/MIT)

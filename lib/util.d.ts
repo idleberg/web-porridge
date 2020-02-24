@@ -17,9 +17,21 @@ declare function maybeSerialize(inputString: string | Object): boolean;
  */
 declare function maybeBase64Decode(inputString: string): any;
 /**
+ * Base64-encodes input string. Supports serialization
+ * @param {*} inputString
+ * @returns {string}
+ */
+declare function base64Encode(inputString: string): string;
+/**
+ * Base64-decodes input string
+ * @param {*} inputString
+ * @returns {string}
+ */
+declare function base64Decode(inputString: string): string;
+/**
  * Checks for supported WebStorage methods
  * @param {string} action
  * @returns {boolean}
  */
 declare function validateAction(action: string): void;
-export { maybeBase64Decode, maybeDeserialize, maybeSerialize, validateAction };
+export { base64Decode, base64Encode, maybeBase64Decode, maybeDeserialize, maybeSerialize, validateAction };
