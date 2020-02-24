@@ -204,3 +204,75 @@ test(`removeItem() Object key`, t => {
 
 	t.is(actual, JSON.stringify(actualObject));
 });
+
+test(`decode() String`, t => {
+  localStorage.setItem('demo', encode(actualString));
+
+  const decodedStorage = decode(localStorage.getItem('demo'));
+  const decodedPorridge = localPorridge.getItem('demo');
+
+  t.is(decodedStorage, decodedPorridge)
+});
+
+test(`decode() Valid JSON`, t => {
+  localStorage.setItem('demo', encode(JSON.stringify(actualObject)));
+
+  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedPorridge = localPorridge.getItem('demo');
+
+  t.deepEqual(decodedStorage, decodedPorridge)
+});
+
+test(`decode() Invalid JSON`, t => {
+  localStorage.setItem('demo', encode(invalidJSON));
+
+  const decodedStorage = decode(localStorage.getItem('demo'));
+  const decodedPorridge = localPorridge.getItem('demo');
+
+  t.deepEqual(decodedStorage, decodedPorridge)
+});
+
+test(`decode() true`, t => {
+  localStorage.setItem('demo', encode(true));
+
+  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedPorridge = localPorridge.getItem('demo');
+
+  t.is(decodedStorage, decodedPorridge)
+});
+
+test(`decode() false`, t => {
+  localStorage.setItem('demo', encode(false));
+
+  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedPorridge = localPorridge.getItem('demo');
+
+  t.is(decodedStorage, decodedPorridge)
+});
+
+test(`decode() null`, t => {
+  localStorage.setItem('demo', encode(null));
+
+  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedPorridge = localPorridge.getItem('demo');
+
+  t.is(decodedStorage, decodedPorridge)
+});
+
+test(`decode() Int`, t => {
+  localStorage.setItem('demo', encode(1));
+
+  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedPorridge = localPorridge.getItem('demo');
+
+  t.is(decodedStorage, decodedPorridge)
+});
+
+test(`decode() Float`, t => {
+  localStorage.setItem('demo', encode(1.2));
+
+  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedPorridge = localPorridge.getItem('demo');
+
+  t.is(decodedStorage, decodedPorridge)
+});
