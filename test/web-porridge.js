@@ -1,4 +1,5 @@
 const { localPorridge } = require('../lib');
+const { decode, encode } = require('../lib/base64');
 const browserEnv = require('browser-env');
 const test = require('ava');
 
@@ -10,9 +11,9 @@ const actualObject = {
   nested: actualString
 };
 const invalidJSON = '{"nested":"Hello World!"';
-const actualBase64String = 'SGVsbG8gV29ybGQh';
-const actualBase64Object = 'eyJuZXN0ZWQiOiJIZWxsbyBXb3JsZCEifQ==';
-const invalidBase64JSON = 'eyJuZXN0ZWQiOiJIZWxsbyBXb3JsZCEi';
+const actualBase64String = encode(actualString);
+const actualBase64Object = encode(actualObject);
+const invalidBase64JSON = encode(invalidJSON);
 
 
 test(`getItem() String`, t => {
