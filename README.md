@@ -140,9 +140,12 @@ This module exports two helper function to encode and decode Base64:
 import { sessionPorridge } from 'web-porridge';
 import { encode, decode } from 'web-porridge/base64';
 
-// Decoding Base64 strings works transparently!
-sessionPorridge.setItem('demo', encode('Hello World!'));
-sessionPorridge.getItem('demo');
+const encodedItem = encode('Hello World!');
+sessionPorridge.setItem('demo', encodedItem);
+const decodedItem = sessionPorridge.getItem('demo');
+
+console.log(decodedItem === 'Hello World!');
+// true
 ```
 
 ## License
