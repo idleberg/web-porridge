@@ -53,7 +53,7 @@ function maybeBase64Decode(inputString: string) {
 function base64Encode(inputString: string): string {
   const outputString: string = (maybeSerialize(inputString)) ? JSON.stringify(inputString) : inputString;
 
-  return new Buffer(outputString).toString('base64');
+  return Buffer.from(outputString).toString('base64');
 }
 
 /**
