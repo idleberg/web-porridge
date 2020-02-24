@@ -205,7 +205,7 @@ test(`removeItem(): Object key`, t => {
 	t.is(actual, JSON.stringify(actualObject));
 });
 
-test(`decode() String`, t => {
+test(`Base64: String`, t => {
   localStorage.setItem('demo', encode(actualString));
 
   const decodedStorage = decode(localStorage.getItem('demo'));
