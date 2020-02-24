@@ -137,10 +137,12 @@ Usage: `dispatch(action: string, payload: any)`
 This module exports two helper function to encode and decode Base64:
 
 ```ts
+import { sessionPorridge } from 'web-porridge';
 import { encode, decode } from 'web-porridge/base64';
 
-const encoded = encode('Hello World!');
-const decoded = decode(encoded);
+// Decoding Base64 strings works transparently!
+sessionPorridge.setItem('demo', encode('Hello World!'));
+sessionPorridge.getItem('demo');
 ```
 
 ## License
