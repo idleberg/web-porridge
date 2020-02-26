@@ -65,7 +65,7 @@ localPorridge.clear();
 
 Usage: `getItem(key, dot.notation.subkey? = '')`
 
-Returns the value of a storage key, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
+Returns the value of a single storage key, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
 
 #### getItems
 
@@ -90,7 +90,7 @@ localPorridge.getItem([
 
 Usage: `setItem(key, value, dot.notation.subkey? = '')`
 
-Writes a key/value pair to the storage, automatically stringifies objects. Supports overwriting a single value inside an object through the use of [dot notation][dot-notation] syntax.
+Writes a single key/value pair to the storage, automatically stringifies objects. Supports overwriting a single value inside an object through the use of [dot notation][dot-notation] syntax.
 
 #### setItems
 
@@ -118,13 +118,13 @@ localPorridge.setItems([
 
 Usage: `removeItem(key, dot.notation.subkey? = '')`
 
-Deletes a storage key or any object key through the use of [dot notation][dot-notation] syntax.
+Deletes a single storage key or object key through the use of [dot notation][dot-notation] syntax.
 
 #### removeItems
 
 Usage: `removeItems([...])`
 
-Deletes storage keys or any object key through the use of [dot notation][dot-notation] syntax.
+Deletes storage keys or object keys through the use of [dot notation][dot-notation] syntax.
 
 **Example:**
 
