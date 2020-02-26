@@ -9,7 +9,7 @@ import {
   validateAction
 } from './util';
 
-export class WebPorridge {
+class WebPorridge {
   title: string;
   storageType: string;
 
