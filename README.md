@@ -78,7 +78,7 @@ Returns value of many storage keys, automatically parses JSON strings and transp
 ```ts
 localPorridge.getItem([
     'firstItem',
-    'secondItem,
+    'secondItem',
     {
         key: 'thirdItem',
         subKey: 'dot.notation.subkey'
@@ -107,7 +107,7 @@ localPorridge.setItems([
         value: 'Hello World!'
     },
     {
-        key: 'secondItem,
+        key: 'secondItem',
         value: 'Appleseed',
         subKey: 'personal.lastName'
     }
@@ -131,7 +131,7 @@ Deletes storage keys or any object key through the use of [dot notation][dot-not
 ```ts
 localPorridge.removeItems([
     'firstItem',
-    'secondItem,
+    'secondItem',
     {
         key: 'thirdItem',
         subKey: 'dot.notation.subkey'
