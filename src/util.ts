@@ -94,9 +94,29 @@ function validateAction(action: string) {
   }
 }
 
+/**
+ * Detect whether input is of type Array
+ * @param {*} input
+ * @returns {boolean}
+ */
+function isArray(input) {
+  return Object.prototype.toString.call(input) === '[object Array]';
+}
+
+/**
+ * Detect whether input is of type Object
+ * @param {*} input
+ * @returns {boolean}
+ */
+function isObject(input) {
+  return Object.prototype.toString.call(input) === '[object Object]';
+}
+
 export {
   base64Decode,
   base64Encode,
+  isArray,
+  isObject,
   maybeBase64Decode,
   maybeDeserialize,
   maybeSerialize,

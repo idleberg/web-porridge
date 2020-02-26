@@ -4,7 +4,7 @@
         "inlineSourceMap": false,
         "lib": [
             "dom",
-            "es7"
+            "es2020"
         ],
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": false,
@@ -13,7 +13,7 @@
         "rootDir": "./src",
         "sourceMap": true,
         "target": "es5",
-        "incremental": false
+        "incremental": true
     },
     "exclude": [
         "lib",

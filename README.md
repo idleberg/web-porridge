@@ -10,6 +10,7 @@ Feature-enhanced wrappers for the [WebStorage](https://developer.mozilla.org/en-
 - transparent (de)serialization
 - transparent Base64 decoding
 - Object-level read & write access
+- batch operations
 - support for events
 
 ## Installation
@@ -66,17 +67,77 @@ Usage: `getItem(key, dot.notation.subkey? = '')`
 
 Returns the value of a storage key, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
 
+#### getItems
+
+Usage: `getItems([...])`
+
+Returns value of many storage keys, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
+
+**Example:**
+
+```ts
+localPorridge.getItem([
+    'firstItem',
+    'secondItem,
+    {
+        key: 'thirdItem',
+        subKey: 'dot.notation.subkey'
+    }
+]),
+```
+
 #### setItem
 
 Usage: `setItem(key, value, dot.notation.subkey? = '')`
 
-Writes a key/value pair to the storage, automaticall stringifies objecs. Supports overwriting a single value inside an object through the use of [dot notation][dot-notation] syntax.
+Writes a key/value pair to the storage, automatically stringifies objects. Supports overwriting a single value inside an object through the use of [dot notation][dot-notation] syntax.
+
+#### setItems
+
+Usage: `setItems([...])`
+
+Writes many key/value pairs to the storage, automatically stringifies objects. Supports overwriting a single value inside an object through the use of [dot notation][dot-notation] syntax.
+
+**Example:**
+
+```ts
+localPorridge.setItems([
+    {
+        key: 'firstItem',
+        value: 'Hello World!'
+    },
+    {
+        key: 'secondItem,
+        value: 'Appleseed',
+        subKey: 'personal.lastName'
+    }
+]),
+```
 
 #### removeItem
 
 Usage: `removeItem(key, dot.notation.subkey? = '')`
 
 Deletes a storage key or any object key through the use of [dot notation][dot-notation] syntax.
+
+#### removeItems
+
+Usage: `removeItems([...])`
+
+Deletes storage keys or any object key through the use of [dot notation][dot-notation] syntax.
+
+**Example:**
+
+```ts
+localPorridge.removeItems([
+    'firstItem',
+    'secondItem,
+    {
+        key: 'thirdItem',
+        subKey: 'dot.notation.subkey'
+    }
+]),
+```
 
 #### clear
 

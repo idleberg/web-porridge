@@ -1,18 +1,19 @@
 import * as dotProp from 'dot-prop';
 
 import {
+  isArray,
+  isObject,
   maybeBase64Decode,
   maybeDeserialize,
   maybeSerialize,
   validateAction
 } from './util';
 
-class WebPorridge {
+export class WebPorridge {
   title: string;
   storageType: string;
 
   constructor(type: string) {
-
     switch (type.toLowerCase()) {
       case 'local':
       case 'localstorage':
@@ -32,9 +33,9 @@ class WebPorridge {
   }
 
   /**
-   * Reads data from WebStorage type
+   * Reads single data item from WebStorage type
    * @param {String} item
-   * @param {Object} userOptions
+   * @param {Object} subKeyName
    * @returns {*}
    */
   getItem(keyName: string, subKeyName: string = '') {
@@ -48,10 +49,27 @@ class WebPorridge {
     return (value && maybeDeserialize(value)) ? JSON.parse(value) : maybeBase64Decode(value);
   }
 
+    /**
+  * Writes data items to WebStorage type
+  * @param {Array} item
+  * @returns {*}
+  */
+  getItems(input: (string | PayloadOptions)[]) {
+    if (isArray(input)) {
+      return input.map(item => {
+        if (typeof item === 'string') {
+          return this.getItem(item);
+        } else if (isObject(item)) {
+          return this.getItem(item.key, item.subKey);
+        }
+      });
+    }
+  }
+
   /**
-   * Removes data from WebStorage type
+   * Removes single data item from WebStorage type
    * @param {String} item
-   * @param {Object} userOptions
+   * @param {Object} subKeyName
    */
   removeItem(keyName: string, subKeyName: string = '') {
     if (subKeyName) {
@@ -65,7 +83,23 @@ class WebPorridge {
   }
 
   /**
-  * Reads from WebStorage type
+   * Removes datas item from WebStorage type
+   * @param {String} input
+   */
+  removeItems(input: (string | PayloadOptions)[]) {
+    if (isArray(input)) {
+      return input.map(item => {
+        if (typeof item === 'string') {
+          return this.removeItem(item);
+        } else if (isObject(item)) {
+          return this.removeItem(item.key, item.subKey);
+        }
+      });
+    }
+  }
+
+  /**
+  * Writes single data item to WebStorage type
   * @param {String} item
   * @param {*} value
   * @param {Object} userOptions
@@ -82,6 +116,19 @@ class WebPorridge {
     const newValue = (maybeSerialize(keyValue)) ? JSON.stringify(keyValue) : keyValue;
 
     return (<any>global)[this.storageType].setItem(keyName, newValue);
+  }
+
+  /**
+  * Writes data items to WebStorage type
+  * @param {Array} item
+  * @returns {*}
+  */
+  setItems(input: PayloadOptions[]) {
+    if (isArray(input)) {
+      return input.map(item => {
+        return this.setItem(item.key, item.value, item.subKey);
+      });
+    }
   }
 
   /**

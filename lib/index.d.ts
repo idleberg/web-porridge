@@ -1,28 +1,45 @@
-declare class WebPorridge {
+export declare class WebPorridge {
     title: string;
     storageType: string;
     constructor(type: string);
     /**
-     * Reads data from WebStorage type
+     * Reads single data item from WebStorage type
      * @param {String} item
-     * @param {Object} userOptions
+     * @param {Object} subKeyName
      * @returns {*}
      */
     getItem(keyName: string, subKeyName?: string): any;
     /**
-     * Removes data from WebStorage type
+  * Writes data items to WebStorage type
+  * @param {Array} item
+  * @returns {*}
+  */
+    getItems(input: (string | PayloadOptions)[]): any[];
+    /**
+     * Removes single data item from WebStorage type
      * @param {String} item
-     * @param {Object} userOptions
+     * @param {Object} subKeyName
      */
     removeItem(keyName: string, subKeyName?: string): any;
     /**
-    * Reads from WebStorage type
+     * Removes datas item from WebStorage type
+     * @param {String} input
+     */
+    removeItems(input: (string | PayloadOptions)[]): any[];
+    /**
+    * Writes single data item to WebStorage type
     * @param {String} item
     * @param {*} value
     * @param {Object} userOptions
     * @returns {*}
     */
     setItem(keyName: string, keyValue: any, subKeyName?: string): any;
+    /**
+    * Writes data items to WebStorage type
+    * @param {Array} item
+    * @returns {*}
+    */
+    setItems(input: PayloadOptions[]): any[];
     /**
      * Returns the length of WebStorage type
      * @param {Integer} index

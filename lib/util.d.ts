@@ -34,4 +34,16 @@ declare function base64Decode(inputString: string): string;
  * @returns {boolean}
  */
 declare function validateAction(action: string): void;
-export { base64Decode, base64Encode, maybeBase64Decode, maybeDeserialize, maybeSerialize, validateAction };
+/**
+ * Detect whether input is of type Array
+ * @param {*} input
+ * @returns {boolean}
+ */
+declare function isArray(input: any): boolean;
+/**
+ * Detect whether input is of type Object
+ * @param {*} input
+ * @returns {boolean}
+ */
+declare function isObject(input: any): boolean;
+export { base64Decode, base64Encode, isArray, isObject, maybeBase64Decode, maybeDeserialize, maybeSerialize, validateAction };
