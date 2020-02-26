@@ -83,7 +83,7 @@ localPorridge.getItem([
         key: 'thirdItem',
         subKey: 'dot.notation.subkey'
     }
-]),
+]);
 ```
 
 #### setItem
@@ -111,7 +111,7 @@ localPorridge.setItems([
         value: 'Appleseed',
         subKey: 'personal.lastName'
     }
-]),
+]);
 ```
 
 #### removeItem
@@ -136,7 +136,7 @@ localPorridge.removeItems([
         key: 'thirdItem',
         subKey: 'dot.notation.subkey'
     }
-]),
+]);
 ```
 
 #### clear
