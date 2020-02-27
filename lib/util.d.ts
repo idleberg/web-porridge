@@ -1,5 +1,5 @@
 /**
- * Checks whether input data requires deserialization after readin it from WebStorage
+ * Checks whether input data requires deserialization after reading it from WebStorage
  * @param {*} data
  * @returns {boolean}
  */
@@ -46,4 +46,5 @@ declare function isArray(input: any): boolean;
  * @returns {boolean}
  */
 declare function isObject(input: any): boolean;
-export { base64Decode, base64Encode, isArray, isObject, maybeBase64Decode, maybeDeserialize, maybeSerialize, validateAction };
+declare function isSerializableNumber(input: any): boolean;
+export { base64Decode, base64Encode, isArray, isObject, isSerializableNumber, maybeBase64Decode, maybeDeserialize, maybeSerialize, validateAction };

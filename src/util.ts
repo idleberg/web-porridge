@@ -1,10 +1,3 @@
-const serializables = [
-  '[object Array]',
-  '[object Boolean]',
-  '[object Null]',
-  '[object Number]',
-  '[object Object]'
-];
 
 /**
  * Checks whether input data requires deserialization after reading it from WebStorage
@@ -12,11 +5,18 @@ const serializables = [
  * @returns {boolean}
  */
 function maybeDeserialize(data): boolean {
+  const serializables = [
+    '[object Array]',
+    '[object Boolean]',
+    '[object Null]',
+    '[object Object]'
+  ];
+
   try {
     const result = JSON.parse(data);
     const type: string = Object.prototype.toString.call(result);
 
-    return serializables.includes(type);
+    return serializables.includes(type) || (type === '[object Number]' && isSerializableNumber(data));
   } catch (error) {
 
     return false;
@@ -29,6 +29,15 @@ function maybeDeserialize(data): boolean {
  * @returns {boolean}
  */
 function maybeSerialize(inputString: string | Object): boolean {
+  const serializables = [
+    '[object Array]',
+    '[object Boolean]',
+    '[object Null]',
+    '[object Number]',
+    '[object Object]'
+  ];
+
+
    const type: string = Object.prototype.toString.call(inputString);
 
   return serializables.includes(type);
@@ -112,11 +121,16 @@ function isObject(input) {
   return Object.prototype.toString.call(input) === '[object Object]';
 }
 
+function isSerializableNumber(input) {
+  return !isNaN(parseFloat(input)) && parseFloat(input.toString()).toString() === input.toString();
+}
+
 export {
   base64Decode,
   base64Encode,
   isArray,
   isObject,
+  isSerializableNumber,
   maybeBase64Decode,
   maybeDeserialize,
   maybeSerialize,
