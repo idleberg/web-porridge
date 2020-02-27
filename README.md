@@ -149,17 +149,23 @@ localPorridge.removeItems([
 
 #### clear
 
-> The `clear()` method of the [`Storage`][storage] interface clears all keys stored in a given `Storage` object. [[MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear)]
+> The `clear()` method of the [`Storage`][storage] interface clears all keys stored in a given `Storage` object.
+>
+> [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear)
 
 #### key
 
-> The **`key()`** method of the [`Storage`][storage] interface, when passed a number n, returns the name of the nth key in a given `Storage` object. The order of keys is user-agent defined, so you should not rely on it. [[MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/key)]
+> The **`key()`** method of the [`Storage`][storage] interface, when passed a number n, returns the name of the nth key in a given `Storage` object. The order of keys is user-agent defined, so you should not rely on it.
+>
+> [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/key)
 
 ### Properties
 
 #### length
 
-> The *`length`* read-only property of the [`Storage`][storage] interface returns the number of data items stored in a given `Storage` object. [[MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/length)]
+> The *`length`* read-only property of the [`Storage`][storage] interface returns the number of data items stored in a given `Storage` object.
+>
+> [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/length)
 
 ### Events
 
