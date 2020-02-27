@@ -1,10 +1,10 @@
 
 /**
  * Checks whether input data requires deserialization after reading it from WebStorage
- * @param {*} data
+ * @param {*} inputData
  * @returns {boolean}
  */
-function maybeDeserialize(data): boolean {
+function maybeDeserialize(inputData): boolean {
   const serializables = [
     '[object Array]',
     '[object Boolean]',
@@ -13,10 +13,10 @@ function maybeDeserialize(data): boolean {
   ];
 
   try {
-    const result = JSON.parse(data);
+    const result = JSON.parse(inputData);
     const type: string = Object.prototype.toString.call(result);
 
-    return serializables.includes(type) || (type === '[object Number]' && isSerializableNumber(data));
+    return serializables.includes(type) || (type === '[object Number]' && isSerializableNumber(inputData));
   } catch (error) {
 
     return false;
@@ -94,10 +94,13 @@ function validateAction(action: string) {
   if (![
     'clear',
     'getItem',
+    'getItems',
     'key',
     'length',
     'removeItem',
+    'removeItems',
     'setItem',
+    'setItems',
   ].includes(action)) {
     throw 'Invalid action argument provided';
   }
@@ -105,24 +108,29 @@ function validateAction(action: string) {
 
 /**
  * Detect whether input is of type Array
- * @param {*} input
+ * @param {*} inputData
  * @returns {boolean}
  */
-function isArray(input) {
-  return Object.prototype.toString.call(input) === '[object Array]';
+function isArray(inputData) {
+  return Object.prototype.toString.call(inputData) === '[object Array]';
 }
 
 /**
  * Detect whether input is of type Object
- * @param {*} input
+ * @param {*} inputData
  * @returns {boolean}
  */
-function isObject(input) {
-  return Object.prototype.toString.call(input) === '[object Object]';
+function isObject(inputData) {
+  return Object.prototype.toString.call(inputData) === '[object Object]';
 }
 
-function isSerializableNumber(input) {
-  return !isNaN(parseFloat(input)) && parseFloat(input.toString()).toString() === input.toString();
+/**
+ * Determines whether a floating-point number can be safely serialized
+ * @param {*} inputData
+ * @returns {boolean}
+ */
+function isSerializableNumber(inputData) {
+  return !isNaN(parseFloat(inputData)) && parseFloat(inputData.toString()).toString() === inputData.toString();
 }
 
 export {

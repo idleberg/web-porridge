@@ -1,9 +1,9 @@
 /**
  * Checks whether input data requires deserialization after reading it from WebStorage
- * @param {*} data
+ * @param {*} inputData
  * @returns {boolean}
  */
-declare function maybeDeserialize(data: any): boolean;
+declare function maybeDeserialize(inputData: any): boolean;
 /**
  * Checks whether input data requires serialization prior to writing it to WebStorage
  * @param {*} inputString
@@ -36,15 +36,20 @@ declare function base64Decode(inputString: string): string;
 declare function validateAction(action: string): void;
 /**
  * Detect whether input is of type Array
- * @param {*} input
+ * @param {*} inputData
  * @returns {boolean}
  */
-declare function isArray(input: any): boolean;
+declare function isArray(inputData: any): boolean;
 /**
  * Detect whether input is of type Object
- * @param {*} input
+ * @param {*} inputData
  * @returns {boolean}
  */
-declare function isObject(input: any): boolean;
-declare function isSerializableNumber(input: any): boolean;
+declare function isObject(inputData: any): boolean;
+/**
+ * Determines whether a floating-point number can be safely serialized
+ * @param {*} inputData
+ * @returns {boolean}
+ */
+declare function isSerializableNumber(inputData: any): boolean;
 export { base64Decode, base64Encode, isArray, isObject, isSerializableNumber, maybeBase64Decode, maybeDeserialize, maybeSerialize, validateAction };
