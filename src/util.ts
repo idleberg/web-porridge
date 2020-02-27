@@ -7,7 +7,7 @@ const serializables = [
 ];
 
 /**
- * Checks whether input data requires deserialization after readin it from WebStorage
+ * Checks whether input data requires deserialization after reading it from WebStorage
  * @param {*} data
  * @returns {boolean}
  */
