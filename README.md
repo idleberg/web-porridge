@@ -19,7 +19,8 @@ Feature-enhanced wrappers for the [WebStorage](https://developer.mozilla.org/en-
 
 ## Usage
 
-**Example:**
+<details>
+<summary>View example</summary>
 
 ```ts
 import { localPorridge, sessionPorridge } from 'web-porridge';
@@ -58,6 +59,7 @@ localPorridge.key(0);
 localPorridge.length;
 localPorridge.clear();
 ```
+</details>
 
 ### Methods
 
