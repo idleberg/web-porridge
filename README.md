@@ -165,7 +165,7 @@ localPorridge.removeItems([
 
 > The *`length`* read-only property of the [`Storage`][storage] interface returns the number of data items stored in a given `Storage` object.
 >
-> [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/length)
+> – [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/length)
 
 ### Events
 
