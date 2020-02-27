@@ -151,13 +151,13 @@ localPorridge.removeItems([
 
 > The `clear()` method of the [`Storage`][storage] interface clears all keys stored in a given `Storage` object.
 >
-> [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear)
+> – [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear)
 
 #### key
 
 > The **`key()`** method of the [`Storage`][storage] interface, when passed a number n, returns the name of the nth key in a given `Storage` object. The order of keys is user-agent defined, so you should not rely on it.
 >
-> [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/key)
+> – [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/key)
 
 ### Properties
 
