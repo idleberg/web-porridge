@@ -20,7 +20,7 @@ Feature-enhanced wrappers for the [WebStorage](https://developer.mozilla.org/en-
 ## Usage
 
 <details>
-<summary>View example</summary>
+<summary><strong>Example</strong></summary>
 
 ```ts
 import { localPorridge, sessionPorridge } from 'web-porridge';
@@ -75,7 +75,8 @@ Usage: `getItems([...])`
 
 Returns value of many storage keys, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
 
 ```ts
 localPorridge.getItem([
@@ -87,6 +88,7 @@ localPorridge.getItem([
     }
 ]);
 ```
+</details>
 
 #### setItem
 
@@ -100,7 +102,8 @@ Usage: `setItems([...])`
 
 Writes many key/value pairs to the storage, automatically stringifies objects. Supports overwriting a single value inside an object through the use of [dot notation][dot-notation] syntax.
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
 
 ```ts
 localPorridge.setItems([
@@ -115,6 +118,7 @@ localPorridge.setItems([
     }
 ]);
 ```
+</details>
 
 #### removeItem
 
@@ -128,7 +132,8 @@ Usage: `removeItems([...])`
 
 Deletes storage keys or object keys through the use of [dot notation][dot-notation] syntax.
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
 
 ```ts
 localPorridge.removeItems([
@@ -140,6 +145,7 @@ localPorridge.removeItems([
     }
 ]);
 ```
+</details>
 
 #### clear
 
@@ -159,7 +165,8 @@ localPorridge.removeItems([
 
 The library provides methods to setup event listeners and dispatch WebPorridge actions. These actions are name after the [WebPorridge methods](#methods).
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
 
 ```ts
 import { localPorridge } from 'web-porridge';
@@ -178,6 +185,7 @@ localPorridge.dispatch(
 // Remove event listeners
 localPorridge.mute();
 ```
+</details>
 
 #### listen
 
@@ -199,6 +207,9 @@ Usage: `dispatch(action: string, payload: any)`
 
 This module exports two helper function to encode and decode Base64:
 
+<details>
+<summary><strong>Example</strong></summary>
+
 ```ts
 import { sessionPorridge } from 'web-porridge';
 import { encode, decode } from 'web-porridge/base64';
@@ -212,6 +223,7 @@ const decodedPorridge = sessionPorridge.getItem('demo');
 console.log(decodedPorridge === decodedStorage);
 // true
 ```
+</example>
 
 ## License
 
