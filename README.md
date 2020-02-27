@@ -50,11 +50,14 @@ Returns value of many storage keys, automatically parses JSON strings and transp
 ```ts
 localPorridge.getItem([
     'firstItem',
-    'secondItem',
     {
-        key: 'thirdItem',
+        key: 'secondItem',
         subKey: 'dot.notation.subkey'
-    }
+    },
+    [
+        'thirdItem,
+        'dot.notation.subkey'
+    ]
 ]);
 ```
 </details>
@@ -95,7 +98,12 @@ localPorridge.setItems([
         key: 'secondItem',
         value: 'Appleseed',
         subKey: 'personal.lastName'
-    }
+    },
+    [
+        'thirdItem,
+        'Lovelace',
+        'personal.lastName'
+    ]
 ]);
 ```
 </details>
@@ -127,11 +135,14 @@ Deletes storage keys or object keys through the use of [dot notation][dot-notati
 ```ts
 localPorridge.removeItems([
     'firstItem',
-    'secondItem',
     {
-        key: 'thirdItem',
+        key: 'secondItem',
         subKey: 'dot.notation.subkey'
-    }
+    },
+    [
+        'thirdItem',
+        'dot.notation.subkey'
+    ]
 ]);
 ```
 </details>

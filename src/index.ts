@@ -61,6 +61,8 @@ class WebPorridge {
           return this.getItem(item);
         } else if (isObject(item)) {
           return this.getItem(item.key, item.subKey);
+        } else if (isArray(item)) {
+          return this.getItem(item[0], item[1]);
         }
       });
     }
@@ -93,6 +95,8 @@ class WebPorridge {
           return this.removeItem(item);
         } else if (isObject(item)) {
           return this.removeItem(item.key, item.subKey);
+        } else if (isArray(item)) {
+          return this.removeItem(item[0], item[1]);
         }
       });
     }
@@ -126,7 +130,11 @@ class WebPorridge {
   setItems(input: PayloadOptions[]) {
     if (isArray(input)) {
       return input.map(item => {
-        return this.setItem(item.key, item.value, item.subKey);
+        if (isObject(item)) {
+          return this.setItem(item.key, item.value, item.subKey);
+        } else if (isArray(item)) {
+          return this.setItem(item[0], item[1], item[2]);
+        }
       });
     }
   }

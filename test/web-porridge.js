@@ -147,15 +147,27 @@ test(`getItems(): Invalid JSON`, t => {
 test(`getItems(): Object key`, t => {
   localStorage.setItem('firstItem', JSON.stringify(actualObject));
   localStorage.setItem('secondItem', JSON.stringify(actualObject));
+  localStorage.setItem('thirdItem', JSON.stringify(actualObject));
 
   const actual = localPorridge.getItems([
-    'firstItem', {
+    'firstItem',
+    {
       key: 'secondItem',
       subKey: 'nested'
-    }
+    },
+    [
+      'thirdItem',
+      'nested'
+    ]
   ]);
 
-  t.deepEqual([actualObject, 'Bye World!'], actual);
+  const expected = [
+    actualObject,
+    'Bye World!',
+    'Bye World!'
+  ]
+
+  t.deepEqual(actual, expected);
 });
 
 test(`getItems(): true`, t => {
@@ -286,15 +298,26 @@ test(`setItems(): String`, t => {
     {
       key: 'secondItem',
       value: actualString
-    }
+    },
+    [
+      'thirdItem',
+      actualString
+    ]
   ]);
 
   const actual = [
     localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem')
+    localStorage.getItem('secondItem'),
+    localStorage.getItem('thirdItem')
   ];
 
-  t.deepEqual([actualString, actualString], actual);
+  const expected = [
+    actualString,
+    actualString,
+    actualString
+  ];
+
+  t.deepEqual(actual, expected);
 });
 
 test(`setItems(): Valid JSON`, t => {
@@ -306,15 +329,26 @@ test(`setItems(): Valid JSON`, t => {
     {
       key: 'secondItem',
       value: actualObject
-    }
+    },
+    [
+      'thirdItem',
+      actualObject
+    ]
   ]);
 
   const actual = [
     JSON.parse(localStorage.getItem('firstItem')),
-    JSON.parse(localStorage.getItem('secondItem'))
+    JSON.parse(localStorage.getItem('secondItem')),
+    JSON.parse(localStorage.getItem('thirdItem'))
   ];
 
-  t.deepEqual([actualObject, actualObject], actual);
+  const expected = [
+    actualObject,
+    actualObject,
+    actualObject
+  ];
+
+  t.deepEqual(actual, expected);
 });
 
 test(`setItems(): Invalid JSON`, t => {
@@ -326,15 +360,26 @@ test(`setItems(): Invalid JSON`, t => {
     {
       key: 'secondItem',
       value: invalidJSON
-    }
+    },
+    [
+      'thirdItem',
+      invalidJSON
+    ]
   ]);
 
   const actual = [
     localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem')
+    localStorage.getItem('secondItem'),
+    localStorage.getItem('thirdItem'),
   ];
 
-  t.deepEqual([invalidJSON, invalidJSON], actual);
+  const expected = [
+    invalidJSON,
+    invalidJSON,
+    invalidJSON
+  ]
+
+  t.deepEqual(actual, expected);
 });
 
 test(`setItems(): Object key`, t => {
@@ -346,7 +391,11 @@ test(`setItems(): Object key`, t => {
     {
       key: 'secondItem',
       value: actualObject
-    }
+    },
+    [
+      'thirdItem',
+      actualObject
+    ]
   ]);
 
   localPorridge.setItems([
@@ -359,15 +408,27 @@ test(`setItems(): Object key`, t => {
       key: 'secondItem',
       value: actualString,
       subKey: 'nested'
-    }
+    },
+    [
+      'thirdItem',
+      actualString,
+      'nested'
+    ]
   ]);
 
   const actual = [
     JSON.parse(localStorage.getItem('firstItem')).nested,
-    JSON.parse(localStorage.getItem('secondItem')).nested
+    JSON.parse(localStorage.getItem('secondItem')).nested,
+    JSON.parse(localStorage.getItem('thirdItem')).nested
   ];
 
-  t.deepEqual([actualString, actualString], actual);
+  const expected = [
+    actualString,
+    actualString,
+    actualString
+  ];
+
+  t.deepEqual(actual, expected);
 });
 
 test(`setItems(): true`, t => {
@@ -379,15 +440,26 @@ test(`setItems(): true`, t => {
     {
       key: 'secondItem',
       value: true
-    }
+    },
+    [
+      'thirdItem',
+      true
+    ]
   ]);
 
   const actual = [
     localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem')
+    localStorage.getItem('secondItem'),
+    localStorage.getItem('thirdItem')
   ];
 
-  t.deepEqual(['true', 'true'], actual);
+  const expected = [
+    'true',
+    'true',
+    'true'
+  ];
+
+  t.deepEqual(actual, expected);
 });
 
 test(`setItems(): false`, t => {
@@ -399,15 +471,26 @@ test(`setItems(): false`, t => {
     {
       key: 'secondItem',
       value: false
-    }
+    },
+    [
+      'thirdItem',
+      false
+    ]
   ]);
 
   const actual = [
     localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem')
+    localStorage.getItem('secondItem'),
+    localStorage.getItem('thirdItem')
   ];
 
-  t.deepEqual(['false', 'false'], actual);
+  const expected = [
+    'false',
+    'false',
+    'false'
+  ];
+
+  t.deepEqual(actual, expected);
 });
 
 test(`setItems(): null`, t => {
@@ -419,15 +502,26 @@ test(`setItems(): null`, t => {
     {
       key: 'secondItem',
       value: null
-    }
+    },
+    [
+      'thirdItem',
+      null
+    ]
   ]);
 
   const actual = [
     localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem')
+    localStorage.getItem('secondItem'),
+    localStorage.getItem('thirdItem')
   ];
 
-  t.deepEqual(['null', 'null'], actual);
+  const expected = [
+    'null',
+    'null',
+    'null'
+  ];
+
+  t.deepEqual(actual, expected);
 });
 
 test(`setItems(): Int`, t => {
@@ -439,15 +533,26 @@ test(`setItems(): Int`, t => {
     {
       key: 'secondItem',
       value: 1
-    }
+    },
+    [
+      'thirdItem',
+      1
+    ]
   ]);
 
   const actual = [
     localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem')
+    localStorage.getItem('secondItem'),
+    localStorage.getItem('thirdItem')
   ];
 
-  t.deepEqual(['1', '1'], actual);
+  const expected = [
+    '1',
+    '1',
+    '1'
+  ];
+
+  t.deepEqual(actual, expected);
 });
 
 test(`setItems(): Float`, t => {
@@ -459,15 +564,26 @@ test(`setItems(): Float`, t => {
     {
       key: 'secondItem',
       value: 1.2
-    }
+    },
+    [
+      'thirdItem',
+      1.2
+    ]
   ]);
 
   const actual = [
     localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem')
+    localStorage.getItem('secondItem'),
+    localStorage.getItem('thirdItem')
   ];
 
-  t.deepEqual(['1.2', '1.2'], actual);
+  const expected = [
+    '1.2',
+    '1.2',
+    '1.2'
+  ];
+
+  t.deepEqual(actual, expected);
 });
 
 test(`removeItem(): String`, t => {
@@ -509,21 +625,33 @@ test(`removeItems(): String`, t => {
 test(`removeItems(): Object key`, t => {
   localPorridge.setItem('firstItem', actualString);
   localPorridge.setItem('secondItem', actualObject);
+  localPorridge.setItem('thirdItem', actualObject);
 
   localPorridge.removeItems([
     'firstItem',
-     {
+    {
       key: 'secondItem',
       subKey: 'nested'
-    }
+    },
+    [
+      'thirdItem',
+      'nested'
+    ]
   ]);
 
   const actual = [
     localStorage.getItem('firstItem'),
-    JSON.parse(localStorage.getItem('secondItem'))
+    JSON.parse(localStorage.getItem('secondItem')),
+    JSON.parse(localStorage.getItem('thirdItem')),
   ];
 
-  t.deepEqual([null, {}], actual);
+  const expected = [
+    null,
+    {},
+    {}
+  ];
+
+  t.deepEqual(actual, expected);
 });
 
 test(`decode() String`, t => {
