@@ -196,11 +196,12 @@ test(`getItems(): Int`, t => {
 
 test(`getItems(): Float`, t => {
   localStorage.setItem('firstItem', '1.2');
-  localStorage.setItem('secondItem', '1.2');
+  localStorage.setItem('secondItem', '1.20');
+  localStorage.setItem('thirdItem', '120');
 
-  const actual = localPorridge.getItems(['firstItem', 'secondItem']);
+  const actual = localPorridge.getItems(['firstItem', 'secondItem', 'thirdItem']);
 
-  t.deepEqual([1.2, 1.2], actual);
+  t.deepEqual([1.2, '1.20', 120], actual);
 });
 
 test(`setItem(): String`, t => {
