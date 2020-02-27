@@ -229,7 +229,7 @@ const decodedPorridge = sessionPorridge.getItem('demo');
 console.log(decodedPorridge === decodedStorage);
 // true
 ```
-</example>
+</details>
 
 ## License
 
