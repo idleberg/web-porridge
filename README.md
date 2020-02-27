@@ -55,7 +55,7 @@ localPorridge.getItem([
         subKey: 'dot.notation.subkey'
     },
     [
-        'thirdItem,
+        'thirdItem',
         'dot.notation.subkey'
     ]
 ]);
@@ -100,7 +100,7 @@ localPorridge.setItems([
         subKey: 'personal.lastName'
     },
     [
-        'thirdItem,
+        'thirdItem',
         'Lovelace',
         'personal.lastName'
     ]
