@@ -5,7 +5,7 @@
 [![CircleCI](https://flat.badgen.net/circleci/github/idleberg/web-porridge)](https://circleci.com/gh/idleberg/web-porridge)
 [![David](https://flat.badgen.net/david/dep/idleberg/web-porridge)](https://david-dm.org/idleberg/web-porridge)
 
-Feature-enhanced wrappers for the [WebStorage](https://developer.mozilla.org/en-US/docs/Web/API/Storage) interface
+Feature-enhanced wrappers for the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage) interface
 
 - transparent (de)serialization
 - transparent Base64 decoding
@@ -19,47 +19,7 @@ Feature-enhanced wrappers for the [WebStorage](https://developer.mozilla.org/en-
 
 ## Usage
 
-<details>
-<summary><strong>Example</strong></summary>
-
-```ts
-import { localPorridge, sessionPorridge } from 'web-porridge';
-
-// Populate some data
-const demoData = {
-    personal: {
-        firstName: 'John',
-        lastName: 'Appleseed',
-        deleteMe: true
-    }
-};
-
-// Initialize
-localPorridge.setItem('demo', 'Session ready?');
-sessionPorridge.setItem('sessionStart', Date.now());
-
-// Write a JSON string
-localPorridge.setItem('demo', demoData);
-
-// John who?
-localPorridge.getItem('demo', 'personal.lastName');
-
-// Update last name
-localPorridge.setItem('demo', 'McEnroe', 'personal.lastName');
-
-// Remove item from Object
-localPorridge.removeItem('demo', 'personal.deleteMe');
-
-// Read below for more info!
-localPorridge.removeItem('demo');
-sessionPorridge.setItem('sessionEnd', Date.now());
-
-// PS, for consistency there are naked wrappers available
-localPorridge.key(0);
-localPorridge.length;
-localPorridge.clear();
-```
-</details>
+All methods and properties of the [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
 
 ### Methods
 
@@ -68,6 +28,15 @@ localPorridge.clear();
 Usage: `getItem(key, dot.notation.subkey? = '')`
 
 Returns the value of a single storage key, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
+
+<details>
+<summary><strong>Example</strong></summary>
+
+```ts
+localPorridge.getItem('firstItem');
+localPorridge.getItem('secondItem', 'dot.notation.subkey');
+```
+</details>
 
 #### getItems
 
@@ -95,6 +64,17 @@ localPorridge.getItem([
 Usage: `setItem(key, value, dot.notation.subkey? = '')`
 
 Writes a single key/value pair to the storage, automatically stringifies objects. Supports overwriting a single value inside an object through the use of [dot notation][dot-notation] syntax.
+
+<details>
+<summary><strong>Example</strong></summary>
+
+```ts
+localPorridge.setItem('firstItem', 'Hello World');
+
+localPorridge.setItem('secondItem', { name: 'John Appleseed' });
+localPorridge.setItem('secondItem', 'Ava Lovelace', 'name');
+```
+</details>
 
 #### setItems
 
@@ -125,6 +105,15 @@ localPorridge.setItems([
 Usage: `removeItem(key, dot.notation.subkey? = '')`
 
 Deletes a single storage key or object key through the use of [dot notation][dot-notation] syntax.
+
+<details>
+<summary><strong>Example</strong></summary>
+
+```ts
+localPorridge.removeItem('firstItem');
+localPorridge.removeItem('secondItem', 'dot.notation.subkey');
+```
+</details>
 
 #### removeItems
 
