@@ -8,7 +8,7 @@
     "dev": "tsc --watch --pretty --project ./",
     "lint": "tslint --project ./",
     "lint:fix": "tslint --fix --project ./",
-    "test": "ava ./test/*.js --verbose"
+    "test": "ava ./test/test.*.js --verbose"
   },
   "main": "lib/index.js",
   "repository": {
