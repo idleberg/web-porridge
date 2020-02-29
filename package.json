@@ -4,7 +4,7 @@
   "description": "Feature-enhanced wrappers for the WebStorage interface",
   "license": "MIT",
   "scripts": {
-    "build": "tsc --pretty --project ./",
+    "build": "rm tsconfig.tsbuildinfo && tsc --pretty --project ./",
     "dev": "tsc --watch --pretty --project ./",
     "lint": "tslint --project ./",
     "lint:fix": "tslint --fix --project ./",
