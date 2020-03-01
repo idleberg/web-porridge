@@ -43,7 +43,7 @@ class WebPorridge {
       decodeBase64: true,
       decodeJSON: true,
       ...options
-    }
+    };
 
     const value = (<any>global)[this.storageType].getItem(keyName);
 
