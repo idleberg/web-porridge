@@ -38,15 +38,23 @@ class WebPorridge {
    * @param {Object} subKeyName
    * @returns {*}
    */
-  getItem(keyName: string, subKeyName: string = '') {
+  getItem(keyName: string, subKeyName: string | null = '', options: GetItemOptions = {}) {
+    options = {
+      decodeBase64: true,
+      decodeJSON: true,
+      ...options
+    }
+
     const value = (<any>global)[this.storageType].getItem(keyName);
 
     if (subKeyName) {
-      const currentItem = this.getItem(keyName) || {};
+      const currentItem = this.getItem(keyName, '', options) || {};
       return dotProp.get(currentItem, subKeyName);
     }
 
-    return (value && maybeDeserialize(value)) ? JSON.parse(value) : maybeBase64Decode(value);
+    return (value && maybeDeserialize(value) && options.decodeJSON === true)
+      ? JSON.parse(value)
+      : options.decodeBase64 ? maybeBase64Decode(value, options) : value;
   }
 
     /**
@@ -54,15 +62,15 @@ class WebPorridge {
   * @param {Array} item
   * @returns {*}
   */
-  getItems(input: (string | PayloadOptions)[]) {
+  getItems(input: (string | PayloadOptions)[], options: GetItemOptions = {}) {
     if (isArray(input)) {
       return input.map(item => {
         if (typeof item === 'string') {
-          return this.getItem(item);
+          return this.getItem(item, null, options);
         } else if (isObject(item)) {
-          return this.getItem(item.key, item.subKey);
+          return this.getItem(item.key, item.subKey, options);
         } else if (isArray(item)) {
-          return this.getItem(item[0], item[1]);
+          return this.getItem(item[0], item[1], options);
         }
       });
     }

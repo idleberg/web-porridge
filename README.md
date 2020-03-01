@@ -25,7 +25,7 @@ All methods and properties of the [Web Storage API](https://developer.mozilla.or
 
 #### getItem
 
-Usage: `getItem(key, dot.notation.subkey? = '')`
+Usage: `getItem(key, dot.notation.subkey? = '', options)`
 
 Returns the value of a single storage key, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
 
@@ -38,9 +38,11 @@ localPorridge.getItem('secondItem', 'dot.notation.subkey');
 ```
 </details>
 
+The boolean options `decodeBase64` and `decodeJSON` can be used to disable decoding of the respective strings.
+
 #### getItems
 
-Usage: `getItems([...])`
+Usage: `getItems([...], options)`
 
 Returns value of many storage keys, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
 
@@ -61,6 +63,8 @@ localPorridge.getItem([
 ]);
 ```
 </details>
+
+The boolean options `decodeBase64` and `decodeJSON` can be used to disable decoding of the respective strings.
 
 #### setItem
 

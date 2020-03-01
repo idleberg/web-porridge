@@ -30,6 +30,16 @@ test('Valid JSON', t => {
   t.deepEqual(actualObject, actual);
 });
 
+test('Valid JSON (no decoding)', t => {
+  const jsonString = JSON.stringify(actualObject);
+
+  localStorage.setItem('demo', jsonString);
+
+  const actual = localPorridge.getItem('demo', '', { decodeJSON: false});
+
+  t.is(jsonString, actual);
+});
+
 test('Invalid JSON', t => {
   localStorage.setItem('demo', invalidJSON);
 

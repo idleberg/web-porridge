@@ -32,6 +32,17 @@ test(`getItems(): Valid JSON`, t => {
   t.deepEqual([actualObject, actualObject], actual);
 });
 
+test(`getItems(): Valid JSON (no decoding)`, t => {
+  const jsonString = JSON.stringify(actualObject);
+
+  localStorage.setItem('firstItem', jsonString);
+  localStorage.setItem('secondItem', jsonString);
+
+  const actual = localPorridge.getItems(['firstItem', 'secondItem'], { decodeJSON: false});
+
+  t.deepEqual([jsonString, jsonString], actual);
+});
+
 test(`getItems(): Invalid JSON`, t => {
   localStorage.setItem('firstItem', invalidJSON);
   localStorage.setItem('secondItem', invalidJSON);

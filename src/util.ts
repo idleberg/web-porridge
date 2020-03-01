@@ -45,13 +45,14 @@ function maybeSerialize(inputString: string | Object): boolean {
 
 /**
  * Base64-decodes input data if necessary. Supports deserialization
- * @param {*} inputString
+ * @param {string} inputString
+ * @param {object} options
  * @returns {string|Object}
  */
-function maybeBase64Decode(inputString: string) {
+function maybeBase64Decode(inputString: string, options: GetItemOptions = {}) {
   const outputString: string = isBase64(inputString) ? base64Decode(inputString) : inputString;
 
-  return (outputString && maybeDeserialize(outputString)) ? JSON.parse(outputString) : outputString;
+  return (outputString && maybeDeserialize(outputString) && options.decodeJSON) ? JSON.parse(outputString) : outputString;
 }
 
 /**

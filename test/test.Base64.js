@@ -24,6 +24,16 @@ test(`Base64: Valid JSON`, t => {
   t.deepEqual(decodedStorage, decodedPorridge)
 });
 
+test(`Base64: Valid JSON (no decoding)`, t => {
+  const encodedObject = encode(JSON.stringify(actualObject));
+
+  localStorage.setItem('demo', encodedObject);
+
+  const decodedPorridge = localPorridge.getItem('demo', null, { decodeBase64: false});
+
+  t.deepEqual(encodedObject, decodedPorridge)
+});
+
 test(`Base64: Invalid JSON`, t => {
   localStorage.setItem('demo', encode(invalidJSON));
 

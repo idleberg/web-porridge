@@ -8,13 +8,13 @@ declare class WebPorridge {
      * @param {Object} subKeyName
      * @returns {*}
      */
-    getItem(keyName: string, subKeyName?: string): any;
+    getItem(keyName: string, subKeyName?: string | null, options?: GetItemOptions): any;
     /**
   * Writes data items to WebStorage type
   * @param {Array} item
   * @returns {*}
   */
-    getItems(input: (string | PayloadOptions)[]): any[];
+    getItems(input: (string | PayloadOptions)[], options?: GetItemOptions): any[];
     /**
      * Removes single data item from WebStorage type
      * @param {String} item

@@ -12,10 +12,11 @@ declare function maybeDeserialize(inputData: any): boolean;
 declare function maybeSerialize(inputString: string | Object): boolean;
 /**
  * Base64-decodes input data if necessary. Supports deserialization
- * @param {*} inputString
+ * @param {string} inputString
+ * @param {object} options
  * @returns {string|Object}
  */
-declare function maybeBase64Decode(inputString: string): any;
+declare function maybeBase64Decode(inputString: string, options?: GetItemOptions): any;
 /**
  * Base64-encodes input string. Supports serialization
  * @param {*} inputString
