@@ -38,7 +38,7 @@ localPorridge.getItem('secondItem', 'dot.notation.subkey');
 ```
 </details>
 
-The boolean options `decodeBase64` and `decodeJSON` can be used to disable decoding of the respective strings.
+The boolean options `decodeBase64` and `decodeJSON` can be used to disable decoding of the respective values.
 
 #### getItems
 
@@ -64,7 +64,7 @@ localPorridge.getItem([
 ```
 </details>
 
-The boolean options `decodeBase64` and `decodeJSON` can be used to disable decoding of the respective strings.
+The boolean options `decodeBase64` and `decodeJSON` can be used to disable decoding of the respective values.
 
 #### setItem
 
