@@ -79,7 +79,7 @@ Writes a single key/value pair to the storage, automatically stringifies objects
 localPorridge.setItem('firstItem', 'Hello World');
 
 localPorridge.setItem('secondItem', { name: 'John Appleseed' });
-localPorridge.setItem('secondItem', 'Ava Lovelace', 'name');
+localPorridge.setItem('secondItem', 'Ada Lovelace', 'name');
 ```
 </details>
 
