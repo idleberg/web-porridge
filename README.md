@@ -51,12 +51,15 @@ Returns value of many storage keys, automatically parses JSON strings and transp
 
 ```ts
 localPorridge.getItem([
+    // String!
     'firstItem',
     {
+        // Object!
         key: 'secondItem',
         subKey: 'dot.notation.subkey'
     },
     [
+        // Array!
         'thirdItem',
         'dot.notation.subkey'
     ]
@@ -95,15 +98,18 @@ Writes many key/value pairs to the storage, automatically stringifies objects. S
 ```ts
 localPorridge.setItems([
     {
+        // Object!
         key: 'firstItem',
         value: 'Hello World!'
     },
     {
+        // Another Object!
         key: 'secondItem',
         value: 'Appleseed',
         subKey: 'personal.lastName'
     },
     [
+        // Array!
         'thirdItem',
         'Lovelace',
         'personal.lastName'
@@ -138,12 +144,15 @@ Deletes storage keys or object keys through the use of [dot notation][dot-notati
 
 ```ts
 localPorridge.removeItems([
+    // String!
     'firstItem',
     {
+        // Object!
         key: 'secondItem',
         subKey: 'dot.notation.subkey'
     },
     [
+        // Array!
         'thirdItem',
         'dot.notation.subkey'
     ]
