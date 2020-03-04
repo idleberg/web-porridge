@@ -230,11 +230,10 @@ This module exports two helper function to encode and decode Base64:
 <summary><strong>Example</strong></summary>
 
 ```ts
-import { sessionPorridge } from 'web-porridge';
-import { base64Encode, base64Decode } from 'web-porridge';
+import { sessionPorridge, base64Encode, base64Decode } from 'web-porridge';
 
-sessionPorridge.setItem('demo', encode('Hello World!'));
-const decodedStorage = decode(sessionStorage.getItem('demo'));
+sessionPorridge.setItem('demo', base64Encode('Hello World!'));
+const decodedStorage = base64Decode(sessionStorage.getItem('demo'));
 
 // Decoding Base64 string works transparently!
 const decodedPorridge = sessionPorridge.getItem('demo');
