@@ -4,7 +4,7 @@
   "description": "Feature-enhanced wrappers for the WebStorage interface",
   "license": "MIT",
   "scripts": {
-    "build": "rm tsconfig.tsbuildinfo && tsc --pretty --project ./",
+    "build": "rimraf tsconfig.tsbuildinfo && tsc --pretty --project ./",
     "dev": "tsc --watch --pretty --project ./",
     "lint": "tslint --project ./",
     "lint:fix": "tslint --fix --project ./",
@@ -31,6 +31,7 @@
     "browser-env": "^3.3.0",
     "husky": "^4.2.3",
     "localstorage-polyfill": "^1.0.1",
+    "rimraf": "^3.0.2",
     "tslint": "^6.0.0",
     "typescript": "^3.8.2"
   },
