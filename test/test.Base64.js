@@ -1,5 +1,5 @@
 const { localPorridge } = require('../lib');
-const { encode, decode } = require('../lib/base64');
+const { base64Decode, base64Encode } = require('../lib/');
 const browserEnv = require('browser-env');
 const test = require('ava');
 
@@ -16,16 +16,16 @@ const {
 } = require('./shared');
 
 test(`Base64: Valid JSON`, t => {
-  localStorage.setItem('demo', encode(JSON.stringify(actualObject)));
+  localStorage.setItem('demo', base64Encode(JSON.stringify(actualObject)));
 
-  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedStorage = JSON.parse(base64Decode(localStorage.getItem('demo')));
   const decodedPorridge = localPorridge.getItem('demo');
 
   t.deepEqual(decodedStorage, decodedPorridge)
 });
 
 test(`Base64: Valid JSON (no decoding)`, t => {
-  const encodedObject = encode(JSON.stringify(actualObject));
+  const encodedObject = base64Encode(JSON.stringify(actualObject));
 
   localStorage.setItem('demo', encodedObject);
 
@@ -35,54 +35,54 @@ test(`Base64: Valid JSON (no decoding)`, t => {
 });
 
 test(`Base64: Invalid JSON`, t => {
-  localStorage.setItem('demo', encode(invalidJSON));
+  localStorage.setItem('demo', base64Encode(invalidJSON));
 
-  const decodedStorage = decode(localStorage.getItem('demo'));
+  const decodedStorage = base64Decode(localStorage.getItem('demo'));
   const decodedPorridge = localPorridge.getItem('demo');
 
   t.deepEqual(decodedStorage, decodedPorridge)
 });
 
 test(`Base64: true`, t => {
-  localStorage.setItem('demo', encode(true));
+  localStorage.setItem('demo', base64Encode(true));
 
-  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedStorage = JSON.parse(base64Decode(localStorage.getItem('demo')));
   const decodedPorridge = localPorridge.getItem('demo');
 
   t.is(decodedStorage, decodedPorridge)
 });
 
 test(`Base64: false`, t => {
-  localStorage.setItem('demo', encode(false));
+  localStorage.setItem('demo', base64Encode(false));
 
-  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedStorage = JSON.parse(base64Decode(localStorage.getItem('demo')));
   const decodedPorridge = localPorridge.getItem('demo');
 
   t.is(decodedStorage, decodedPorridge)
 });
 
 test(`Base64: null`, t => {
-  localStorage.setItem('demo', encode(null));
+  localStorage.setItem('demo', base64Encode(null));
 
-  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedStorage = JSON.parse(base64Decode(localStorage.getItem('demo')));
   const decodedPorridge = localPorridge.getItem('demo');
 
   t.is(decodedStorage, decodedPorridge)
 });
 
 test(`Base64: Int`, t => {
-  localStorage.setItem('demo', encode(1));
+  localStorage.setItem('demo', base64Encode(1));
 
-  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedStorage = JSON.parse(base64Decode(localStorage.getItem('demo')));
   const decodedPorridge = localPorridge.getItem('demo');
 
   t.is(decodedStorage, decodedPorridge)
 });
 
 test(`Base64: Float`, t => {
-  localStorage.setItem('demo', encode(1.2));
+  localStorage.setItem('demo', base64Encode(1.2));
 
-  const decodedStorage = JSON.parse(decode(localStorage.getItem('demo')));
+  const decodedStorage = JSON.parse(base64Decode(localStorage.getItem('demo')));
   const decodedPorridge = localPorridge.getItem('demo');
 
   t.is(decodedStorage, decodedPorridge)

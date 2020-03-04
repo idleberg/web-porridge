@@ -264,3 +264,5 @@ export {
   localPorridge,
   sessionPorridge
 };
+
+export { base64Decode, base64Encode } from './util';

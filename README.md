@@ -231,7 +231,7 @@ This module exports two helper function to encode and decode Base64:
 
 ```ts
 import { sessionPorridge } from 'web-porridge';
-import { encode, decode } from 'web-porridge/base64';
+import { base64Encode, base64Decode } from 'web-porridge';
 
 sessionPorridge.setItem('demo', encode('Hello World!'));
 const decodedStorage = decode(sessionStorage.getItem('demo'));
