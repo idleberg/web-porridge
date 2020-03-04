@@ -1,6 +1,6 @@
 {
   "name": "web-porridge",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Feature-enhanced wrappers for the WebStorage interface",
   "license": "MIT",
   "scripts": {
