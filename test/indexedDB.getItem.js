@@ -27,10 +27,20 @@ test('String', async t => {
   t.is(actualString, expected);
 });
 
-test('Valid JSON', async t => {
+test('Object', async t => {
   const itemName = uuid();
 
   await db.setItem(itemName, actualObject);
+
+  const actual = await db.getItem(itemName);
+
+  t.deepEqual(actualObject, actual);
+});
+
+test('Valid JSON', async t => {
+  const itemName = uuid();
+
+  await db.setItem(itemName, JSON.stringify(actualObject));
 
   const actual = await db.getItem(itemName);
 
