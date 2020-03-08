@@ -280,4 +280,4 @@ You are welcome to support this project using [Flattr](https://flattr.com/submit
 
 [dot-notation]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors#Dot_notation
 [storage]: https://developer.mozilla.org/en-US/docs/Web/API/Storage
-[indexeddb]: (https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
+[indexeddb]: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
