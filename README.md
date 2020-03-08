@@ -222,6 +222,32 @@ Removes an event listener
 
 Usage: `dispatch(action: string, payload: any)`
 
+### IndexedDB
+
+You can use the same interface to write key-value pairs to [IndexedDB][indexeddb] instead of Web Storage. This allows for asynchronous transactions while using the more familiar API.
+
+<details>
+<summary><strong>Example</strong></summary>
+
+```ts
+import { db } from 'web-porridge';
+
+(async () => {
+    const inputValue = 'Hello World!';
+
+    await db.setItem('demo', inputValue);
+    const outputValue = await db.getItem('demo');
+
+    console.log(inputValue === outputValue);
+    // true
+
+    db.clear();
+})();
+```
+</details>
+
+**Note:** All [methods](#methods) provided by the WebPorridge API are supported!
+
 ### Helpers
 
 This module exports two helper function to encode and decode Base64:
@@ -253,3 +279,4 @@ You are welcome to support this project using [Flattr](https://flattr.com/submit
 
 [dot-notation]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors#Dot_notation
 [storage]: https://developer.mozilla.org/en-US/docs/Web/API/Storage
+[indexeddb]: (https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)

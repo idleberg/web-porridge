@@ -20,7 +20,8 @@
     "local-storage",
     "localStorage",
     "session-storage",
-    "sessionStorage"
+    "sessionStorage",
+    "IndexedDB"
   ],
   "dependencies": {
     "dot-prop": "^5.2.0"
