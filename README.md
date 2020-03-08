@@ -224,7 +224,7 @@ Usage: `dispatch(action: string, payload: any)`
 
 ### IndexedDB
 
-You can use the same interface to write key-value pairs to [IndexedDB][indexeddb] instead of Web Storage. This allows for asynchronous transactions while using the more familiar API.
+You can use the same interface to write key/value pairs to [IndexedDB][indexeddb] instead of Web Storage. This allows for asynchronous transactions while using the more familiar API.
 
 <details>
 <summary><strong>Example</strong></summary>
