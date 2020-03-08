@@ -50,7 +50,7 @@ function maybeSerialize(inputString: string | Object): boolean {
  * @returns {string|Object}
  */
 function maybeBase64Decode(inputString: string, options: GetItemOptions = {}) {
-  const outputString: string = isBase64(inputString) ? base64Decode(inputString) : inputString;
+  const outputString: string = isString(inputString) && isBase64(inputString) ? base64Decode(inputString) : inputString;
 
   return (outputString && maybeDeserialize(outputString) && options.decodeJSON) ? JSON.parse(outputString) : outputString;
 }
@@ -123,6 +123,15 @@ function isArray(inputData) {
  */
 function isObject(inputData) {
   return Object.prototype.toString.call(inputData) === '[object Object]';
+}
+
+/**
+ * Detect whether input is of type String
+ * @param {*} inputData
+ * @returns {boolean}
+ */
+function isString(inputData) {
+  return Object.prototype.toString.call(inputData) === '[object String]';
 }
 
 /**
