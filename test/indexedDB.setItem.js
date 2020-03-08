@@ -1,0 +1,109 @@
+require("fake-indexeddb/auto");
+require('localstorage-polyfill');
+
+const { db } = require('../lib');
+const browserEnv = require('browser-env');
+const test = require('ava');
+const uuid  = require('uuid').v4;
+
+browserEnv(['window']);
+
+const {
+  actualString,
+  actualObject,
+  invalidJSON,
+  actualBase64String,
+  actualBase64Object,
+  invalidBase64JSON,
+} = require('./shared');
+
+test('String', async t => {
+  const itemName = uuid();
+
+  await db.setItem(itemName, actualString);
+
+  const actual = await db.getItem(itemName);
+
+  t.is(actualString, actual);
+});
+
+test('Valid JSON', async t => {
+  const itemName = uuid();
+
+  await db.setItem(itemName, actualObject);
+
+  const actual = await db.getItem(itemName);
+
+  t.deepEqual(actualObject, actual);
+});
+
+test('Invalid JSON', async t => {
+  const itemName = uuid();
+
+  await db.setItem(itemName, invalidJSON);
+
+  const actual = await db.getItem(itemName);
+
+  t.is(invalidJSON, actual);
+});
+
+test('Object key', async t => {
+  const itemName = uuid();
+
+  await db.setItem(itemName, actualObject);
+  await db.setItem(itemName, actualString, 'nested');
+
+  const actual = (await db.getItem(itemName)).nested;
+
+  t.is(actualString, actual);
+});
+
+test('true', async t => {
+  const itemName = uuid();
+
+  await db.setItem(itemName, true);
+
+  const actual = await db.getItem(itemName);
+
+  t.is(true, actual);
+});
+
+test('false', async t => {
+  const itemName = uuid();
+
+  await db.setItem(itemName, false);
+
+  const actual = await db.getItem(itemName);
+
+  t.is(false, actual);
+});
+
+test('null', async t => {
+  const itemName = uuid();
+
+  await db.setItem(itemName, null);
+
+  const actual = await db.getItem(itemName);
+
+  t.is(null, actual);
+});
+
+test('Int', async t => {
+  const itemName = uuid();
+
+  await db.setItem(itemName, 1);
+
+  const actual = await db.getItem(itemName);
+
+  t.is(1, actual);
+});
+
+test('Float', async t => {
+  const itemName = uuid();
+
+  await db.setItem(itemName, 1.2);
+
+  const actual = await db.getItem(itemName);
+
+  t.is(1.2, actual);
+});
