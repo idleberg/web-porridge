@@ -8,7 +8,7 @@
     "dev": "tsc --watch --pretty --project ./",
     "lint": "tslint --project ./",
     "lint:fix": "tslint --fix --project ./",
-    "test": "ava ./test/test.*.js --verbose"
+    "test": "ava ./test/indexedDB.*.js ./test/localStorage.*.js ./test/util.js --verbose"
   },
   "main": "lib/index.js",
   "repository": {
@@ -36,7 +36,8 @@
     "localstorage-polyfill": "^1.0.1",
     "rimraf": "^3.0.2",
     "tslint": "^6.0.0",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.2",
+    "uuid": "^7.0.2"
   },
   "husky": {
     "hooks": {
