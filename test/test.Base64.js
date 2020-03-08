@@ -1,9 +1,11 @@
+require("fake-indexeddb/auto");
+require('localstorage-polyfill');
+
 const { localPorridge } = require('../lib');
 const { base64Decode, base64Encode } = require('../lib/');
 const browserEnv = require('browser-env');
 const test = require('ava');
 
-require('localstorage-polyfill');
 browserEnv(['window']);
 
 const {

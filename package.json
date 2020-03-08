@@ -24,12 +24,14 @@
     "IndexedDB"
   ],
   "dependencies": {
-    "dot-prop": "^5.2.0"
+    "dot-prop": "^5.2.0",
+    "idb-keyval": "^3.2.0"
   },
   "devDependencies": {
     "@types/node": "^13.7.6",
     "ava": "^3.4.0",
     "browser-env": "^3.3.0",
+    "fake-indexeddb": "^3.0.0",
     "husky": "^4.2.3",
     "localstorage-polyfill": "^1.0.1",
     "rimraf": "^3.0.2",
