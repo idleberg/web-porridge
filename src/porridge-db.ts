@@ -39,14 +39,16 @@ export default class WebPorridgeDB {
       ...options
     };
 
-    const value: string = await getItem(keyName, this.store);
+    let value: string = await getItem(keyName, this.store) ?? null;
 
     if (subKeyName) {
       const currentItem = await this.getItem(keyName, null, options) || {};
       return dotProp.get(currentItem, subKeyName);
     }
 
-    return options.decodeBase64 ? maybeBase64Decode(value, options) : value;
+    return (value && maybeDeserialize(value) && options.decodeJSON === true)
+      ? JSON.parse(value)
+      : options.decodeBase64 ? maybeBase64Decode(value, options) : value;
   }
 
     /**
@@ -121,7 +123,7 @@ export default class WebPorridgeDB {
       return await this.setItem(keyName, currentItem);
     }
 
-    const newValue = keyValue;
+    const newValue = (maybeSerialize(keyValue)) ? JSON.stringify(keyValue) : keyValue;
 
     return await setItem(keyName, newValue, this.store);
   }
@@ -215,39 +217,56 @@ export default class WebPorridgeDB {
    * @param {Event} event
    * @returns {void}
    */
-  private async eventHandler(event: Event) {
+  private eventHandler(event: Event) {
     validateAction((<any>event).detail.action);
 
-    let key, value, subKey;
+    let key, value, subKey, options;
 
     switch ((<any>event).detail.action) {
       case 'getItem':
         key = (<any>event).detail.payload.key;
         subKey = (<any>event).detail.payload.subKey || '';
+        options = (<any>event).detail.options || {};
 
-        return await this.getItem(key, subKey);
+        return this.getItem(key, subKey, options);
+
+      case 'getItems':
+        key = (<any>event).detail.payload;
+        options = (<any>event).detail.options || {};
+
+        return this.getItems(key, options);
 
       case 'removeItem':
         key = (<any>event).detail.payload.key;
         subKey = (<any>event).detail.payload.subKey || '';
 
-        return await this.removeItem(key, subKey);
+        return this.removeItem(key, subKey);
+
+      case 'removeItems':
+        key = (<any>event).detail.payload;
+
+        return this.removeItems(key);
 
       case 'setItem':
         key = (<any>event).detail.payload.key;
         value = (<any>event).detail.payload.value;
         subKey = (<any>event).detail.payload.subKey || '';
 
-        return await this.setItem(key, value, subKey);
+        return this.setItem(key, value, subKey);
+
+      case 'setItems':
+        key = (<any>event).detail.payload;
+
+        return this.setItems(key);
 
       case 'key':
-        return await this.key((<any>event).detail.payload);
+        return this.key((<any>event).detail.payload);
 
       case 'length':
-        return await this.length();
+        return this.length();
 
       case 'clear':
-        return await this.clear();
+        return this.clear();
 
       default:
         break;

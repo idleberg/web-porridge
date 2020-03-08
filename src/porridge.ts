@@ -226,8 +226,9 @@ export default class WebPorridge {
       case 'getItem':
         key = (<any>event).detail.payload.key;
         subKey = (<any>event).detail.payload.subKey || '';
+        options = (<any>event).detail.options || {};
 
-        return this.getItem(key, subKey);
+        return this.getItem(key, subKey, options);
 
       case 'getItems':
         key = (<any>event).detail.payload;
