@@ -12,6 +12,7 @@ Feature-enhanced wrappers for the [Web Storage](https://developer.mozilla.org/en
 - Object-level read & write access
 - batch operations
 - support for events
+- async transactions through IndexedDB
 
 ## Installation
 
