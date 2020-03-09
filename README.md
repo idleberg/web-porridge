@@ -24,6 +24,10 @@ All methods and properties of the [Web Storage API](https://developer.mozilla.or
 
 ```ts
 import { localPorridge, sessionPorridge } from 'web-porridge';
+
+// Optionally, use it as drop-in replacement
+window['localStorage'] = localPorridge;
+window['sessionStorage'] = sessionPorridge;
 ```
 
 Alternatively, you can import the class and instantiate with custom defaults, e.g. to globally disable Base64 decoding.
@@ -34,9 +38,6 @@ import { WebPorridge } from 'web-porridge';
 const localPorridge = new WebPorridge('localStorage' {
     decodeBase64: false
 });
-
-// Optionally, use it as drop-in replacement
-window['localStorage'] = localPorridge;
 ```
 
 ⚠️ **Keep in mind, that it is impossible to tell apart certain text strings from Base64 encoded strings!**
