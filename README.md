@@ -265,7 +265,7 @@ import { db } from 'web-porridge';
 ```
 </details>
 
-**Note:** All [methods](#methods) provided by the WebPorridge API are supported!
+**Note:** All [methods](#methods) and [properties](#properties) provided by the WebPorridge API are supported!
 
 ### Helpers
 
