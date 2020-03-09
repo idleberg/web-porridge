@@ -22,6 +22,26 @@ Feature-enhanced wrappers for the [Web Storage](https://developer.mozilla.org/en
 
 All methods and properties of the [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
 
+<details>
+<summary><strong>Examples</strong></summary>
+
+```ts
+// Default usage
+import { localPorridge, sessionPorridge } from 'web-porridge;
+```
+
+Alternatively, you can import the class and instantiate with custom defaults, e.g. globally disable Base64 decoding:
+
+```ts
+// Alternatively, instantiate with custom defaults
+import { WebPorridge } from 'web-porridge;
+
+const localPorridge = new WebPorridge('localStorage' {
+    decodeBase64: false
+});
+```
+</details>
+
 ### Methods
 
 #### getItem
