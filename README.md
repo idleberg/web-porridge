@@ -26,7 +26,7 @@ All methods and properties of the [Web Storage API](https://developer.mozilla.or
 import { localPorridge, sessionPorridge } from 'web-porridge';
 ```
 
-Alternatively, you can import the class and instantiate with custom defaults, e.g. to globally disable Base64 decoding:
+Alternatively, you can import the class and instantiate with custom defaults, e.g. to globally disable Base64 decoding.
 
 ```ts
 import { WebPorridge } from 'web-porridge';
