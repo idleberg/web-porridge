@@ -34,6 +34,9 @@ import { WebPorridge } from 'web-porridge';
 const localPorridge = new WebPorridge('localStorage' {
     decodeBase64: false
 });
+
+// Optionally, use it as drop-in replacement
+window['localStorage'] = localPorridge;
 ```
 
 ⚠️ **Keep in mind, that it is impossible to tell apart certain text strings from Base64 encoded strings!**
