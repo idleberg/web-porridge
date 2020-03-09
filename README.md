@@ -42,7 +42,7 @@ const localPorridge = new WebPorridge('localStorage' {
 
 ⚠️ **Keep in mind, that it is impossible to tell apart certain text strings from Base64 encoded strings!**
 
-The Base64-decoding feature has been added with [Amazon Cognito JSON Web Token][cognito] in mind. If you don't have use for that, you might want to disable automatic decoding as described in the example above.
+The Base64-decoding feature has been added with [Amazon Cognito JSON Web Tokens][cognito] in mind. If you don't have use for that, you might want to disable automatic decoding as described in the example above.
 
 ### Methods
 
