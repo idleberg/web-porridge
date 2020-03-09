@@ -164,8 +164,10 @@ export default class WebPorridgeDB {
    * Returns the length of WebStorage type
    * @returns {Integer}
    */
-  async length() {
-    return (await keys(this.store)).length;
+  get length() {
+    return (async () => {
+      return (await keys(this.store)).length;
+    })();
   }
 
  /**
@@ -267,7 +269,7 @@ export default class WebPorridgeDB {
         return this.key((<any>event).detail.payload);
 
       case 'length':
-        return this.length();
+        return this.length;
 
       case 'clear':
         return this.clear();

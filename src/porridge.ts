@@ -165,7 +165,7 @@ export default class WebPorridge {
    * Returns the length of WebStorage type
    * @returns {Integer}
    */
-  length() {
+  get length() {
     return (<any>global)[this.storageType].length;
   }
 
@@ -174,7 +174,7 @@ export default class WebPorridge {
   * @returns {*}
   */
   clear() {
-    return (<any>global)[this.storageType].clear;
+    return (<any>global)[this.storageType].clear();
   }
 
   /**

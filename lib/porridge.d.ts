@@ -51,7 +51,7 @@ export default class WebPorridge {
      * Returns the length of WebStorage type
      * @returns {Integer}
      */
-    length(): any;
+    get length(): any;
     /**
      * Clears WebStorage type
      * @returns {*}

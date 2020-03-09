@@ -51,7 +51,7 @@ export default class WebPorridgeDB {
      * Returns the length of WebStorage type
      * @returns {Integer}
      */
-    length(): Promise<number>;
+    get length(): Promise<number>;
     /**
      * Clears WebStorage type
      * @returns {*}
