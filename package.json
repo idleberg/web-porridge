@@ -21,7 +21,8 @@
     "localStorage",
     "session-storage",
     "sessionStorage",
-    "IndexedDB"
+    "IndexedDB",
+    "amazon cognito"
   ],
   "dependencies": {
     "dot-prop": "^5.2.0",
