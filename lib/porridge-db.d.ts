@@ -1,20 +1,21 @@
 export default class WebPorridgeDB {
     title: string;
     store: any;
-    constructor();
+    options: WebPorridgeOptions;
+    constructor(userOptions?: WebPorridgeOptions);
     /**
      * Reads single data item from WebStorage type
      * @param {String} item
      * @param {Object} subKeyName
      * @returns {*}
      */
-    getItem(keyName: string, subKeyName?: string | null, options?: GetItemOptions): any;
+    getItem(keyName: string, subKeyName?: string | null, options?: WebPorridgeOptions): any;
     /**
   * Writes data items to WebStorage type
   * @param {Array} item
   * @returns {*}
   */
-    getItems(input: (string | PayloadOptions)[], options?: GetItemOptions): Promise<any[]>;
+    getItems(input: (string | PayloadOptions)[], options?: WebPorridgeOptions): Promise<any[]>;
     /**
      * Removes single data item from WebStorage type
      * @param {String} item

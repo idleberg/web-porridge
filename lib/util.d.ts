@@ -16,7 +16,7 @@ declare function maybeSerialize(inputString: string | Object): boolean;
  * @param {object} options
  * @returns {string|Object}
  */
-declare function maybeBase64Decode(inputString: string, options?: GetItemOptions): any;
+declare function maybeBase64Decode(inputString: string, options?: WebPorridgeOptions): any;
 /**
  * Base64-encodes input string. Supports serialization
  * @param {*} inputString

@@ -12,8 +12,14 @@ import {
 export default class WebPorridge {
   title: string;
   storageType: string;
+  options: WebPorridgeOptions = {
+    decodeBase64: true,
+    decodeJSON: true
+  };
 
-  constructor(type: string) {
+  constructor(type: string, userOptions: WebPorridgeOptions = {}) {
+    this.options = { ...this.options, ...userOptions };
+
     switch (type.toLowerCase()) {
       case 'local':
       case 'localstorage':
@@ -38,10 +44,9 @@ export default class WebPorridge {
    * @param {Object} subKeyName
    * @returns {*}
    */
-  getItem(keyName: string, subKeyName: string | null = '', options: GetItemOptions = {}) {
+  getItem(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
     options = {
-      decodeBase64: true,
-      decodeJSON: true,
+      ...this.options,
       ...options
     };
 
@@ -62,7 +67,7 @@ export default class WebPorridge {
   * @param {Array} item
   * @returns {*}
   */
-  getItems(input: (string | PayloadOptions)[], options: GetItemOptions = {}) {
+  getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
     if (isArray(input)) {
       return input.map(item => {
         if (typeof item === 'string') {

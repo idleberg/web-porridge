@@ -49,7 +49,7 @@ function maybeSerialize(inputString: string | Object): boolean {
  * @param {object} options
  * @returns {string|Object}
  */
-function maybeBase64Decode(inputString: string, options: GetItemOptions = {}) {
+function maybeBase64Decode(inputString: string, options: WebPorridgeOptions = {}) {
   const outputString: string = isString(inputString) && isBase64(inputString) ? base64Decode(inputString) : inputString;
 
   return (outputString && maybeDeserialize(outputString) && options.decodeJSON) ? JSON.parse(outputString) : outputString;

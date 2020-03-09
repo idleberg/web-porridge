@@ -4,7 +4,7 @@ interface PayloadOptions {
   subKey?: string;
 }
 
-interface GetItemOptions {
+interface WebPorridgeOptions {
   decodeBase64?: Boolean;
   decodeJSON?: Boolean;
 }

@@ -21,8 +21,13 @@ import {
 export default class WebPorridgeDB {
   title: string = 'WebPorridge';
   store;
+  options: WebPorridgeOptions = {
+    decodeBase64: true,
+    decodeJSON: true
+  };
 
-  constructor() {
+  constructor(userOptions: WebPorridgeOptions = {}) {
+    this.options = { ...this.options, ...userOptions };
     this.store = new Store(this.title, '(default)');
   }
 
@@ -32,10 +37,9 @@ export default class WebPorridgeDB {
    * @param {Object} subKeyName
    * @returns {*}
    */
-  async getItem(keyName: string, subKeyName: string | null = '', options: GetItemOptions = {}) {
+  async getItem(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
     options = {
-      decodeBase64: true,
-      decodeJSON: true,
+      ...this.options,
       ...options
     };
 
@@ -56,7 +60,7 @@ export default class WebPorridgeDB {
   * @param {Array} item
   * @returns {*}
   */
-  async getItems(input: (string | PayloadOptions)[], options: GetItemOptions = {}) {
+  async getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
     if (isArray(input)) {
       return await Promise.all(
         await input.map(async item => {

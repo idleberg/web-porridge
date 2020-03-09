@@ -8,7 +8,10 @@ const db = new WebPorridgeDB();
 export {
   localPorridge,
   sessionPorridge,
-  db
+  db,
+
+  WebPorridge,
+  WebPorridgeDB,
 };
 
 export { base64Decode, base64Encode } from './util';
