@@ -279,7 +279,7 @@ When IndexedDB is supported by the browser, you can use this interface as drop-i
 import { db } from 'web-porridge';
 
 window['sessionStorage'] = db;
-window.addEventListener('beforeunload', () => sessionStorage.clear();)
+window.addEventListener('beforeunload', () => sessionStorage.clear());
 ```
 </details>
 
