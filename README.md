@@ -271,6 +271,18 @@ import { db } from 'web-porridge';
 
 **Note:** All [methods](#methods) and [properties](#properties) provided by the WebPorridge API are supported!
 
+When IndexedDB is supported by the browser, you can use this interface as drop-in replacement for Web Storage, including `sessionStorage`.
+<details>
+<summary><strong>Example</strong></summary>
+
+```ts
+import { db } from 'web-porridge';
+
+window['sessionStorage'] = db;
+window.addEventListener('beforeunload', () => sessionStorage.clear();)
+```
+</details>
+
 ### Helpers
 
 This module exports two helper function to encode and decode Base64:
