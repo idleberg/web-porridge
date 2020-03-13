@@ -29,14 +29,14 @@
     "idb-keyval": "^3.2.0"
   },
   "devDependencies": {
-    "@types/node": "^13.9.0",
+    "@types/node": "^13.9.1",
     "ava": "^3.5.0",
     "browser-env": "^3.3.0",
     "fake-indexeddb": "^3.0.0",
     "husky": "^4.2.3",
     "localstorage-polyfill": "^1.0.1",
     "rimraf": "^3.0.2",
-    "tslint": "^6.0.0",
+    "tslint": "^6.1.0",
     "typescript": "^3.8.3",
     "uuid": "^7.0.2"
   },
