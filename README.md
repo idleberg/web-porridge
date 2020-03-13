@@ -8,7 +8,7 @@
 Feature-enhanced wrappers for the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage) interface
 
 - transparent (de)serialization
-- transparent Base64 decoding
+- transparent Base64 decoding (optional)
 - Object-level read & write access
 - batch operations
 - support for events
@@ -30,19 +30,20 @@ window['localStorage'] = localPorridge;
 window['sessionStorage'] = sessionPorridge;
 ```
 
-Alternatively, you can import the class and instantiate with custom defaults, e.g. to globally disable Base64 decoding.
+Alternatively, you can import the class and instantiate with custom defaults, e.g. to globally enable Base64 decoding or to disable JSON decoding.
 
 ```ts
 import { WebPorridge } from 'web-porridge';
 
 const localPorridge = new WebPorridge('localStorage' {
-    decodeBase64: false
+    decodeBase64: true,
+    decodeJSON: false
 });
 ```
 
-⚠️ **Keep in mind, that it is impossible to tell apart certain text strings from Base64 encoded strings!**
+ **Keep in mind, that it is impossible to tell apart certain text strings from Base64 encoded strings!**
 
-The Base64-decoding feature has been added with [Amazon Cognito JSON Web Tokens][cognito] in mind. If you don't have use for that, you might want to disable automatic decoding as described in the example above.
+⚠️ The Base64-decoding feature has primarily been added with [Amazon Cognito JSON Web Tokens][cognito] in mind, but since it is impossible to tell apart text strings from Base64 encoded strings the feature is now disabled by default. This behaviour can also be toggled in the method call options.
 
 ### Methods
 
@@ -61,7 +62,7 @@ localPorridge.getItem('secondItem', 'dot.notation.subkey');
 ```
 </details>
 
-The boolean options `decodeBase64` and `decodeJSON` can be used to disable decoding of the respective values.
+The boolean options `decodeBase64` and `decodeJSON` can be used to toggle decoding of the respective values.
 
 #### getItems
 
@@ -90,7 +91,7 @@ localPorridge.getItem([
 ```
 </details>
 
-The boolean options `decodeBase64` and `decodeJSON` can be used to disable decoding of the respective values.
+The boolean options `decodeBase64` and `decodeJSON` can be used to toggle decoding of the respective values.
 
 #### setItem
 

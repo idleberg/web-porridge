@@ -1,7 +1,9 @@
 require("fake-indexeddb/auto");
 require('localstorage-polyfill');
 
-const { db } = require('../lib');
+const { WebPorridgeDB } = require('../lib');
+const db = new WebPorridgeDB({ decodeBase64: true});
+
 const browserEnv = require('browser-env');
 const test = require('ava');
 const uuid  = require('uuid').v4;

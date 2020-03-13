@@ -22,13 +22,14 @@ export default class WebPorridgeDB {
   title: string = 'WebPorridge';
   store;
   options: WebPorridgeOptions = {
-    decodeBase64: true,
-    decodeJSON: true
+    decodeBase64: false,
+    decodeJSON: true,
+    storeName: '(default)'
   };
 
   constructor(userOptions: WebPorridgeOptions = {}) {
     this.options = { ...this.options, ...userOptions };
-    this.store = new Store(this.title, '(default)');
+    this.store = new Store(this.title, this.options.storeName);
   }
 
   /**

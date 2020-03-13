@@ -13,7 +13,7 @@ export default class WebPorridge {
   title: string;
   storageType: string;
   options: WebPorridgeOptions = {
-    decodeBase64: true,
+    decodeBase64: false,
     decodeJSON: true
   };
 

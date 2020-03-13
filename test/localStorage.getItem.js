@@ -1,7 +1,14 @@
 require("fake-indexeddb/auto");
 require('localstorage-polyfill');
 
-const { localPorridge } = require('../lib');
+const { WebPorridge } = require('../lib');
+const localPorridge = new WebPorridge(
+  'localStorage',
+  {
+    decodeBase64: true
+  }
+);
+
 const browserEnv = require('browser-env');
 const test = require('ava');
 
