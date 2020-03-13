@@ -35,15 +35,13 @@ Alternatively, you can import the class and instantiate with custom defaults, e.
 ```ts
 import { WebPorridge } from 'web-porridge';
 
-const localPorridge = new WebPorridge('localStorage' {
+const localPorridge = new WebPorridge('localStorage', {
     decodeBase64: true,
     decodeJSON: false
 });
 ```
 
- **Keep in mind, that it is impossible to tell apart certain text strings from Base64 encoded strings!**
-
-⚠️ The Base64-decoding feature has primarily been added with [Amazon Cognito JSON Web Tokens][cognito] in mind, but since it is impossible to tell apart text strings from Base64 encoded strings the feature is now disabled by default. This behaviour can also be toggled in the method call options.
+⚠️ The Base64-decoding feature has primarily been added with [Amazon Cognito JSON Web Tokens][cognito] in mind, but since it is impossible to tell apart text strings from Base64 encoded strings, it is now disabled by default. This behaviour can also be toggled in the method call options.
 
 ### Methods
 
@@ -273,6 +271,7 @@ import { db } from 'web-porridge';
 **Note:** All [methods](#methods) and [properties](#properties) provided by the WebPorridge API are supported!
 
 When IndexedDB is supported by the browser, you can use this interface as drop-in replacement for Web Storage, including `sessionStorage`.
+
 <details>
 <summary><strong>Example</strong></summary>
 
@@ -283,6 +282,17 @@ window['sessionStorage'] = db;
 window.addEventListener('beforeunload', () => sessionStorage.clear());
 ```
 </details>
+
+Again, you can instantiate the class yourself to override its defaults
+
+```ts
+import { WebPorridgeDB } from 'web-porridge';
+
+const localPorridge = new WebPorridgeDB({
+    decodeBase64: true,
+    storeName: 'Custom Store'
+});
+```
 
 ### Helpers
 
