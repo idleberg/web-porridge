@@ -296,7 +296,7 @@ const localPorridge = new WebPorridgeDB({
 
 ### Helpers
 
-This module exports two helper function to encode and decode Base64:
+This module exposes its two helper function to encode and decode Base64:
 
 <details>
 <summary><strong>Example</strong></summary>
