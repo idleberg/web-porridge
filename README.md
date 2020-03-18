@@ -47,7 +47,7 @@ const localPorridge = new WebPorridge('localStorage', {
 
 #### getItem
 
-Usage: `getItem(key, dot.notation.subkey? = '', options)`
+Usage: `getItem(key, dot.notation.subkey? = '', options = {})`
 
 Returns the value of a single storage key, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
 
@@ -64,7 +64,7 @@ The boolean options `decodeBase64` and `decodeJSON` can be used to toggle decodi
 
 #### getItems
 
-Usage: `getItems([...], options)`
+Usage: `getItems([...], options = {})`
 
 Returns value of many storage keys, automatically parses JSON strings and transparently decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
 
