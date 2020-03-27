@@ -5,6 +5,7 @@ interface PayloadOptions {
 }
 
 interface WebPorridgeOptions {
+  dataBaseName?: string;
   decodeBase64?: Boolean;
   decodeJSON?: Boolean;
   storeName?: string;

@@ -21,7 +21,10 @@ import {
 export default class WebPorridgeDB {
   title: string = 'WebPorridge';
   store;
+
+  // default options
   options: WebPorridgeOptions = {
+    dataBaseName: this.title,
     decodeBase64: false,
     decodeJSON: true,
     storeName: '(default)'
@@ -29,7 +32,7 @@ export default class WebPorridgeDB {
 
   constructor(userOptions: WebPorridgeOptions = {}) {
     this.options = { ...this.options, ...userOptions };
-    this.store = new Store(this.title, this.options.storeName);
+    this.store = new Store(this.options.dataBaseName, this.options.storeName);
   }
 
   /**
