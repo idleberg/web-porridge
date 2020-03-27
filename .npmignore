@@ -10,6 +10,7 @@ types/
 .gitignore
 .travis.yml
 gulpfile.js
+lib/*.map
 tsconfig.json
 tslint.json
 
