@@ -289,6 +289,7 @@ Again, you can instantiate the class yourself to override its defaults.
 import { WebPorridgeDB } from 'web-porridge';
 
 const localPorridge = new WebPorridgeDB({
+    databaseName: 'Custom DB',
     decodeBase64: true,
     storeName: 'Custom Store'
 });
