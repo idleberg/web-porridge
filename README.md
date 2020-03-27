@@ -308,8 +308,7 @@ import { sessionPorridge, base64Encode, base64Decode } from 'web-porridge';
 sessionPorridge.setItem('demo', base64Encode('Hello World!'));
 const decodedStorage = base64Decode(sessionStorage.getItem('demo'));
 
-// Decoding Base64 string works transparently!
-const decodedPorridge = sessionPorridge.getItem('demo');
+const decodedPorridge = sessionPorridge.getItem('demo', { decodeBase64: true });
 
 console.log(decodedPorridge === decodedStorage);
 // true
