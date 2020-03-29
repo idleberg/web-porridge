@@ -248,8 +248,7 @@ Usage: `dispatch(action: string, payload: any)`
 
 You can use the same interface to write key/value pairs to [IndexedDB][indexeddb] instead of Web Storage. This allows for asynchronous transactions while using the more familiar API.
 
-<details>
-<summary><strong>Example</strong></summary>
+**Note:** All [methods](#methods) and [properties](#properties) provided by the WebPorridge API are supported!
 
 ```ts
 import { db } from 'web-porridge';
@@ -266,9 +265,18 @@ import { db } from 'web-porridge';
     db.clear();
 })();
 ```
-</details>
 
-**Note:** All [methods](#methods) and [properties](#properties) provided by the WebPorridge API are supported!
+Again, you can instantiate the class yourself to override its defaults.
+
+```ts
+import { WebPorridgeDB } from 'web-porridge';
+
+const localPorridge = new WebPorridgeDB({
+    databaseName: 'Custom DB',
+    decodeBase64: true,
+    storeName: 'Custom Store'
+});
+```
 
 When IndexedDB is supported by the browser, you can use this interface as drop-in replacement for Web Storage, including `sessionStorage`.
 
@@ -280,22 +288,6 @@ import { db } from 'web-porridge';
 
 window['sessionStorage'] = db;
 window.addEventListener('beforeunload', () => sessionStorage.clear());
-```
-</details>
-
-Again, you can instantiate the class yourself to override its defaults.
-
-<details>
-<summary><strong>Example</strong></summary>
-
-```ts
-import { WebPorridgeDB } from 'web-porridge';
-
-const localPorridge = new WebPorridgeDB({
-    databaseName: 'Custom DB',
-    decodeBase64: true,
-    storeName: 'Custom Store'
-});
 ```
 </details>
 
