@@ -285,6 +285,9 @@ window.addEventListener('beforeunload', () => sessionStorage.clear());
 
 Again, you can instantiate the class yourself to override its defaults.
 
+<details>
+<summary><strong>Example</strong></summary>
+
 ```ts
 import { WebPorridgeDB } from 'web-porridge';
 
@@ -294,6 +297,7 @@ const localPorridge = new WebPorridgeDB({
     storeName: 'Custom Store'
 });
 ```
+</details>
 
 ### Helpers
 
