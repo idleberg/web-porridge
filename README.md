@@ -271,7 +271,7 @@ Again, you can instantiate the class yourself to override its defaults.
 ```ts
 import { WebPorridgeDB } from 'web-porridge';
 
-const localPorridge = new WebPorridgeDB({
+const db = new WebPorridgeDB({
     databaseName: 'Custom DB',
     decodeBase64: true,
     storeName: 'Custom Store'
