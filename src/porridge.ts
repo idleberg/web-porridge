@@ -18,24 +18,22 @@ export default class WebPorridge {
   };
 
   constructor(type: string, userOptions: WebPorridgeOptions = {}) {
-    this.options = { ...this.options, ...userOptions };
-
-    switch (type.toLowerCase()) {
-      case 'local':
-      case 'localstorage':
-        this.storageType = 'localStorage';
+    switch (type) {
+      case 'localStorage':
         this.title = 'localPorridge';
         break;
 
-      case 'session':
-      case 'sessionstorage':
-        this.storageType = 'sessionStorage';
+      case 'sessionStorage':
         this.title = 'sessionPorridge';
         break;
 
       default:
         throw 'Invalid storage type specified';
+
     }
+
+    this.options = { ...this.options, ...userOptions };
+    this.storageType = type;
   }
 
   /**
