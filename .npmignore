@@ -6,13 +6,16 @@ test/
 types/
 
 # Files
-*.tsbuildinfo
 .gitignore
 .travis.yml
+*.tsbuildinfo
 gulpfile.js
 lib/*.map
+npm-debug.log*
 tsconfig.json
+tslint-to-eslint-config.log
 tslint.json
+yarn-error.log
 
 # project specific
 test.js
