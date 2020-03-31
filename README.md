@@ -275,6 +275,7 @@ import { WebPorridgeDB } from 'web-porridge';
 const db = new WebPorridgeDB({
     databaseName: 'Custom DB',
     decodeBase64: true,
+    decodeJSON: false,
     storeName: 'Custom Store'
 });
 ```
