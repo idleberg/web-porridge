@@ -9,7 +9,7 @@
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": false,
         "outDir": "./lib",
-        "removeComments": false,
+        "removeComments": true,
         "rootDir": "./src",
         "sourceMap": true,
         "target": "es5",
