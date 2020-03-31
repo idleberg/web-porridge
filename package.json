@@ -29,8 +29,8 @@
     "idb-keyval": "^3.2.0"
   },
   "devDependencies": {
-    "@types/node": "^13.9.5",
-    "ava": "^3.5.1",
+    "@types/node": "^13.9.8",
+    "ava": "^3.5.2",
     "browser-env": "^3.3.0",
     "fake-indexeddb": "^3.0.0",
     "husky": "^4.2.3",
