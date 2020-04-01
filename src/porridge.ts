@@ -19,7 +19,7 @@ export default class WebPorridge {
 
   constructor(type: string, userOptions: WebPorridgeOptions = {}) {
     if (!type) {
-      throw Error('You need to instantiate with a storage type argument');
+      throw Error('Storage type not declared in constructor');
     }
 
     switch (type) {
