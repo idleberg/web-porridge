@@ -49,11 +49,18 @@ const localPorridge = new WebPorridge('localStorage', {
 
 It's recommended to bundle the library with your script, but you can also use the `dist`-files or load them from a CDN.
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/webporridge.js"></script>
+
+<script>
+    const localPorridge = new WebPorridge('localStorage);
+    const sessionPorridge = new WebPorridge('sessionStorage);
+</script>
 ```
+</details>
 
 ### Methods
 
@@ -308,11 +315,17 @@ window.addEventListener('beforeunload', () => sessionStorage.clear());
 
 It's recommended to bundle the library with your script, but you can also use the `dist`-files or load them from a CDN.
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/webporridge-db.js"></script>
+
+<script>
+    const db = new WebPorridgeDB();
+</script>
 ```
+</details>
 
 ### Helpers
 
