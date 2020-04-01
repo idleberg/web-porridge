@@ -18,10 +18,10 @@
   "keywords": [
     "webstorage",
     "local-storage",
-    "localStorage",
+    "localstorage",
     "session-storage",
-    "sessionStorage",
-    "IndexedDB",
+    "sessionstorage",
+    "indexeddb",
     "amazon cognito"
   ],
   "dependencies": {
