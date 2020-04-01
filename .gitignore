@@ -8,8 +8,8 @@ npm-debug.log*
 yarn-error.log
 
 # development
+*.map
 *.tsbuildinfo
-lib/*.map
 tslint-to-eslint-config.log
 
 # project specific
