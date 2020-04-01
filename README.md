@@ -53,7 +53,7 @@ It's recommended to import the library in your code, but you can also use the `d
 <summary><strong>Example</strong></summary>
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/webporridge.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/porridge.js"></script>
 
 <script>
     const localPorridge = new WebPorridge('localStorage');
@@ -319,7 +319,7 @@ It's recommended to import the library in your code, but you can also use the `d
 <summary><strong>Example</strong></summary>
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/webporridge-db.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/porridge-db.js"></script>
 
 <script>
     const db = new WebPorridgeDB();

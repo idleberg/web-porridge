@@ -43,7 +43,7 @@ const config = [
     entry: './src/browser.ts',
     output: {
       ...outputOptions,
-      filename: 'webporridge.js',
+      filename: 'porridge.js',
     }
   },
   {
@@ -51,7 +51,7 @@ const config = [
     entry: './src/browser-db.ts',
     output: {
       ...outputOptions,
-      filename: 'webporridge-db.js',
+      filename: 'porridge-db.js',
     }
   }
 ];
