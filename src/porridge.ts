@@ -18,6 +18,10 @@ export default class WebPorridge {
   };
 
   constructor(type: string, userOptions: WebPorridgeOptions = {}) {
+    if (!type) {
+      throw Error('You need to instantiate with a storage type argument');
+    }
+
     switch (type) {
       case 'localStorage':
         this.title = 'localPorridge';

@@ -4,7 +4,9 @@
   "description": "Feature-enhanced wrappers for the WebStorage interface",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf tsconfig.tsbuildinfo && tsc --pretty --project ./",
+    "build": "concurrently --names \"tsc,webpack\" \"npm run build:module\" \"npm run build:web\"",
+    "build:module": "rimraf tsconfig.tsbuildinfo && tsc --pretty --project ./",
+    "build:web": "webpack --mode production",
     "dev": "tsc --watch --pretty --project ./",
     "lint": "tslint --project ./",
     "lint:fix": "tslint --fix --project ./",
@@ -32,13 +34,17 @@
     "@types/node": "^13.9.8",
     "ava": "^3.5.2",
     "browser-env": "^3.3.0",
+    "concurrently": "^5.1.0",
     "fake-indexeddb": "^3.0.0",
     "husky": "^4.2.3",
     "localstorage-polyfill": "^1.0.1",
     "rimraf": "^3.0.2",
+    "ts-loader": "^6.2.2",
     "tslint": "^6.1.0",
     "typescript": "^3.8.3",
-    "uuid": "^7.0.2"
+    "uuid": "^7.0.2",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   },
   "husky": {
     "hooks": {
