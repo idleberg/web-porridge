@@ -47,7 +47,7 @@ const localPorridge = new WebPorridge('localStorage', {
 
 ### Browser
 
-For use in your web-browser, use the files from the `dist` folder or load them from a CDN.
+It's recommended to bundle the library with your script, but you can also use the `dist`-files or load them from a CDN.
 
 **Example:**
 
@@ -306,7 +306,7 @@ window.addEventListener('beforeunload', () => sessionStorage.clear());
 
 #### Browser
 
-For use in your web-browser, use the files from the `dist` folder or load them from a CDN.
+It's recommended to bundle the library with your script, but you can also use the `dist`-files or load them from a CDN.
 
 **Example:**
 
