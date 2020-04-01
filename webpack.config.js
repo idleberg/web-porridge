@@ -31,9 +31,9 @@ const commonOptions = {
 };
 
 const outputOptions = {
-  path: path.resolve(__dirname, 'dist'),
+  devtoolModuleFilenameTemplate: '../[resource-path]',
   libraryTarget: 'window',
-  devtoolModuleFilenameTemplate: '../[resource-path]'
+  path: path.resolve(__dirname, 'dist')
 }
 
 /**@type {import('webpack').Configuration}*/
@@ -43,7 +43,7 @@ const config = [
     entry: './src/browser.ts',
     output: {
       ...outputOptions,
-      filename: 'web-porridge.js',
+      filename: 'webporridge.js',
     }
   },
   {
@@ -51,7 +51,7 @@ const config = [
     entry: './src/browser-db.ts',
     output: {
       ...outputOptions,
-      filename: 'web-porridge-db.js',
+      filename: 'webporridge-db.js',
     }
   }
 ];
