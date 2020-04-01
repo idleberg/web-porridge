@@ -8,9 +8,9 @@ types/
 # Files
 .gitignore
 .travis.yml
+*.map
 *.tsbuildinfo
 gulpfile.js
-lib/*.map
 npm-debug.log*
 tsconfig.json
 tslint-to-eslint-config.log
