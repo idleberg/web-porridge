@@ -20,6 +20,8 @@ Feature-enhanced wrappers for the [Web Storage](https://developer.mozilla.org/en
 
 ## Usage
 
+### Module
+
 All methods and properties of the [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
 
 ```ts
@@ -42,6 +44,16 @@ const localPorridge = new WebPorridge('localStorage', {
 ```
 
 **Note:** The Base64-decoding feature has primarily been added with [Amazon Cognito JSON Web Tokens][cognito] in mind, but since it is impossible to tell apart text strings from Base64 encoded strings, it is now disabled by default. This behaviour can toggled globally (as seen in the example above) or in the method call options.
+
+### Browser
+
+For use in your web-browser, use the files from the `dist` folder or load them from a CDN.
+
+**Example:**
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/webporridge.js"></script>
+```
 
 ### Methods
 
@@ -291,6 +303,16 @@ window['sessionStorage'] = db;
 window.addEventListener('beforeunload', () => sessionStorage.clear());
 ```
 </details>
+
+#### Browser
+
+For use in your web-browser, use the files from the `dist` folder or load them from a CDN.
+
+**Example:**
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/webporridge-db.js"></script>
+```
 
 ### Helpers
 
