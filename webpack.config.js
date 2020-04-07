@@ -6,12 +6,12 @@ const path = require('path');
 
 const commonOptions = {
   target: 'web',
+  node: {
+    Buffer: false
+  },
   devtool: 'source-map',
   resolve: {
     extensions: ['.ts', '.js']
-  },
-  node: {
-    Buffer: false
   },
   module: {
     rules: [
