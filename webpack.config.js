@@ -10,6 +10,9 @@ const commonOptions = {
   resolve: {
     extensions: ['.ts', '.js']
   },
+  node: {
+    Buffer: false
+  },
   module: {
     rules: [
       {
