@@ -6,9 +6,7 @@ const path = require('path');
 
 const commonOptions = {
   target: 'web',
-  node: {
-    Buffer: false
-  },
+  node: false,
   devtool: 'source-map',
   resolve: {
     extensions: ['.ts', '.js']
