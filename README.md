@@ -57,7 +57,7 @@ It's recommended to import the library in your code, but you can also use the `d
 <script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/porridge.js"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener('DOMContentLoaded', function() {
         const localPorridge = new WebPorridge('localStorage');
         const sessionPorridge = new WebPorridge('sessionStorage');
     });
@@ -325,7 +325,7 @@ It's recommended to import the library in your code, but you can also use the `d
 <script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/porridge-db.js"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener('DOMContentLoaded', function() {
         const db = new WebPorridgeDB();
     });
 </script>
