@@ -13,7 +13,7 @@ Feature-enhanced wrappers for the [Web Storage](https://developer.mozilla.org/en
 - batch operations
 - support for events
 - async transaction option (through [IndexedDB][indexeddb])
-- approximately 2kb minified & gzipped
+- only about 2kb minified & gzipped (4kb for IndexedDB)
 
 ## Installation
 
