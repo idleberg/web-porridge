@@ -28,7 +28,7 @@ All methods and properties of the [Web Storage API](https://developer.mozilla.or
 ```ts
 import { localPorridge, sessionPorridge } from 'web-porridge';
 
-// Optionally, use it as drop-in replacement
+// Optionally, use as drop-in replacement
 window['localStorage'] = localPorridge;
 window['sessionStorage'] = sessionPorridge;
 ```
