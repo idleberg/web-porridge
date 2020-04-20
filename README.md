@@ -238,8 +238,7 @@ import { localPorridge } from 'web-porridge';
 localPorridge.listen();
 
 // Dispatch event
-localPorridge.dispatch(
-    'setItem', {
+localPorridge.dispatch('setItem', {
         key: 'demo',
         value: 'Hello World!'
     }
