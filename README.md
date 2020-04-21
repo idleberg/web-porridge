@@ -63,6 +63,9 @@ It's recommended to import the library in your code, but you can also use the `d
     });
 </script>
 ```
+
+⚠️ For performance reasons, it's recommend using an explicit version number (such as `0.15.2`) in URLs when loading from a CDN
+
 </details>
 
 ### Methods
@@ -329,6 +332,9 @@ It's recommended to import the library in your code, but you can also use the `d
     });
 </script>
 ```
+
+⚠️ For performance reasons, it's recommend using an explicit version number (such as `0.15.2`) in URLs when loading from a CDN
+
 </details>
 
 ### Helpers
