@@ -9,7 +9,7 @@ const {
   maybeSerialize
 } = require('../lib/util');
 
-const test = require('ava');
+import test from 'ava';
 
 const decodedString = 'Hello World!'
 const encodedString = 'SGVsbG8gV29ybGQh';

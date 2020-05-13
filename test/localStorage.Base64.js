@@ -1,5 +1,5 @@
-require("fake-indexeddb/auto");
-require('localstorage-polyfill');
+import 'fake-indexeddb/auto';
+import 'localstorage-polyfill';
 
 const { WebPorridge } = require('../lib');
 const localPorridge = new WebPorridge(
@@ -9,20 +9,20 @@ const localPorridge = new WebPorridge(
   }
 );
 
-const { base64Decode, base64Encode } = require('../lib/');
-const browserEnv = require('browser-env');
-const test = require('ava');
+import { base64Decode, base64Encode } from '../lib/';
+import browserEnv from 'browser-env';
+import test from 'ava';
 
 browserEnv(['window']);
 
-const {
+import {
   actualString,
   actualObject,
   invalidJSON,
   actualBase64String,
   actualBase64Object,
   invalidBase64JSON,
-} = require('./shared');
+} from './shared';
 
 test(`Base64: Valid JSON`, t => {
   localStorage.setItem('demo', base64Encode(JSON.stringify(actualObject)));

@@ -1,20 +1,20 @@
-require("fake-indexeddb/auto");
-require('localstorage-polyfill');
+import 'fake-indexeddb/auto';
+import 'localstorage-polyfill';
 
 const { localPorridge } = require('../lib');
-const browserEnv = require('browser-env');
-const test = require('ava');
+import browserEnv from 'browser-env';
+import test from 'ava';
 
 browserEnv(['window']);
 
-const {
+import {
   actualString,
   actualObject,
   invalidJSON,
   actualBase64String,
   actualBase64Object,
   invalidBase64JSON,
-} = require('./shared');
+} from './shared';
 
 test('String', t => {
   localPorridge.setItem('firstItem', actualString);

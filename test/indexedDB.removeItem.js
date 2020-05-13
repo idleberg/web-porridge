@@ -1,23 +1,23 @@
-require("fake-indexeddb/auto");
-require('localstorage-polyfill');
+import 'fake-indexeddb/auto';
+import 'localstorage-polyfill';
 
-const { WebPorridgeDB } = require('../lib');
+import { WebPorridgeDB } from '../lib';
 const db = new WebPorridgeDB({ decodeBase64: true});
 
-const browserEnv = require('browser-env');
-const test = require('ava');
-const uuid  = require('uuid').v4;
+import browserEnv from 'browser-env';
+import test from 'ava';
+import { v4 as uuid } from 'uuid';
 
 browserEnv(['window']);
 
-const {
+import {
   actualString,
   actualObject,
   invalidJSON,
   actualBase64String,
   actualBase64Object,
   invalidBase64JSON,
-} = require('./shared');
+} from './shared';
 
 test('String', async t => {
   const itemName = uuid();

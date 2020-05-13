@@ -1,11 +1,11 @@
-require("fake-indexeddb/auto");
-require('localstorage-polyfill');
+import 'fake-indexeddb/auto';
+import 'localstorage-polyfill';
 
-const { WebPorridgeDB } = require('../lib');
+import { WebPorridgeDB } from '../lib';
 const db = new WebPorridgeDB({ decodeBase64: true});
 
-const browserEnv = require('browser-env');
-const test = require('ava');
+import browserEnv from 'browser-env';
+import test from 'ava';
 
 browserEnv(['window']);
 

@@ -1,9 +1,9 @@
-require("fake-indexeddb/auto");
-require('localstorage-polyfill');
+import 'fake-indexeddb/auto';
+import 'localstorage-polyfill';
 
 const { localPorridge } = require('../lib');
-const browserEnv = require('browser-env');
-const test = require('ava');
+import browserEnv from 'browser-env';
+import test from 'ava';
 
 browserEnv(['window']);
 

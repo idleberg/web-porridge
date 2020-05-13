@@ -35,6 +35,7 @@
     "ava": "^3.5.2",
     "browser-env": "^3.3.0",
     "concurrently": "^5.1.0",
+    "esm": "^3.2.25",
     "fake-indexeddb": "^3.0.0",
     "husky": "^4.2.3",
     "localstorage-polyfill": "^1.0.1",
@@ -50,5 +51,10 @@
     "hooks": {
       "pre-commit": "npm run lint"
     }
+  },
+  "ava": {
+    "require": [
+      "esm"
+    ]
   }
 }
