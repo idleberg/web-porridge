@@ -48,7 +48,7 @@ const localPorridge = new WebPorridge('localStorage', {
 
 ### Browser
 
-This library supports all modern browsers. You will need to BYOP (”Bring your own Polyfills”) to get it working in old browsers. It's intended to import the library in your code, but you can also use the `dist`-files or load them from a CDN.
+It's intended to import the library in your code, but you can also use the `dist`-files or load them from a CDN. This library supports all modern browsers. You will need to BYOP (”Bring your own Polyfills”) to get it working in old browsers.
 
 <details>
 <summary><strong>Example</strong></summary>
