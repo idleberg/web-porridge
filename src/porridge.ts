@@ -20,6 +20,8 @@ export default class WebPorridge {
   constructor(type: string, userOptions: WebPorridgeOptions = {}) {
     if (!type) {
       throw Error('Storage type not declared in constructor');
+    } else if (typeof <any>window !== 'undefined' && !(type in (<any>window))) {
+      throw Error(`Your browser does not support ${type}`);
     }
 
     switch (type) {

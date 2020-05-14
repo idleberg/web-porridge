@@ -31,6 +31,10 @@ export default class WebPorridgeDB {
   };
 
   constructor(userOptions: WebPorridgeOptions = {}) {
+    if (typeof <any>window !== 'undefined' && !('indexedDB' in window)) {
+      throw Error(`Your browser does not support IndexedDB`);
+    }
+
     this.options = { ...this.options, ...userOptions };
     this.store = new Store(this.options.dataBaseName, this.options.storeName);
   }
