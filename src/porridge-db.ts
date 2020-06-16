@@ -51,12 +51,12 @@ export default class WebPorridgeDB {
       ...options
     };
 
-    let value: string = await getItem(keyName, this.store) ?? null;
-
     if (subKeyName) {
       const currentItem = await this.getItem(keyName, null, options) || {};
       return dotProp.get(currentItem, subKeyName);
     }
+
+    let value: string = await getItem(keyName, this.store) ?? null;
 
     return (value && maybeDeserialize(value) && options.json === true)
       ? JSON.parse(value)

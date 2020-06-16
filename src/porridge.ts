@@ -54,23 +54,23 @@ export default class WebPorridge {
       ...options
     };
 
-    const value = (<any>global)[this.storageType].getItem(keyName);
-
     if (subKeyName) {
       const currentItem = this.getItem(keyName, '', options) || {};
       return dotProp.get(currentItem, subKeyName);
     }
+
+    const value = (<any>global)[this.storageType].getItem(keyName);
 
     return (value && maybeDeserialize(value) && options.json === true)
       ? JSON.parse(value)
       : options.base64 ? maybeBase64Decode(value, options) : value;
   }
 
-    /**
-  * Writes data items to WebStorage type
-  * @param {Array} item
-  * @returns {*}
-  */
+  /**
+   * Writes data items to WebStorage type
+   * @param {Array} item
+   * @returns {*}
+   */
   public getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
     if (isArray(input)) {
       return input.map(item => {
