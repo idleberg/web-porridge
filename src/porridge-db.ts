@@ -45,7 +45,7 @@ export default class WebPorridgeDB {
    * @param {Object} subKeyName
    * @returns {*}
    */
-  async getItem(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
+  public async getItem(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
     options = {
       ...this.options,
       ...options
@@ -68,7 +68,7 @@ export default class WebPorridgeDB {
   * @param {Array} item
   * @returns {*}
   */
-  async getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
+ public async getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
     if (isArray(input)) {
       return await Promise.all(
         await input.map(async item => {
@@ -89,7 +89,7 @@ export default class WebPorridgeDB {
    * @param {String} item
    * @param {Object} subKeyName
    */
-  async removeItem(keyName: string, subKeyName: string = '') {
+  public async removeItem(keyName: string, subKeyName: string = '') {
     if (subKeyName) {
       const currentItem = await this.getItem(keyName) || {};
       dotProp.delete(currentItem, subKeyName);
@@ -104,7 +104,7 @@ export default class WebPorridgeDB {
    * Removes datas item from WebStorage type
    * @param {String} input
    */
-  async removeItems(input: (string | PayloadOptions)[]) {
+  public async removeItems(input: (string | PayloadOptions)[]) {
     if (isArray(input)) {
       return await Promise.all(
         await input.map(async (item) => {
@@ -127,7 +127,7 @@ export default class WebPorridgeDB {
   * @param {Object} userOptions
   * @returns {*}
   */
-  async setItem(keyName: string, keyValue: any, subKeyName: string = '') {
+ public async setItem(keyName: string, keyValue: any, subKeyName: string = '') {
     if (subKeyName) {
       const currentItem = await this.getItem(keyName) || {};
       dotProp.set(currentItem, subKeyName, keyValue);
@@ -145,7 +145,7 @@ export default class WebPorridgeDB {
   * @param {Array} item
   * @returns {*}
   */
-  async setItems(input: PayloadOptions[]) {
+ public async setItems(input: PayloadOptions[]) {
     if (isArray(input)) {
       return await Promise.all(
         await input.map(async (item) => {
@@ -164,7 +164,7 @@ export default class WebPorridgeDB {
    * @param {Integer} index
    * @returns {*}
    */
-  async key(index: number) {
+  public async key(index: number) {
     return (await keys(this.store))[index];
   }
 
@@ -172,7 +172,7 @@ export default class WebPorridgeDB {
    * Returns the length of WebStorage type
    * @returns {Integer}
    */
-  get length() {
+  public get length() {
     return (async () => {
       return (await keys(this.store)).length;
     })();
@@ -182,7 +182,7 @@ export default class WebPorridgeDB {
   * Clears WebStorage type
   * @returns {*}
   */
-  async clear() {
+ public async clear() {
     return await clear(this.store);
   }
 
@@ -191,7 +191,7 @@ export default class WebPorridgeDB {
    * @param {Element|Window} element
    * @returns {*}
    */
-  listen(element: Element | Window = window) {
+  public listen(element: Element | Window = window) {
     element.addEventListener(this.title, event => this.eventHandler(event));
   }
 
@@ -200,7 +200,7 @@ export default class WebPorridgeDB {
    * @param {Element|Window} element
    * @returns {*}
    */
-  mute(element: Element | Window = window) {
+  public mute(element: Element | Window = window) {
     element.removeEventListener(this.title, event => this.eventHandler(event));
   }
 
@@ -210,7 +210,7 @@ export default class WebPorridgeDB {
    * @param {*} payload
    * @returns {*}
    */
-  dispatch(action: string, payload: Number | PayloadOptions) {
+  public dispatch(action: string, payload: Number | PayloadOptions) {
     validateAction(action);
 
     const customEvent = new CustomEvent(

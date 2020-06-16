@@ -48,7 +48,7 @@ export default class WebPorridge {
    * @param {Object} subKeyName
    * @returns {*}
    */
-  getItem(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
+  public getItem(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
     options = {
       ...this.options,
       ...options
@@ -71,7 +71,7 @@ export default class WebPorridge {
   * @param {Array} item
   * @returns {*}
   */
-  getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
+  public getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
     if (isArray(input)) {
       return input.map(item => {
         if (typeof item === 'string') {
@@ -90,7 +90,7 @@ export default class WebPorridge {
    * @param {String} item
    * @param {Object} subKeyName
    */
-  removeItem(keyName: string, subKeyName: string = '') {
+  public removeItem(keyName: string, subKeyName: string = '') {
     if (subKeyName) {
       const currentItem = this.getItem(keyName) || {};
       dotProp.delete(currentItem, subKeyName);
@@ -105,7 +105,7 @@ export default class WebPorridge {
    * Removes datas item from WebStorage type
    * @param {String} input
    */
-  removeItems(input: (string | PayloadOptions)[]) {
+  public removeItems(input: (string | PayloadOptions)[]) {
     if (isArray(input)) {
       return input.map(item => {
         if (typeof item === 'string') {
@@ -126,7 +126,7 @@ export default class WebPorridge {
   * @param {Object} userOptions
   * @returns {*}
   */
-  setItem(keyName: string, keyValue: any, subKeyName: string = '') {
+ public setItem(keyName: string, keyValue: any, subKeyName: string = '') {
     if (subKeyName) {
       const currentItem = this.getItem(keyName) || {};
       dotProp.set(currentItem, subKeyName, keyValue);
@@ -144,7 +144,7 @@ export default class WebPorridge {
   * @param {Array} item
   * @returns {*}
   */
-  setItems(input: PayloadOptions[]) {
+  public setItems(input: PayloadOptions[]) {
     if (isArray(input)) {
       return input.map(item => {
         if (isObject(item)) {
@@ -161,7 +161,7 @@ export default class WebPorridge {
    * @param {Integer} index
    * @returns {*}
    */
-  key(index: number) {
+  public key(index: number) {
     return (<any>global)[this.storageType].key(index);
   }
 
@@ -169,7 +169,7 @@ export default class WebPorridge {
    * Returns the length of WebStorage type
    * @returns {Integer}
    */
-  get length() {
+  public get length() {
     return (<any>global)[this.storageType].length;
   }
 
@@ -177,7 +177,7 @@ export default class WebPorridge {
   * Clears WebStorage type
   * @returns {*}
   */
-  clear() {
+  public clear() {
     return (<any>global)[this.storageType].clear();
   }
 
@@ -186,7 +186,7 @@ export default class WebPorridge {
    * @param {Element|Window} element
    * @returns {*}
    */
-  listen(element: Element | Window = window) {
+  public listen(element: Element | Window = window) {
     element.addEventListener(this.title, event => this.eventHandler(event));
   }
 
@@ -195,7 +195,7 @@ export default class WebPorridge {
    * @param {Element|Window} element
    * @returns {*}
    */
-  mute(element: Element | Window = window) {
+  public mute(element: Element | Window = window) {
       element.removeEventListener(this.title, event => this.eventHandler(event));
   }
 
@@ -205,7 +205,7 @@ export default class WebPorridge {
    * @param {*} payload
    * @returns {*}
    */
-  dispatch(action: string, payload: Number | PayloadOptions) {
+  public dispatch(action: string, payload: Number | PayloadOptions) {
     validateAction(action);
 
     const customEvent = new CustomEvent(
