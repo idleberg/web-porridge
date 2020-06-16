@@ -39,8 +39,8 @@ Alternatively, you can import the class and instantiate with custom defaults, e.
 import { WebPorridge } from 'web-porridge';
 
 const localPorridge = new WebPorridge('localStorage', {
-    decodeBase64: true,
-    decodeJSON: false
+    base64: true,
+    json: false
 });
 ```
 
@@ -85,7 +85,7 @@ localPorridge.getItem('secondItem', 'dot.notation.subkey');
 ```
 </details>
 
-The boolean options `decodeBase64` and `decodeJSON` can be used to toggle decoding of the respective values.
+The boolean options `base64` and `json` can be used to toggle decoding of the respective values.
 
 #### getItems
 
@@ -114,7 +114,7 @@ localPorridge.getItem([
 ```
 </details>
 
-The boolean options `decodeBase64` and `decodeJSON` can be used to toggle decoding of the respective values.
+The boolean options `base64` and `json` can be used to toggle decoding of the respective values.
 
 #### setItem
 
@@ -296,10 +296,10 @@ Again, you can instantiate the class yourself to override its defaults.
 import { WebPorridgeDB } from 'web-porridge';
 
 const db = new WebPorridgeDB({
-    databaseName: 'Custom DB',
-    decodeBase64: true,
-    decodeJSON: false,
-    storeName: 'Custom Store'
+    db: 'Custom DB',
+    base64: true,
+    json: false,
+    store: 'Custom Store'
 });
 ```
 
@@ -350,7 +350,7 @@ import { sessionPorridge, base64Encode, base64Decode } from 'web-porridge';
 sessionPorridge.setItem('demo', base64Encode('Hello World!'));
 const decodedStorage = base64Decode(sessionStorage.getItem('demo'));
 
-const decodedPorridge = sessionPorridge.getItem('demo', { decodeBase64: true });
+const decodedPorridge = sessionPorridge.getItem('demo', { base64: true });
 
 console.log(decodedPorridge === decodedStorage);
 // true
