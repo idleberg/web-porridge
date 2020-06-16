@@ -24,10 +24,10 @@ export default class WebPorridgeDB {
 
   // default options
   options: WebPorridgeOptions = {
-    dataBaseName: this.title,
-    decodeBase64: false,
-    decodeJSON: true,
-    storeName: '(default)'
+    db: this.title,
+    base64: false,
+    json: true,
+    store: '(default)'
   };
 
   constructor(userOptions: WebPorridgeOptions = {}) {
@@ -36,7 +36,7 @@ export default class WebPorridgeDB {
     }
 
     this.options = { ...this.options, ...userOptions };
-    this.store = new Store(this.options.dataBaseName, this.options.storeName);
+    this.store = new Store(this.options.db, this.options.store);
   }
 
   /**
@@ -58,9 +58,9 @@ export default class WebPorridgeDB {
       return dotProp.get(currentItem, subKeyName);
     }
 
-    return (value && maybeDeserialize(value) && options.decodeJSON === true)
+    return (value && maybeDeserialize(value) && options.json === true)
       ? JSON.parse(value)
-      : options.decodeBase64 ? maybeBase64Decode(value, options) : value;
+      : options.base64 ? maybeBase64Decode(value, options) : value;
   }
 
     /**

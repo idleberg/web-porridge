@@ -7,9 +7,10 @@
     "build": "concurrently --names \"tsc,webpack\" \"npm run build:module\" \"npm run build:web\"",
     "build:module": "rimraf tsconfig.tsbuildinfo && tsc --pretty --project ./",
     "build:web": "webpack --mode production",
-    "dev": "tsc --watch --pretty --project ./",
+    "dev": "npm run start",
     "lint": "tslint --project ./",
     "lint:fix": "tslint --fix --project ./",
+    "start": "tsc --watch --pretty --project ./",
     "test": "ava ./test/indexedDB.*.js ./test/localStorage.*.js ./test/util.js --verbose"
   },
   "main": "lib/index.js",
@@ -27,8 +28,10 @@
     "amazon cognito"
   ],
   "dependencies": {
+    "cookie": "^0.4.1",
     "dot-prop": "^5.2.0",
-    "idb-keyval": "^3.2.0"
+    "idb-keyval": "^3.2.0",
+    "matcher": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^14.0.1",

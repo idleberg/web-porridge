@@ -13,8 +13,8 @@ export default class WebPorridge {
   title: string;
   storageType: string;
   options: WebPorridgeOptions = {
-    decodeBase64: false,
-    decodeJSON: true
+    base64: false,
+    json: true
   };
 
   constructor(type: string, userOptions: WebPorridgeOptions = {}) {
@@ -61,9 +61,9 @@ export default class WebPorridge {
       return dotProp.get(currentItem, subKeyName);
     }
 
-    return (value && maybeDeserialize(value) && options.decodeJSON === true)
+    return (value && maybeDeserialize(value) && options.json === true)
       ? JSON.parse(value)
-      : options.decodeBase64 ? maybeBase64Decode(value, options) : value;
+      : options.base64 ? maybeBase64Decode(value, options) : value;
   }
 
     /**

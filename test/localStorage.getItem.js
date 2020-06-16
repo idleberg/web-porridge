@@ -5,7 +5,7 @@ const { WebPorridge } = require('../lib');
 const localPorridge = new WebPorridge(
   'localStorage',
   {
-    decodeBase64: true
+    base64: true
   }
 );
 
@@ -44,7 +44,7 @@ test('Valid JSON (no decoding)', t => {
 
   localStorage.setItem('demo', jsonString);
 
-  const actual = localPorridge.getItem('demo', '', { decodeJSON: false});
+  const actual = localPorridge.getItem('demo', '', { json: false});
 
   t.is(jsonString, actual);
 });

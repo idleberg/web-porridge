@@ -5,8 +5,8 @@ interface PayloadOptions {
 }
 
 interface WebPorridgeOptions {
-  dataBaseName?: string;
-  decodeBase64?: Boolean;
-  decodeJSON?: Boolean;
-  storeName?: string;
+  base64?: Boolean;
+  db?: string;
+  json?: Boolean;
+  store?: string;
 }

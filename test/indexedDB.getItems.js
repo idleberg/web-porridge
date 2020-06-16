@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
 import { WebPorridgeDB } from '../lib';
-const db = new WebPorridgeDB({ decodeBase64: true});
+const db = new WebPorridgeDB({ base64: true});
 
 import browserEnv from 'browser-env';
 import test from 'ava';
@@ -52,7 +52,7 @@ test(`getItems(): Valid JSON (no decoding)`, async t => {
   await db.setItem(firstItem, jsonString);
   await db.setItem(secondItem, jsonString);
 
-  const actual = await db.getItems([firstItem, secondItem], { decodeJSON: false});
+  const actual = await db.getItems([firstItem, secondItem], { json: false});
 
   t.deepEqual([jsonString, jsonString], actual);
 });

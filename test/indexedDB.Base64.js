@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
 import { WebPorridgeDB } from '../lib';
-const db = new WebPorridgeDB({ decodeBase64: true});
+const db = new WebPorridgeDB({ base64: true});
 
 import { base64Decode, base64Encode } from '../lib/';
 import browserEnv from 'browser-env';
@@ -37,7 +37,7 @@ test(`Base64: Valid JSON (no decoding)`, async t => {
   const encodedObject = base64Encode(JSON.stringify(actualObject));
   await db.setItem(itemName, encodedObject);
 
-  const actual = await db.getItem(itemName, null, { decodeBase64: false});
+  const actual = await db.getItem(itemName, null, { base64: false});
 
   t.is(encodedObject, actual)
 });

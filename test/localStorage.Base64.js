@@ -5,7 +5,7 @@ const { WebPorridge } = require('../lib');
 const localPorridge = new WebPorridge(
   'localStorage',
   {
-    decodeBase64: true
+    base64: true
   }
 );
 
@@ -38,7 +38,7 @@ test(`Base64: Valid JSON (no decoding)`, t => {
 
   localStorage.setItem('demo', encodedObject);
 
-  const decodedPorridge = localPorridge.getItem('demo', null, { decodeBase64: false});
+  const decodedPorridge = localPorridge.getItem('demo', null, { base64: false});
 
   t.deepEqual(encodedObject, decodedPorridge)
 });
