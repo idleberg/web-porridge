@@ -75,8 +75,18 @@ export default class WebPorridgeDB {
           if (typeof item === 'string') {
             return await this.getItem(item, null, options);
           } else if (isObject(item)) {
+            options = {
+              ...options,
+              ...item.options
+            };
+
             return await this.getItem(item.key, item.subKey, options);
           } else if (isArray(item)) {
+            options = {
+              ...options,
+              ...item[2]
+            };
+
             return await this.getItem(item[0], item[1], options);
           }
         })

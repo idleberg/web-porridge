@@ -77,8 +77,18 @@ export default class WebPorridge {
         if (typeof item === 'string') {
           return this.getItem(item, null, options);
         } else if (isObject(item)) {
+          options = {
+            ...options,
+            ...item.options
+          };
+
           return this.getItem(item.key, item.subKey, options);
         } else if (isArray(item)) {
+          options = {
+            ...options,
+            ...item[2]
+          };
+
           return this.getItem(item[0], item[1], options);
         }
       });
