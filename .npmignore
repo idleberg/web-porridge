@@ -1,6 +1,7 @@
 # Folders
 .circleci/
 .editorconfig
+.vscode/
 src/
 test/
 types/
