@@ -49,10 +49,15 @@ function maybeSerialize(inputString: string | Object): boolean {
  * @param {object} options
  * @returns {string|Object}
  */
-function maybeBase64Decode(inputString: string, options: WebPorridgeOptions = {}) {
-  const outputString: string = isString(inputString) && isBase64(inputString) ? base64Decode(inputString) : inputString;
+function maybeBase64Decode(inputString: string, decodeJSON: Boolean = true) {
 
-  return (outputString && maybeDeserialize(outputString) && options.json) ? JSON.parse(outputString) : outputString;
+  const outputString: string = isString(inputString) && isBase64(inputString)
+    ? base64Decode(inputString)
+    : inputString;
+
+  return outputString && (maybeDeserialize(outputString) && decodeJSON)
+    ? JSON.parse(outputString)
+    : outputString;
 }
 
 /**

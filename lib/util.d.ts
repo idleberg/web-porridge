@@ -1,6 +1,6 @@
 declare function maybeDeserialize(inputData: any): boolean;
 declare function maybeSerialize(inputString: string | Object): boolean;
-declare function maybeBase64Decode(inputString: string, options?: WebPorridgeOptions): any;
+declare function maybeBase64Decode(inputString: string, decodeJSON?: Boolean): any;
 declare function base64Encode(inputString: string): string;
 declare function base64Decode(inputString: string): string;
 declare function validateAction(action: string): void;

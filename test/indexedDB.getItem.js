@@ -55,7 +55,7 @@ test('Valid JSON (no decoding)', async t => {
 
   await db.setItem(itemName, jsonString);
 
-  const actual = await db.getItem(itemName, '', { json: false});
+  const actual = await db.getItem(itemName, '', { json: false });
 
   t.is(jsonString, actual);
 });
@@ -118,33 +118,6 @@ test('null', async t => {
   const actual = await db.getItem(itemName);
 
   t.is(actual, expected);
-});
-
-test('Base64 String', async t => {
-  const itemName = uuid();
-  await db.setItem(itemName, actualBase64String);
-
-  const actual = await db.getItem(itemName);
-
-  t.is(actualString, actualString);
-});
-
-test('Base64 Valid JSON', async t => {
-  const itemName = uuid();
-  await db.setItem(itemName, actualBase64Object);
-
-  const actual = await db.getItem(itemName);
-
-  t.deepEqual(actualObject, actual);
-});
-
-test('Base64 Invalid JSON', async t => {
-  const itemName = uuid();
-  await db.setItem(itemName, invalidBase64JSON);
-
-  const actual = await db.getItem(itemName);
-
-  t.is(invalidJSON, actual);
 });
 
 test('Object key', async t => {

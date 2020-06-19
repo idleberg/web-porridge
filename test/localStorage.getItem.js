@@ -44,7 +44,7 @@ test('Valid JSON (no decoding)', t => {
 
   localStorage.setItem('demo', jsonString);
 
-  const actual = localPorridge.getItem('demo', '', { json: false});
+  const actual = localPorridge.getItem('demo', '', { json: false });
 
   t.is(jsonString, actual);
 });
@@ -102,26 +102,10 @@ test('null', t => {
   t.is(actual, expected);
 });
 
-test('Base64 String', t => {
-  localStorage.setItem('demo', actualBase64String);
-
-  const actual = localPorridge.getItem('demo');
-
-  t.is(actualString, actualString);
-});
-
-test('Base64 Valid JSON', t => {
-  localStorage.setItem('demo', actualBase64Object);
-
-  const actual = localPorridge.getItem('demo');
-
-  t.deepEqual(actualObject, actual);
-});
-
 test('Base64 Invalid JSON', t => {
   localStorage.setItem('demo', invalidBase64JSON);
 
-  const actual = localPorridge.getItem('demo');
+  const actual = localPorridge.getBase64('demo');
 
   t.is(invalidJSON, actual);
 });

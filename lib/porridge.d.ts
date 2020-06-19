@@ -4,6 +4,8 @@ export default class WebPorridge {
     options: WebPorridgeOptions;
     constructor(type: string, userOptions?: WebPorridgeOptions);
     getItem(keyName: string, subKeyName?: string | null, options?: WebPorridgeOptions): any;
+    getJSON(keyName: string, subKeyName?: string | null): any;
+    getBase64(keyName: string, subKeyName?: string | null, options?: WebPorridgeOptions): any;
     getItems(input: (string | PayloadOptions)[], options?: WebPorridgeOptions): any[];
     removeItem(keyName: string, subKeyName?: string): any;
     removeItems(input: (string | PayloadOptions)[]): any[];

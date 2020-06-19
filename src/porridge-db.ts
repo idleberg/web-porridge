@@ -25,7 +25,6 @@ export default class WebPorridgeDB {
   // default options
   options: WebPorridgeOptions = {
     db: this.title,
-    base64: false,
     json: true,
     store: '(default)'
   };
@@ -60,10 +59,56 @@ export default class WebPorridgeDB {
 
     return (value && maybeDeserialize(value) && options.json === true)
       ? JSON.parse(value)
-      : options.base64 ? maybeBase64Decode(value, options) : value;
+      : value;
   }
 
-    /**
+  /**
+   * Reads and decodes JSON string from WebStorage type
+   * @param {String} keyName
+   * @param {Object} subKeyName
+   * @returns {*}
+   */
+  public async getJSON(keyName: string, subKeyName: string | null = '') {
+    let item = await this.getItem(keyName, null, { json: true });
+
+    item = (item && maybeDeserialize(item))
+      ? JSON.parse(item)
+      : item;
+
+    return subKeyName?.length
+      ? dotProp.get(item, subKeyName)
+      : item;
+  }
+
+  /**
+   * Reads and decodes Base64 string from WebStorage type
+   * @param {String} keyName
+   * @param {Object} subKeyName
+   * @returns {*}
+   */
+  public async getBase64(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
+    options = {
+      ...this.options,
+      ...options
+    };
+
+    const encodedItem = await this.getItem(keyName, null, options);
+    let value;
+
+    if (subKeyName?.length || options.json) {
+      const decodedItem = maybeBase64Decode(encodedItem, options.json);
+
+      value = subKeyName?.length
+        ? dotProp.get(decodedItem, subKeyName)
+        : decodedItem;
+    } else {
+      value = maybeBase64Decode(encodedItem, false);
+    }
+
+    return value;
+  }
+
+  /**
   * Writes data items to WebStorage type
   * @param {Array} item
   * @returns {*}
@@ -145,7 +190,9 @@ export default class WebPorridgeDB {
       return await this.setItem(keyName, currentItem);
     }
 
-    const newValue = (maybeSerialize(keyValue)) ? JSON.stringify(keyValue) : keyValue;
+    const newValue = (maybeSerialize(keyValue))
+      ? JSON.stringify(keyValue)
+      : keyValue;
 
     return await setItem(keyName, newValue, this.store);
   }
@@ -242,49 +289,52 @@ export default class WebPorridgeDB {
    * @returns {void}
    */
   private eventHandler(event: Event) {
-    validateAction((<any>event).detail.action);
+    const { action, options, payload } = (<any>event).detail;
 
-    let key, value, subKey, options;
+    validateAction(action);
 
-    switch ((<any>event).detail.action) {
+    let key, value, subKey, opts;
+
+    switch (action) {
+      case 'getBase64':
       case 'getItem':
-        key = (<any>event).detail.payload.key;
-        subKey = (<any>event).detail.payload.subKey || '';
-        options = (<any>event).detail.options || {};
+        key = payload.key;
+        subKey = payload.subKey || '';
+        opts = options || {};
 
-        return this.getItem(key, subKey, options);
+        return this[action](key, subKey, options);
 
       case 'getItems':
-        key = (<any>event).detail.payload;
-        options = (<any>event).detail.options || {};
+        key = payload;
+        opts = options || {};
 
         return this.getItems(key, options);
 
       case 'removeItem':
-        key = (<any>event).detail.payload.key;
-        subKey = (<any>event).detail.payload.subKey || '';
+        key = payload.key;
+        subKey = payload.subKey || '';
 
         return this.removeItem(key, subKey);
 
       case 'removeItems':
-        key = (<any>event).detail.payload;
+        key = payload;
 
         return this.removeItems(key);
 
       case 'setItem':
-        key = (<any>event).detail.payload.key;
-        value = (<any>event).detail.payload.value;
-        subKey = (<any>event).detail.payload.subKey || '';
+        key = payload.key;
+        value = payload.value;
+        subKey = payload.subKey || '';
 
         return this.setItem(key, value, subKey);
 
       case 'setItems':
-        key = (<any>event).detail.payload;
+        key = payload;
 
         return this.setItems(key);
 
       case 'key':
-        return this.key((<any>event).detail.payload);
+        return this.key(payload);
 
       case 'length':
         return this.length;

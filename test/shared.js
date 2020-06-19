@@ -10,10 +10,10 @@ const actualBase64Object = base64Encode(actualObject);
 const invalidBase64JSON = base64Encode(invalidJSON);
 
 module.exports = {
-  actualString: actualString,
-  actualObject: actualObject,
-  invalidJSON: invalidJSON,
-  actualBase64String: actualBase64String,
-  actualBase64Object: actualBase64Object,
-  invalidBase64JSON: invalidBase64JSON
+  actualString,
+  actualObject,
+  invalidJSON,
+  actualBase64String,
+  actualBase64Object,
+  invalidBase64JSON
 }
