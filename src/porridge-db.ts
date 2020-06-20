@@ -42,6 +42,7 @@ export default class WebPorridgeDB {
    * Reads single data item from WebStorage type
    * @param {String} item
    * @param {Object} subKeyName
+   * @param {Object} options
    * @returns {*}
    */
   public async getItem(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
@@ -69,21 +70,14 @@ export default class WebPorridgeDB {
    * @returns {*}
    */
   public async getJSON(keyName: string, subKeyName: string | null = '') {
-    let item = await this.getItem(keyName, null, { json: true });
-
-    item = (item && maybeDeserialize(item))
-      ? JSON.parse(item)
-      : item;
-
-    return subKeyName?.length
-      ? dotProp.get(item, subKeyName)
-      : item;
+    return await this.getItem(keyName, subKeyName, { json: true });
   }
 
   /**
    * Reads and decodes Base64 string from WebStorage type
    * @param {String} keyName
    * @param {Object} subKeyName
+   * @param {Object} options
    * @returns {*}
    */
   public async getBase64(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
@@ -109,11 +103,12 @@ export default class WebPorridgeDB {
   }
 
   /**
-  * Writes data items to WebStorage type
-  * @param {Array} item
-  * @returns {*}
-  */
- public async getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
+   * Writes data items to WebStorage type
+   * @param {Array} item
+   * @param {Object} options
+   * @returns {*}
+   */
+  public async getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
     if (isArray(input)) {
       return await Promise.all(
         await input.map(async item => {
@@ -176,13 +171,13 @@ export default class WebPorridgeDB {
   }
 
   /**
-  * Writes single data item to WebStorage type
-  * @param {String} item
-  * @param {*} value
-  * @param {Object} userOptions
-  * @returns {*}
-  */
- public async setItem(keyName: string, keyValue: any, subKeyName: string = '') {
+   * Writes single data item to WebStorage type
+   * @param {String} item
+   * @param {*} keyValue
+   * @param {String} subKeyName
+   * @returns {*}
+   */
+  public async setItem(keyName: string, keyValue: any, subKeyName: string = '') {
     if (subKeyName) {
       const currentItem = await this.getItem(keyName) || {};
       dotProp.set(currentItem, subKeyName, keyValue);
@@ -198,11 +193,11 @@ export default class WebPorridgeDB {
   }
 
   /**
-  * Writes data items to WebStorage type
-  * @param {Array} item
-  * @returns {*}
-  */
- public async setItems(input: PayloadOptions[]) {
+   * Writes data items to WebStorage type
+   * @param {Array} item
+   * @returns {*}
+   */
+  public async setItems(input: PayloadOptions[]) {
     if (isArray(input)) {
       return await Promise.all(
         await input.map(async (item) => {
@@ -298,6 +293,7 @@ export default class WebPorridgeDB {
     switch (action) {
       case 'getBase64':
       case 'getItem':
+      case 'getJSON':
         key = payload.key;
         subKey = payload.subKey || '';
         opts = options || {};

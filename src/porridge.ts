@@ -46,6 +46,7 @@ export default class WebPorridge {
    * Reads single data item from WebStorage type
    * @param {String} item
    * @param {Object} subKeyName
+   * @param {Object} options
    * @returns {*}
    */
   public getItem(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
@@ -73,21 +74,14 @@ export default class WebPorridge {
    * @returns {*}
    */
   public getJSON(keyName: string, subKeyName: string | null = '') {
-    let item = this.getItem(keyName, null, { json: true });
-
-    item = (item && maybeDeserialize(item))
-      ? JSON.parse(item)
-      : item;
-
-    return subKeyName?.length
-      ? dotProp.get(item, subKeyName)
-      : item;
+    return this.getItem(keyName, subKeyName, { json: true });
   }
 
   /**
    * Reads and decodes Base64 string from WebStorage type
    * @param {String} keyName
    * @param {Object} subKeyName
+   * @param {Object} options
    * @returns {*}
    */
   public getBase64(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
@@ -115,6 +109,7 @@ export default class WebPorridge {
   /**
    * Writes data items to WebStorage type
    * @param {Array} item
+   * @param {Object} options
    * @returns {*}
    */
   public getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
@@ -176,13 +171,13 @@ export default class WebPorridge {
   }
 
   /**
-  * Writes single data item to WebStorage type
-  * @param {String} item
-  * @param {*} value Hello
-  * @param {Object} userOptions
-  * @returns {*}
-  */
- public setItem(keyName: string, keyValue: any, subKeyName: string = '') {
+   * Writes single data item to WebStorage type
+   * @param {String} item
+   * @param {*} keyValue
+   * @param {String} subKeyName
+   * @returns {*}
+   */
+  public setItem(keyName: string, keyValue: any, subKeyName: string = '') {
     if (subKeyName) {
       const currentItem = this.getItem(keyName) || {};
       dotProp.set(currentItem, subKeyName, keyValue);
@@ -198,10 +193,10 @@ export default class WebPorridge {
   }
 
   /**
-  * Writes data items to WebStorage type
-  * @param {Array} item
-  * @returns {*}
-  */
+   * Writes data items to WebStorage type
+   * @param {Array} item
+   * @returns {*}
+   */
   public setItems(input: PayloadOptions[]) {
     if (isArray(input)) {
       return input.map(item => {
@@ -231,10 +226,10 @@ export default class WebPorridge {
     return (<any>global)[this.storageType].length;
   }
 
- /**
-  * Clears WebStorage type
-  * @returns {*}
-  */
+  /**
+   * Clears WebStorage type
+   * @returns {*}
+   */
   public clear() {
     return (<any>global)[this.storageType].clear();
   }
@@ -292,7 +287,9 @@ export default class WebPorridge {
     let key, value, subKey, opts;
 
     switch (action) {
+      case 'getBase64':
       case 'getItem':
+      case 'getJSON':
         key = payload.key;
         subKey = payload.subKey || '';
         opts = options || {};
