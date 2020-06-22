@@ -28,7 +28,6 @@
     "amazon cognito"
   ],
   "dependencies": {
-    "cookie": "^0.4.1",
     "dot-prop": "^5.2.0",
     "idb-keyval": "^3.2.0",
     "matcher": "^3.0.0"
