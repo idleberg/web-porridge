@@ -1,3 +1,4 @@
+import * as matcher from 'matcher';
 
 /**
  * Checks whether input data requires deserialization after reading it from WebStorage
@@ -148,9 +149,18 @@ function isSerializableNumber(inputData) {
   return !isNaN(parseFloat(inputData)) && parseFloat(inputData.toString()).toString() === inputData.toString();
 }
 
+/**
+ *
+ * @param pattern {}
+ */
+function getMatches(pattern) {
+  return matcher(Object.keys((<any>global)[this.storageType]), [pattern], { caseSensitive: true });
+}
+
 export {
   base64Decode,
   base64Encode,
+  getMatches,
   isArray,
   isObject,
   isSerializableNumber,

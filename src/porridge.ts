@@ -1,6 +1,7 @@
 import * as dotProp from 'dot-prop';
 
 import {
+  getMatches,
   isArray,
   isObject,
   maybeBase64Decode,
@@ -134,6 +135,26 @@ export default class WebPorridge {
         }
       });
     }
+  }
+
+  /**
+   * Reads string matching a wildcard from WebStorage type
+   * @param {String|Array} keyName
+   * @param {Object} subKeyName
+   * @returns {*}
+   */
+  public getMatch(keyName: string | string[], subKeyName: string | null = '') {
+    const matchingItems: PayloadOptions[] = getMatches(keyName)
+      .map(item =>  (
+        {
+          key: item,
+          subKey: subKeyName
+        }
+      ));
+
+    return matchingItems.length
+      ? this.getItems(matchingItems)
+      : null;
   }
 
   /**
@@ -326,6 +347,7 @@ export default class WebPorridge {
         return this.removeItems(key);
 
       case 'setItem':
+      case 'setJSON':
         key = payload.key;
         value = payload.value;
         subKey = payload.subKey || '';
