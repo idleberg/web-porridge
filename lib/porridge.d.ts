@@ -9,8 +9,9 @@ export default class WebPorridge {
     getItems(input: (string | PayloadOptions)[], options?: WebPorridgeOptions): any[];
     removeItem(keyName: string, subKeyName?: string): any;
     removeItems(input: (string | PayloadOptions)[]): any[];
-    setItem(keyName: string, keyValue: any, subKeyName?: string): any;
+    setItem(keyName: string, keyValue: any, subKeyName?: string, options?: WebPorridgeOptions): any;
     setItems(input: PayloadOptions[]): any[];
+    setJSON(keyName: string, keyValue: any, subKeyName?: string): any;
     key(index: number): any;
     get length(): any;
     clear(): any;

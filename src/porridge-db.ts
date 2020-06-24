@@ -175,10 +175,11 @@ export default class WebPorridgeDB {
    * @param {String} item
    * @param {*} keyValue
    * @param {String} subKeyName
+   * @param {Object} options
    * @returns {*}
    */
-  public async setItem(keyName: string, keyValue: any, subKeyName: string = '') {
-    if (subKeyName) {
+  public async setItem(keyName: string, keyValue: any, subKeyName: string = '', options: WebPorridgeOptions = {}) {
+    if (subKeyName?.length || options.json === true) {
       const currentItem = await this.getItem(keyName) || {};
       dotProp.set(currentItem, subKeyName, keyValue);
 
@@ -209,6 +210,17 @@ export default class WebPorridgeDB {
         })
       );
     }
+  }
+
+  /**
+   * Writes single data item to WebStorage type
+   * @param {String} item
+   * @param {*} keyValue
+   * @param {String} subKeyName
+   * @returns {*}
+   */
+  public async setJSON(keyName: string, keyValue: any, subKeyName: string = '') {
+    return await this.setItem(keyName, keyValue, subKeyName, { json: false });
   }
 
   /**

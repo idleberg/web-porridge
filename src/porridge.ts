@@ -142,7 +142,7 @@ export default class WebPorridge {
    * @param {Object} subKeyName
    */
   public removeItem(keyName: string, subKeyName: string = '') {
-    if (subKeyName) {
+    if (subKeyName?.length) {
       const currentItem = this.getItem(keyName) || {};
       dotProp.delete(currentItem, subKeyName);
 
@@ -175,10 +175,11 @@ export default class WebPorridge {
    * @param {String} item
    * @param {*} keyValue
    * @param {String} subKeyName
+   * @param {Object} options
    * @returns {*}
    */
-  public setItem(keyName: string, keyValue: any, subKeyName: string = '') {
-    if (subKeyName) {
+  public setItem(keyName: string, keyValue: any, subKeyName: string = '', options: WebPorridgeOptions = {}) {
+    if (subKeyName?.length || options.json === true) {
       const currentItem = this.getItem(keyName) || {};
       dotProp.set(currentItem, subKeyName, keyValue);
 
@@ -207,6 +208,17 @@ export default class WebPorridge {
         }
       });
     }
+  }
+
+  /**
+   * Writes single data item to WebStorage type
+   * @param {String} item
+   * @param {*} keyValue
+   * @param {String} subKeyName
+   * @returns {*}
+   */
+  public setJSON(keyName: string, keyValue: any, subKeyName: string = '') {
+    return this.setItem(keyName, keyValue, subKeyName, { json: false });
   }
 
   /**

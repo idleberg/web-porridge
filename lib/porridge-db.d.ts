@@ -9,8 +9,9 @@ export default class WebPorridgeDB {
     getItems(input: (string | PayloadOptions)[], options?: WebPorridgeOptions): Promise<any[]>;
     removeItem(keyName: string, subKeyName?: string): Promise<any>;
     removeItems(input: (string | PayloadOptions)[]): Promise<any[]>;
-    setItem(keyName: string, keyValue: any, subKeyName?: string): any;
+    setItem(keyName: string, keyValue: any, subKeyName?: string, options?: WebPorridgeOptions): any;
     setItems(input: PayloadOptions[]): Promise<any[]>;
+    setJSON(keyName: string, keyValue: any, subKeyName?: string): Promise<any>;
     key(index: number): Promise<IDBValidKey>;
     get length(): Promise<number>;
     clear(): Promise<void>;
