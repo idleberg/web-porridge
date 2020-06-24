@@ -163,6 +163,7 @@ export {
   getMatches,
   isArray,
   isObject,
+  isString,
   isSerializableNumber,
   maybeBase64Decode,
   maybeDeserialize,

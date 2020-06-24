@@ -4,6 +4,7 @@ import {
   getMatches,
   isArray,
   isObject,
+  isString,
   maybeBase64Decode,
   maybeDeserialize,
   maybeSerialize,
@@ -175,20 +176,37 @@ export default class WebPorridge {
 
   /**
    * Removes datas item from WebStorage type
-   * @param {String} input
+   * @param {Array} items
    */
-  public removeItems(input: (string | PayloadOptions)[]) {
-    if (isArray(input)) {
-      return input.map(item => {
+  public removeItems(items: (string | PayloadOptions)[], subKeyName: string = '') {
+    if (isArray(items)) {
+      return items.map(item => {
         if (typeof item === 'string') {
-          return this.removeItem(item);
+          return this.removeItem(item, subKeyName);
         } else if (isObject(item)) {
-          return this.removeItem(item.key, item.subKey);
+          return this.removeItem(item.key, item.subKey || subKeyName);
         } else if (isArray(item)) {
-          return this.removeItem(item[0], item[1]);
+          return this.removeItem(item[0], item[1] || subKeyName);
         }
       });
     }
+  }
+
+  /**
+   * Removes item matching a wildcard from WebStorage type
+   * @param {String} keyName
+   * @param {Object} subKeyName
+   */
+  public removeMatch(keyName: string, subKeyName: string = '') {
+    if (keyName === '*') {
+      this.clear();
+    }
+
+    const matchingItems: string[] = getMatches(keyName);
+
+    return matchingItems.length
+      ? this.removeItems(matchingItems)
+      : null;
   }
 
   /**

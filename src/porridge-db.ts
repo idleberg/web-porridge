@@ -173,22 +173,39 @@ export default class WebPorridgeDB {
 
   /**
    * Removes datas item from WebStorage type
-   * @param {String} input
+   * @param {Array} items
    */
-  public async removeItems(input: (string | PayloadOptions)[]) {
-    if (isArray(input)) {
+  public async removeItems(items: (string | PayloadOptions)[], subKeyName: string = '') {
+    if (isArray(items)) {
       return await Promise.all(
-        await input.map(async (item) => {
+        await items.map(async (item) => {
           if (typeof item === 'string') {
             return this.removeItem(item);
           } else if (isObject(item)) {
-            return this.removeItem(item.key, item.subKey);
+            return this.removeItem(item.key, item.subKey || subKeyName);
           } else if (isArray(item)) {
-            return this.removeItem(item[0], item[1]);
+            return this.removeItem(item[0], item[1] || subKeyName);
           }
         })
       );
     }
+  }
+
+  /**
+   * Removes item matching a wildcard from WebStorage type
+   * @param {String} keyName
+   * @param {Object} subKeyName
+   */
+  public removeMatch(keyName: string, subKeyName: string = '') {
+    if (keyName === '*') {
+      this.clear();
+    }
+
+    const matchingItems: string[] = getMatches(keyName);
+
+    return matchingItems.length
+      ? this.removeItems(matchingItems)
+      : null;
   }
 
   /**
