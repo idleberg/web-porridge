@@ -1,3 +1,5 @@
+import * as matcher from 'matcher';
+
 import {
   clear,
   del as removeItem,
@@ -10,7 +12,6 @@ import {
 import * as dotProp from 'dot-prop';
 
 import {
-  getMatches,
   isArray,
   isObject,
   maybeBase64Decode,
@@ -141,8 +142,8 @@ export default class WebPorridgeDB {
    * @param {Object} subKeyName
    * @returns {*}
    */
-  public getMatch(keyName: string | string[], subKeyName: string | null = '') {
-    const matchingItems: PayloadOptions[] = getMatches(keyName)
+  public async getMatch(keyName: string | string[], subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
+    const matchingItems: PayloadOptions[] = (await this.getMatches(keyName))
       .map(item =>  (
         {
           key: item,
@@ -151,7 +152,7 @@ export default class WebPorridgeDB {
       ));
 
     return matchingItems.length
-      ? this.getItems(matchingItems)
+      ? await this.getItems(matchingItems, options)
       : null;
   }
 
@@ -180,7 +181,7 @@ export default class WebPorridgeDB {
       return await Promise.all(
         await items.map(async (item) => {
           if (typeof item === 'string') {
-            return this.removeItem(item);
+            return this.removeItem(item, subKeyName);
           } else if (isObject(item)) {
             return this.removeItem(item.key, item.subKey || subKeyName);
           } else if (isArray(item)) {
@@ -196,12 +197,12 @@ export default class WebPorridgeDB {
    * @param {String} keyName
    * @param {Object} subKeyName
    */
-  public removeMatch(keyName: string, subKeyName: string = '') {
+  public async removeMatch(keyName: string, subKeyName: string = '') {
     if (keyName === '*') {
       this.clear();
     }
 
-    const matchingItems: string[] = getMatches(keyName);
+    const matchingItems: string[] = await this.getMatches(keyName);
 
     return matchingItems.length
       ? this.removeItems(matchingItems)
@@ -392,5 +393,22 @@ export default class WebPorridgeDB {
       default:
         break;
     }
+  }
+
+  private async getMatches(pattern) {
+    const length = await this.length;
+    const inputs = [];
+
+    for (let i = 0; i < length; i++) {
+      const key = await this.key(i);
+
+      if (key) inputs.push(key);
+    }
+
+    const patterns = isArray(pattern)
+    ? pattern
+    : [pattern]
+
+    return matcher(inputs, patterns, { caseSensitive: true });
   }
 }

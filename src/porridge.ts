@@ -1,10 +1,9 @@
 import * as dotProp from 'dot-prop';
+import * as matcher from 'matcher';
 
 import {
-  getMatches,
   isArray,
   isObject,
-  isString,
   maybeBase64Decode,
   maybeDeserialize,
   maybeSerialize,
@@ -141,11 +140,11 @@ export default class WebPorridge {
   /**
    * Reads string matching a wildcard from WebStorage type
    * @param {String|Array} keyName
-   * @param {Object} subKeyName
+   * @param {Object} options
    * @returns {*}
    */
-  public getMatch(keyName: string | string[], subKeyName: string | null = '') {
-    const matchingItems: PayloadOptions[] = getMatches(keyName)
+  public getMatch(keyName: string | string[], subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
+    const matchingItems: PayloadOptions[] = this.getMatches(keyName)
       .map(item =>  (
         {
           key: item,
@@ -154,7 +153,7 @@ export default class WebPorridge {
       ));
 
     return matchingItems.length
-      ? this.getItems(matchingItems)
+      ? this.getItems(matchingItems, options)
       : null;
   }
 
@@ -202,7 +201,7 @@ export default class WebPorridge {
       this.clear();
     }
 
-    const matchingItems: string[] = getMatches(keyName);
+    const matchingItems: string[] = this.getMatches(keyName);
 
     return matchingItems.length
       ? this.removeItems(matchingItems)
@@ -389,5 +388,14 @@ export default class WebPorridge {
       default:
         break;
     }
+  }
+
+  private getMatches(pattern) {
+    const inputs = Object.keys((<any>global)[this.storageType]) || [];
+    const patterns = isArray(pattern)
+      ? pattern
+      : [pattern]
+
+    return matcher(inputs, patterns, { caseSensitive: true });
   }
 }
