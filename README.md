@@ -8,10 +8,9 @@
 Feature-enhanced wrappers for the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage) interface
 
 - transparent (de)serialization
-- transparent Base64 decoding (optional)
+- transparent Base64 decoding
 - Object-level read & write access
 - batch operations
-- support for events
 - async transaction option (through [IndexedDB][indexeddb])
 - about 2kb minified & gzipped (4kb for IndexedDB)
 
@@ -226,47 +225,6 @@ localPorridge.removeItems([
 > The *`length`* read-only property of the [`Storage`][storage] interface returns the number of data items stored in a given `Storage` object.
 >
 > – [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/length)
-
-### Events
-
-The library provides methods to setup event listeners and dispatch WebPorridge actions. These actions are name after the [WebPorridge methods](#methods).
-
-<details>
-<summary><strong>Example</strong></summary>
-
-```ts
-import { localPorridge } from 'web-porridge';
-
-// Initialize event listeners
-localPorridge.listen();
-
-// Dispatch event
-localPorridge.dispatch('setItem', {
-        key: 'demo',
-        value: 'Hello World!'
-    }
-);
-
-// Remove event listeners
-localPorridge.mute();
-```
-</details>
-
-#### listen
-
-Usage: `listen(element: Element)`
-
-Adds an event listener for WebPorridge actions
-
-#### mute
-
-Usage: `mute(element: Element)`
-
-Removes an event listener
-
-#### dispatch
-
-Usage: `dispatch(action: string, payload: any)`
 
 ### IndexedDB
 
