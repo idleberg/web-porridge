@@ -292,6 +292,14 @@ export default class WebPorridgeDB {
     })();
   }
 
+  /**
+   * Clears WebStorage type
+   * @returns {*}
+   */
+  public async clear() {
+    return await clear(this.store);
+  }
+
   private async getMatches(pattern) {
     const length = await this.length;
     const inputs = [];
