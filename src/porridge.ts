@@ -109,13 +109,13 @@ export default class WebPorridge {
 
   /**
    * Writes data items to WebStorage type
-   * @param {Array} item
+   * @param {Array} items
    * @param {Object} options
    * @returns {*}
    */
-  public getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
-    if (isArray(input)) {
-      return input.map(item => {
+  public getItems(items: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
+    if (isArray(items)) {
+      return items.map(item => {
         if (typeof item === 'string') {
           return this.getItem(item, null, options);
         } else if (isObject(item)) {
@@ -233,16 +233,27 @@ export default class WebPorridge {
 
   /**
    * Writes data items to WebStorage type
-   * @param {Array} item
+   * @param {Array} items
+   * @param {Object} options
    * @returns {*}
    */
-  public setItems(input: PayloadOptions[]) {
-    if (isArray(input)) {
-      return input.map(item => {
+  public setItems(items: PayloadOptions[], options: WebPorridgeOptions = {}) {
+    if (isArray(items)) {
+      return items.map(item => {
         if (isObject(item)) {
-          return this.setItem(item.key, item.value, item.subKey);
+          return this.setItem(
+            item.key,
+            item.value,
+            item.subKey,
+            item.options || options
+            );
         } else if (isArray(item)) {
-          return this.setItem(item[0], item[1], item[2]);
+          return this.setItem(
+            item[0],
+            item[1],
+            item[2],
+            item[3] || options,
+          );
         }
       });
     }
@@ -308,7 +319,7 @@ export default class WebPorridge {
    * @param {*} payload
    * @returns {*}
    */
-  public dispatch(action: string, payload: Number | PayloadOptions) {
+  public dispatch(action: string, payload?: Number | PayloadOptions) {
     validateAction(action);
 
     const customEvent = new CustomEvent(
@@ -321,7 +332,7 @@ export default class WebPorridge {
       }
     );
 
-    (<any>global).dispatchEvent(customEvent);
+    return (<any>global).dispatchEvent(customEvent);
   }
 
   /**
@@ -344,13 +355,14 @@ export default class WebPorridge {
         subKey = payload.subKey || '';
         opts = options || {};
 
-        return this.getItem(key, subKey, options);
+        return this[action](key, subKey, options);
 
       case 'getItems':
+      case 'getMatch':
         key = payload;
         opts = options || {};
 
-        return this.getItems(key, options);
+        return this[action](key, options);
 
       case 'removeItem':
         key = payload.key;
@@ -369,7 +381,7 @@ export default class WebPorridge {
         value = payload.value;
         subKey = payload.subKey || '';
 
-        return this.setItem(key, value, subKey);
+        return this[action](key, value, subKey);
 
       case 'setItems':
         key = payload;
@@ -394,7 +406,7 @@ export default class WebPorridge {
     const inputs = Object.keys((<any>global)[this.storageType]) || [];
     const patterns = isArray(pattern)
       ? pattern
-      : [pattern]
+      : [pattern];
 
     return matcher(inputs, patterns, { caseSensitive: true });
   }

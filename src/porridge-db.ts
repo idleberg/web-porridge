@@ -106,14 +106,14 @@ export default class WebPorridgeDB {
 
   /**
    * Writes data items to WebStorage type
-   * @param {Array} item
+   * @param {Array} items
    * @param {Object} options
    * @returns {*}
    */
-  public async getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
-    if (isArray(input)) {
+  public async getItems(items: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
+    if (isArray(items)) {
       return await Promise.all(
-        await input.map(async item => {
+        await items.map(async item => {
           if (typeof item === 'string') {
             return await this.getItem(item, null, options);
           } else if (isObject(item)) {
@@ -234,17 +234,28 @@ export default class WebPorridgeDB {
 
   /**
    * Writes data items to WebStorage type
-   * @param {Array} item
+   * @param {Array} items
+   * @param {Object} options
    * @returns {*}
    */
-  public async setItems(input: PayloadOptions[]) {
-    if (isArray(input)) {
+  public async setItems(items: PayloadOptions[], options: WebPorridgeOptions = {}) {
+    if (isArray(items)) {
       return await Promise.all(
-        await input.map(async (item) => {
+        await items.map(async (item) => {
           if (isObject(item)) {
-            return await this.setItem(item.key, item.value, item.subKey);
+            return await this.setItem(
+              item.key,
+              item.value,
+              item.subKey,
+              item.options || options
+            );
           } else if (isArray(item)) {
-            return await this.setItem(item[0], item[1], item[2]);
+            return await this.setItem(
+              item[0],
+              item[1],
+              item[2],
+              item[3] || options,
+            );
           }
         })
       );
@@ -313,7 +324,7 @@ export default class WebPorridgeDB {
    * @param {*} payload
    * @returns {*}
    */
-  public dispatch(action: string, payload: Number | PayloadOptions) {
+  public dispatch(action: string, payload?: Number | PayloadOptions) {
     validateAction(action);
 
     const customEvent = new CustomEvent(
@@ -326,7 +337,7 @@ export default class WebPorridgeDB {
       }
     );
 
-    (<any>global).dispatchEvent(customEvent);
+    return (<any>global).dispatchEvent(customEvent);
   }
 
   /**
@@ -334,7 +345,7 @@ export default class WebPorridgeDB {
    * @param {Event} event
    * @returns {void}
    */
-  private eventHandler(event: Event) {
+  private async eventHandler(event: Event) {
     const { action, options, payload } = (<any>event).detail;
 
     validateAction(action);
@@ -349,24 +360,25 @@ export default class WebPorridgeDB {
         subKey = payload.subKey || '';
         opts = options || {};
 
-        return this[action](key, subKey, options);
+        return await this[action](key, subKey, options);
 
       case 'getItems':
+      case 'getMatch':
         key = payload;
         opts = options || {};
 
-        return this.getItems(key, options);
+        return await this[action](key, options);
 
       case 'removeItem':
         key = payload.key;
         subKey = payload.subKey || '';
 
-        return this.removeItem(key, subKey);
+        return await this.removeItem(key, subKey);
 
       case 'removeItems':
         key = payload;
 
-        return this.removeItems(key);
+        return await this.removeItems(key);
 
       case 'setItem':
       case 'setJSON':
@@ -374,21 +386,21 @@ export default class WebPorridgeDB {
         value = payload.value;
         subKey = payload.subKey || '';
 
-        return this[action](key, value, subKey);
+        return await this[action](key, value, subKey);
 
       case 'setItems':
         key = payload;
 
-        return this.setItems(key);
+        return await this.setItems(key);
 
       case 'key':
-        return this.key(payload);
+        return await this.key(payload);
 
       case 'length':
-        return this.length;
+        return await this.length;
 
       case 'clear':
-        return this.clear();
+        return await this.clear();
 
       default:
         break;
@@ -407,7 +419,7 @@ export default class WebPorridgeDB {
 
     const patterns = isArray(pattern)
     ? pattern
-    : [pattern]
+    : [pattern];
 
     return matcher(inputs, patterns, { caseSensitive: true });
   }

@@ -98,14 +98,18 @@ function isBase64(inputString: string) {
 function validateAction(action: string) {
   if (![
     'clear',
+    'getBase64',
+    'getJSON',
     'getItem',
     'getItems',
+    'getMatch',
     'key',
     'length',
     'removeItem',
     'removeItems',
     'setItem',
     'setItems',
+    'setJSON',
   ].includes(action)) {
     throw 'Invalid action argument provided';
   }
