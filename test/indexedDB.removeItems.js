@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
 import { WebPorridgeDB } from '../lib';
-const db = new WebPorridgeDB({ base64: true});
+const db = new WebPorridgeDB();
 
 import browserEnv from 'browser-env';
 import test from 'ava';
@@ -10,21 +10,14 @@ import { v4 as uuid } from 'uuid';
 
 browserEnv(['window']);
 
-import {
-  actualString,
-  actualObject,
-  invalidJSON,
-  actualBase64String,
-  actualBase64Object,
-  invalidBase64JSON,
-} from './shared';
+import * as shared from './shared';
 
 test('String', async t => {
   const firstItem = uuid();
   const secondItem = uuid();
 
-  await db.setItem(firstItem, actualString);
-  await db.setItem(secondItem, actualString);
+  await db.setItem(firstItem, shared.actualString);
+  await db.setItem(secondItem, shared.actualString);
 
   await db.removeItems([firstItem, secondItem]);
 
@@ -41,9 +34,9 @@ test('Object key', async t => {
   const secondItem = uuid();
   const thirdItem = uuid();
 
-  await db.setItem(firstItem, actualString);
-  await db.setItem(secondItem, actualObject);
-  await db.setItem(thirdItem, actualObject);
+  await db.setItem(firstItem, shared.actualString);
+  await db.setItem(secondItem, shared.actualObject);
+  await db.setItem(thirdItem, shared.actualObject);
 
   await db.removeItems([
     firstItem,

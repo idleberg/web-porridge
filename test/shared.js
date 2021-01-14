@@ -1,4 +1,4 @@
-const { localPorridge, base64Encode } = require('../lib');
+import { base64Encode } from '../lib/util';
 
 const actualString = 'Hello World!';
 const actualObject = {
@@ -9,11 +9,11 @@ const actualBase64String = base64Encode(actualString);
 const actualBase64Object = base64Encode(actualObject);
 const invalidBase64JSON = base64Encode(invalidJSON);
 
-module.exports = {
+export {
   actualString,
   actualObject,
   invalidJSON,
   actualBase64String,
   actualBase64Object,
   invalidBase64JSON
-}
+};

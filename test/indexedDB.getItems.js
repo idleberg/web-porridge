@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
 import { WebPorridgeDB } from '../lib';
-const db = new WebPorridgeDB({ base64: true});
+const db = new WebPorridgeDB();
 
 import browserEnv from 'browser-env';
 import test from 'ava';
@@ -10,44 +10,37 @@ import { v4 as uuid } from 'uuid';
 
 browserEnv(['window']);
 
-import {
-  actualString,
-  actualObject,
-  invalidJSON,
-  actualBase64String,
-  actualBase64Object,
-  invalidBase64JSON,
-} from './shared';
+import * as shared from './shared';
 
-test(`getItems(): String`, async t => {
+test(`String`, async t => {
   const firstItem = uuid();
   const secondItem = uuid();
 
-  await db.setItem(firstItem, actualString);
-  await db.setItem(secondItem, actualString);
+  await db.setItem(firstItem, shared.actualString);
+  await db.setItem(secondItem, shared.actualString);
 
   const actual = await db.getItems([firstItem, secondItem]);
 
-  t.deepEqual([actualString, actualString], actual);
+  t.deepEqual([shared.actualString, shared.actualString], actual);
 });
 
-test(`getItems(): Valid JSON`, async t => {
+test(`Valid JSON`, async t => {
   const firstItem = uuid();
   const secondItem = uuid();
 
-  await db.setItem(firstItem, JSON.stringify(actualObject));
-  await db.setItem(secondItem, JSON.stringify(actualObject));
+  await db.setItem(firstItem, JSON.stringify(shared.actualObject));
+  await db.setItem(secondItem, JSON.stringify(shared.actualObject));
 
   const actual = await db.getItems([firstItem, secondItem]);
 
-  t.deepEqual([actualObject, actualObject], actual);
+  t.deepEqual([shared.actualObject, shared.actualObject], actual);
 });
 
-test(`getItems(): Valid JSON (no decoding)`, async t => {
+test(`Valid JSON (no decoding)`, async t => {
   const firstItem = uuid();
   const secondItem = uuid();
 
-  const jsonString = JSON.stringify(actualObject);
+  const jsonString = JSON.stringify(shared.actualObject);
 
   await db.setItem(firstItem, jsonString);
   await db.setItem(secondItem, jsonString);
@@ -57,26 +50,26 @@ test(`getItems(): Valid JSON (no decoding)`, async t => {
   t.deepEqual([jsonString, jsonString], actual);
 });
 
-test(`getItems(): Invalid JSON`, async t => {
+test(`Invalid JSON`, async t => {
   const firstItem = uuid();
   const secondItem = uuid();
 
-  await db.setItem(firstItem, invalidJSON);
-  await db.setItem(secondItem, invalidJSON);
+  await db.setItem(firstItem, shared.invalidJSON);
+  await db.setItem(secondItem, shared.invalidJSON);
 
   const actual = await db.getItems([firstItem, secondItem]);
 
-  t.deepEqual([invalidJSON, invalidJSON], actual);
+  t.deepEqual([shared.invalidJSON, shared.invalidJSON], actual);
 });
 
-test(`getItems(): Object key`, async t => {
+test(`Object key`, async t => {
   const firstItem = uuid();
   const secondItem = uuid();
   const thirdItem = uuid();
 
-  await db.setItem(firstItem, JSON.stringify(actualObject));
-  await db.setItem(secondItem, JSON.stringify(actualObject));
-  await db.setItem(thirdItem, JSON.stringify(actualObject));
+  await db.setItem(firstItem, JSON.stringify(shared.actualObject));
+  await db.setItem(secondItem, JSON.stringify(shared.actualObject));
+  await db.setItem(thirdItem, JSON.stringify(shared.actualObject));
 
   const actual = await db.getItems([
     firstItem,
@@ -91,7 +84,7 @@ test(`getItems(): Object key`, async t => {
   ]);
 
   const expected = [
-    actualObject,
+    shared.actualObject,
     'Bye World!',
     'Bye World!'
   ]
@@ -99,7 +92,7 @@ test(`getItems(): Object key`, async t => {
   t.deepEqual(actual, expected);
 });
 
-test(`getItems(): true`, async t => {
+test(`true`, async t => {
  const firstItem = uuid();
   const secondItem = uuid();
 
@@ -111,7 +104,7 @@ test(`getItems(): true`, async t => {
   t.deepEqual([true, true], actual);
 });
 
-test(`getItems(): false`, async t => {
+test(`false`, async t => {
   const firstItem = uuid();
   const secondItem = uuid();
 
@@ -123,7 +116,7 @@ test(`getItems(): false`, async t => {
   t.deepEqual([false, false], actual);
 });
 
-test(`getItems(): null`, async t => {
+test(`null`, async t => {
   const firstItem = uuid();
   const secondItem = uuid();
 
@@ -135,7 +128,7 @@ test(`getItems(): null`, async t => {
   t.deepEqual([null, null], actual);
 });
 
-test(`getItems(): Int`, async t => {
+test(`Int`, async t => {
  const firstItem = uuid();
   const secondItem = uuid();
 
@@ -147,7 +140,7 @@ test(`getItems(): Int`, async t => {
   t.deepEqual([1, 1], actual);
 });
 
-test(`getItems(): Float`, async t => {
+test(`Float`, async t => {
   const firstItem = uuid();
   const secondItem = uuid();
   const thirdItem = uuid();

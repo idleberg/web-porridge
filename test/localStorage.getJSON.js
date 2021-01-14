@@ -1,42 +1,30 @@
 import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
-const { WebPorridge } = require('../lib');
-const localPorridge = new WebPorridge(
-  'localStorage',
-  {
-    base64: true
-  }
-);
+import { WebPorridge } from '../lib';
+const localPorridge = new WebPorridge('localStorage');
 
 import browserEnv from 'browser-env';
 import test from 'ava';
 
 browserEnv(['window']);
 
-import {
-  actualString,
-  actualObject,
-  invalidJSON,
-  actualBase64String,
-  actualBase64Object,
-  invalidBase64JSON,
-} from './shared';
+import * as shared from './shared';
 
 test('Valid JSON', t => {
-  localStorage.setItem('demo', JSON.stringify(actualObject));
+  localStorage.setItem('demo', JSON.stringify(shared.actualObject));
 
   const actual = localPorridge.getItem('demo');
 
-  t.deepEqual(actualObject, actual);
+  t.deepEqual(shared.actualObject, actual);
 });
 
 test('Invalid JSON', t => {
-  localStorage.setItem('demo', invalidJSON);
+  localStorage.setItem('demo', shared.invalidJSON);
 
   const actual = localPorridge.getItem('demo');
 
-  t.is(invalidJSON, actual);
+  t.is(shared.invalidJSON, actual);
 });
 
 test('true', t => {
@@ -85,16 +73,16 @@ test('null', t => {
 });
 
 test('Base64 Invalid JSON', t => {
-  localStorage.setItem('demo', invalidBase64JSON);
+  localStorage.setItem('demo', shared.invalidBase64JSON);
 
   const actual = localPorridge.getBase64('demo');
 
-  t.is(invalidJSON, actual);
+  t.is(shared.invalidJSON, actual);
 });
 
 test('Object key', t => {
 
-  localStorage.setItem('demo', JSON.stringify(actualObject));
+  localStorage.setItem('demo', JSON.stringify(shared.actualObject));
 
   const actual = localPorridge.getItem('demo', 'nested');
 

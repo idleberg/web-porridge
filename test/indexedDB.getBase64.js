@@ -2,55 +2,48 @@ import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
 import { WebPorridgeDB } from '../lib';
-const db = new WebPorridgeDB({ base64: true});
+const db = new WebPorridgeDB();
 
-import { base64Decode, base64Encode } from '../lib';
+import { base64Encode } from '../lib/util';
 import browserEnv from 'browser-env';
 import test from 'ava';
 import { v4 as uuid } from 'uuid';
 
 browserEnv(['window']);
 
-import {
-  actualString,
-  actualObject,
-  invalidJSON,
-  actualBase64String,
-  actualBase64Object,
-  invalidBase64JSON,
-} from './shared';
+import * as shared from './shared';
 
 test('Valid JSON', async t => {
   const itemName = uuid();
 
-  const expected = base64Encode(JSON.stringify(actualObject));
+  const expected = base64Encode(JSON.stringify(shared.actualObject));
   await db.setItem(itemName, expected);
 
   const actual = (await db.getBase64(itemName));
 
-  t.deepEqual(actual, actualObject);
+  t.deepEqual(actual, shared.actualObject);
 });
 
 test('Valid JSON (no decoding)', async t => {
   const itemName = uuid();
 
-  const encodedObject = base64Encode(JSON.stringify(actualObject));
+  const encodedObject = base64Encode(JSON.stringify(shared.actualObject));
   await db.setItem(itemName, encodedObject);
 
   const decodedPorridge = await db.getBase64(itemName, null, { json: false });
 
-  t.is(JSON.stringify(actualObject), decodedPorridge)
+  t.is(JSON.stringify(shared.actualObject), decodedPorridge)
 });
 
 test('Invalid JSON', async t => {
   const itemName = uuid();
 
-  const expected = base64Encode(invalidJSON);
+  const expected = base64Encode(shared.invalidJSON);
   await db.setItem(itemName, expected);
 
   const actual = await db.getBase64(itemName);
 
-  t.is(invalidJSON, actual)
+  t.is(shared.invalidJSON, actual)
 });
 
 test('true', async t => {

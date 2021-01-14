@@ -1,7 +1,10 @@
 import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
-const { localPorridge } = require('../lib');
+import { WebPorridgeDB } from '../lib';
+const db = new WebPorridgeDB();
+
+import { v4 as uuid } from 'uuid';
 import browserEnv from 'browser-env';
 import test from 'ava';
 
@@ -16,26 +19,28 @@ import {
   invalidBase64JSON,
 } from './shared';
 
-test('String', t => {
-  localPorridge.setItems([
+test('String', async t => {
+  const itemName = uuid();
+
+  await db.setItems([
     {
-      key: 'firstItem',
+      key: `first${itemName}`,
       value: actualString
     },
     {
-      key: 'secondItem',
+      key: `second${itemName}`,
       value: actualString
     },
     [
-      'thirdItem',
+      `third${itemName}`,
       actualString
     ]
   ]);
 
   const actual = [
-    localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem'),
-    localStorage.getItem('thirdItem')
+    await db.getItem(`first${itemName}`),
+    await db.getItem(`second${itemName}`),
+    await db.getItem(`third${itemName}`)
   ];
 
   const expected = [
@@ -47,26 +52,28 @@ test('String', t => {
   t.deepEqual(actual, expected);
 });
 
-test('Valid JSON', t => {
-  localPorridge.setItems([
+test('Valid JSON', async t => {
+  const itemName = uuid();
+
+  await db.setItems([
     {
-      key: 'firstItem',
+      key: `first${itemName}`,
       value: actualObject
     },
     {
-      key: 'secondItem',
+      key: `second${itemName}`,
       value: actualObject
     },
     [
-      'thirdItem',
+      `third${itemName}`,
       actualObject
     ]
   ]);
 
   const actual = [
-    JSON.parse(localStorage.getItem('firstItem')),
-    JSON.parse(localStorage.getItem('secondItem')),
-    JSON.parse(localStorage.getItem('thirdItem'))
+    await db.getItem(`first${itemName}`),
+    await db.getItem(`second${itemName}`),
+    await db.getItem(`third${itemName}`)
   ];
 
   const expected = [
@@ -78,26 +85,28 @@ test('Valid JSON', t => {
   t.deepEqual(actual, expected);
 });
 
-test('Invalid JSON', t => {
-  localPorridge.setItems([
+test('Invalid JSON', async t => {
+  const itemName = uuid();
+
+  await db.setItems([
     {
-      key: 'firstItem',
+      key: `first${itemName}`,
       value: invalidJSON
     },
     {
-      key: 'secondItem',
+      key: `second${itemName}`,
       value: invalidJSON
     },
     [
-      'thirdItem',
+      `third${itemName}`,
       invalidJSON
     ]
   ]);
 
   const actual = [
-    localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem'),
-    localStorage.getItem('thirdItem'),
+    await db.getItem(`first${itemName}`),
+    await db.getItem(`second${itemName}`),
+    await db.getItem(`third${itemName}`),
   ];
 
   const expected = [
@@ -109,44 +118,46 @@ test('Invalid JSON', t => {
   t.deepEqual(actual, expected);
 });
 
-test('Object key', t => {
-  localPorridge.setItems([
+test('Object key', async t => {
+  const itemName = uuid();
+
+  await db.setItems([
     {
-      key: 'firstItem',
+      key: `first${itemName}`,
       value: actualObject
     },
     {
-      key: 'secondItem',
+      key: `second${itemName}`,
       value: actualObject
     },
     [
-      'thirdItem',
+      `third${itemName}`,
       actualObject
     ]
   ]);
 
-  localPorridge.setItems([
+  await db.setItems([
     {
-      key: 'firstItem',
+      key: `first${itemName}`,
       value: actualString,
       subKey: 'nested'
     },
     {
-      key: 'secondItem',
+      key: `second${itemName}`,
       value: actualString,
       subKey: 'nested'
     },
     [
-      'thirdItem',
+      `third${itemName}`,
       actualString,
       'nested'
     ]
   ]);
 
   const actual = [
-    JSON.parse(localStorage.getItem('firstItem')).nested,
-    JSON.parse(localStorage.getItem('secondItem')).nested,
-    JSON.parse(localStorage.getItem('thirdItem')).nested
+   (await db.getItem(`first${itemName}`)).nested,
+   (await db.getItem(`second${itemName}`)).nested,
+   (await db.getItem(`third${itemName}`)).nested
   ];
 
   const expected = [
@@ -158,156 +169,166 @@ test('Object key', t => {
   t.deepEqual(actual, expected);
 });
 
-test('true', t => {
-  localPorridge.setItems([
+test('true', async t => {
+  const itemName = uuid();
+
+  await db.setItems([
     {
-      key: 'firstItem',
+      key: `first${itemName}`,
       value: true
     },
     {
-      key: 'secondItem',
+      key: `second${itemName}`,
       value: true
     },
     [
-      'thirdItem',
+      `third${itemName}`,
       true
     ]
   ]);
 
   const actual = [
-    localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem'),
-    localStorage.getItem('thirdItem')
+    await db.getItem(`first${itemName}`),
+    await db.getItem(`second${itemName}`),
+    await db.getItem(`third${itemName}`)
   ];
 
   const expected = [
-    'true',
-    'true',
-    'true'
+    true,
+    true,
+    true
   ];
 
   t.deepEqual(actual, expected);
 });
 
-test('false', t => {
-  localPorridge.setItems([
+test('false', async t => {
+  const itemName = uuid();
+
+  await db.setItems([
     {
-      key: 'firstItem',
+      key: `first${itemName}`,
       value: false
     },
     {
-      key: 'secondItem',
+      key: `second${itemName}`,
       value: false
     },
     [
-      'thirdItem',
+      `third${itemName}`,
       false
     ]
   ]);
 
   const actual = [
-    localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem'),
-    localStorage.getItem('thirdItem')
+    await db.getItem(`first${itemName}`),
+    await db.getItem(`second${itemName}`),
+    await db.getItem(`third${itemName}`)
   ];
 
   const expected = [
-    'false',
-    'false',
-    'false'
+    false,
+    false,
+    false
   ];
 
   t.deepEqual(actual, expected);
 });
 
-test('null', t => {
-  localPorridge.setItems([
+test('null', async t => {
+  const itemName = uuid();
+
+  await db.setItems([
     {
-      key: 'firstItem',
+      key: `first${itemName}`,
       value: null
     },
     {
-      key: 'secondItem',
+      key: `second${itemName}`,
       value: null
     },
     [
-      'thirdItem',
+      `third${itemName}`,
       null
     ]
   ]);
 
   const actual = [
-    localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem'),
-    localStorage.getItem('thirdItem')
+    await db.getItem(`first${itemName}`),
+    await db.getItem(`second${itemName}`),
+    await db.getItem(`third${itemName}`)
   ];
 
   const expected = [
-    'null',
-    'null',
-    'null'
+    null,
+    null,
+    null
   ];
 
   t.deepEqual(actual, expected);
 });
 
-test('Int', t => {
-  localPorridge.setItems([
+test('Int', async t => {
+  const itemName = uuid();
+
+  await db.setItems([
     {
-      key: 'firstItem',
+      key: `first${itemName}`,
       value: 1
     },
     {
-      key: 'secondItem',
+      key: `second${itemName}`,
       value: 1
     },
     [
-      'thirdItem',
+      `third${itemName}`,
       1
     ]
   ]);
 
   const actual = [
-    localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem'),
-    localStorage.getItem('thirdItem')
+    await db.getItem(`first${itemName}`),
+    await db.getItem(`second${itemName}`),
+    await db.getItem(`third${itemName}`)
   ];
 
   const expected = [
-    '1',
-    '1',
-    '1'
+    1,
+    1,
+    1
   ];
 
   t.deepEqual(actual, expected);
 });
 
-test('Float', t => {
-  localPorridge.setItems([
+test('Float', async t => {
+  const itemName = uuid();
+
+  await db.setItems([
     {
-      key: 'firstItem',
+      key: `first${itemName}`,
       value: 1.2
     },
     {
-      key: 'secondItem',
+      key: `second${itemName}`,
       value: 1.2
     },
     [
-      'thirdItem',
+      `third${itemName}`,
       1.2
     ]
   ]);
 
   const actual = [
-    localStorage.getItem('firstItem'),
-    localStorage.getItem('secondItem'),
-    localStorage.getItem('thirdItem')
+    await db.getItem(`first${itemName}`),
+    await db.getItem(`second${itemName}`),
+    await db.getItem(`third${itemName}`)
   ];
 
   const expected = [
-    '1.2',
-    '1.2',
-    '1.2'
+    1.2,
+    1.2,
+    1.2
   ];
 
   t.deepEqual(actual, expected);

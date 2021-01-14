@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
 import { WebPorridgeDB } from '../lib';
-const db = new WebPorridgeDB({ base64: true});
+const db = new WebPorridgeDB();
 
 import browserEnv from 'browser-env';
 import test from 'ava';
@@ -10,54 +10,47 @@ import { v4 as uuid } from 'uuid';
 
 browserEnv(['window']);
 
-import {
-  actualString,
-  actualObject,
-  invalidJSON,
-  actualBase64String,
-  actualBase64Object,
-  invalidBase64JSON,
-} from './shared';
+import * as shared from './shared';
 
 test('String', async t => {
   const itemName = uuid();
 
-  await db.setJSON(itemName, actualString);
+  await db.setJSON(itemName, shared.actualString);
 
   const actual = await db.getItem(itemName);
 
-  t.is(actualString, actual);
+  t.is(shared.actualString, actual);
 });
 
 test('Valid JSON', async t => {
   const itemName = uuid();
 
-  await db.setJSON(itemName, actualObject);
+  await db.setJSON(itemName, shared.actualObject);
 
   const actual = await db.getItem(itemName);
 
-  t.deepEqual(actualObject, actual);
+  t.deepEqual(shared.actualObject, actual);
 });
 
 test('Invalid JSON', async t => {
   const itemName = uuid();
 
-  await db.setJSON(itemName, invalidJSON);
+  await db.setJSON(itemName, shared.invalidJSON);
 
   const actual = await db.getItem(itemName);
 
-  t.is(invalidJSON, actual);
+  t.is(shared.invalidJSON, actual);
 });
 
 test('Object key', async t => {
   const itemName = uuid();
 
-  await db.setJSON(itemName, actualObject);
-  await db.setJSON(itemName, actualString, 'nested');
+  await db.setJSON(itemName, shared.actualObject);
+  await db.setJSON(itemName, shared.actualString, 'nested');
 
   const actual = (await db.getItem(itemName)).nested;
 
-  t.is(actualString, actual);
+  t.is(shared.actualString, actual);
 });
 
 test('true', async t => {

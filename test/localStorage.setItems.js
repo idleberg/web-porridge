@@ -1,34 +1,29 @@
 import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
-const { localPorridge } = require('../lib');
+import { WebPorridge } from '../lib';
+const localPorridge = new WebPorridge('localStorage');
+
 import browserEnv from 'browser-env';
 import test from 'ava';
 
 browserEnv(['window']);
 
-import {
-  actualString,
-  actualObject,
-  invalidJSON,
-  actualBase64String,
-  actualBase64Object,
-  invalidBase64JSON,
-} from './shared';
+import * as shared from './shared';
 
 test('String', t => {
   localPorridge.setItems([
     {
       key: 'firstItem',
-      value: actualString
+      value: shared.actualString
     },
     {
       key: 'secondItem',
-      value: actualString
+      value: shared.actualString
     },
     [
       'thirdItem',
-      actualString
+      shared.actualString
     ]
   ]);
 
@@ -39,9 +34,9 @@ test('String', t => {
   ];
 
   const expected = [
-    actualString,
-    actualString,
-    actualString
+    shared.actualString,
+    shared.actualString,
+    shared.actualString
   ];
 
   t.deepEqual(actual, expected);
@@ -51,15 +46,15 @@ test('Valid JSON', t => {
   localPorridge.setItems([
     {
       key: 'firstItem',
-      value: actualObject
+      value: shared.actualObject
     },
     {
       key: 'secondItem',
-      value: actualObject
+      value: shared.actualObject
     },
     [
       'thirdItem',
-      actualObject
+      shared.actualObject
     ]
   ]);
 
@@ -70,9 +65,9 @@ test('Valid JSON', t => {
   ];
 
   const expected = [
-    actualObject,
-    actualObject,
-    actualObject
+    shared.actualObject,
+    shared.actualObject,
+    shared.actualObject
   ];
 
   t.deepEqual(actual, expected);
@@ -82,15 +77,15 @@ test('Invalid JSON', t => {
   localPorridge.setItems([
     {
       key: 'firstItem',
-      value: invalidJSON
+      value: shared.invalidJSON
     },
     {
       key: 'secondItem',
-      value: invalidJSON
+      value: shared.invalidJSON
     },
     [
       'thirdItem',
-      invalidJSON
+      shared.invalidJSON
     ]
   ]);
 
@@ -101,9 +96,9 @@ test('Invalid JSON', t => {
   ];
 
   const expected = [
-    invalidJSON,
-    invalidJSON,
-    invalidJSON
+    shared.invalidJSON,
+    shared.invalidJSON,
+    shared.invalidJSON
   ]
 
   t.deepEqual(actual, expected);
@@ -113,32 +108,32 @@ test('Object key', t => {
   localPorridge.setItems([
     {
       key: 'firstItem',
-      value: actualObject
+      value: shared.actualObject
     },
     {
       key: 'secondItem',
-      value: actualObject
+      value: shared.actualObject
     },
     [
       'thirdItem',
-      actualObject
+      shared.actualObject
     ]
   ]);
 
   localPorridge.setItems([
     {
       key: 'firstItem',
-      value: actualString,
+      value: shared.actualString,
       subKey: 'nested'
     },
     {
       key: 'secondItem',
-      value: actualString,
+      value: shared.actualString,
       subKey: 'nested'
     },
     [
       'thirdItem',
-      actualString,
+      shared.actualString,
       'nested'
     ]
   ]);
@@ -150,9 +145,9 @@ test('Object key', t => {
   ];
 
   const expected = [
-    actualString,
-    actualString,
-    actualString
+    shared.actualString,
+    shared.actualString,
+    shared.actualString
   ];
 
   t.deepEqual(actual, expected);

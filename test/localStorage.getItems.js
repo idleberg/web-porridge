@@ -1,7 +1,9 @@
 import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
-const { localPorridge } = require('../lib');
+import { WebPorridge } from '../lib';
+const localPorridge = new WebPorridge('localStorage');
+
 import browserEnv from 'browser-env';
 import test from 'ava';
 
@@ -16,7 +18,7 @@ import {
   invalidBase64JSON,
 } from './shared';
 
-test(`getItems(): String`, t => {
+test(`String`, t => {
   localStorage.setItem('firstItem', actualString);
   localStorage.setItem('secondItem', actualString);
 
@@ -25,7 +27,7 @@ test(`getItems(): String`, t => {
   t.deepEqual([actualString, actualString], actual);
 });
 
-test(`getItems(): Valid JSON`, t => {
+test(`Valid JSON`, t => {
   localStorage.setItem('firstItem', JSON.stringify(actualObject));
   localStorage.setItem('secondItem', JSON.stringify(actualObject));
 
@@ -34,7 +36,7 @@ test(`getItems(): Valid JSON`, t => {
   t.deepEqual([actualObject, actualObject], actual);
 });
 
-test(`getItems(): Valid JSON (no decoding)`, t => {
+test(`Valid JSON (no decoding)`, t => {
   const jsonString = JSON.stringify(actualObject);
 
   localStorage.setItem('firstItem', jsonString);
@@ -45,7 +47,7 @@ test(`getItems(): Valid JSON (no decoding)`, t => {
   t.deepEqual([jsonString, jsonString], actual);
 });
 
-test(`getItems(): Invalid JSON`, t => {
+test(`Invalid JSON`, t => {
   localStorage.setItem('firstItem', invalidJSON);
   localStorage.setItem('secondItem', invalidJSON);
 
@@ -54,7 +56,7 @@ test(`getItems(): Invalid JSON`, t => {
   t.deepEqual([invalidJSON, invalidJSON], actual);
 });
 
-test(`getItems(): Object key`, t => {
+test(`Object key`, t => {
   localStorage.setItem('firstItem', JSON.stringify(actualObject));
   localStorage.setItem('secondItem', JSON.stringify(actualObject));
   localStorage.setItem('thirdItem', JSON.stringify(actualObject));
@@ -80,7 +82,7 @@ test(`getItems(): Object key`, t => {
   t.deepEqual(actual, expected);
 });
 
-test(`getItems(): true`, t => {
+test(`true`, t => {
   localStorage.setItem('firstItem', 'true');
   localStorage.setItem('secondItem', 'true');
 
@@ -89,7 +91,7 @@ test(`getItems(): true`, t => {
   t.deepEqual([true, true], actual);
 });
 
-test(`getItems(): false`, t => {
+test(`false`, t => {
   localStorage.setItem('firstItem', 'false');
   localStorage.setItem('secondItem', 'false');
 
@@ -98,7 +100,7 @@ test(`getItems(): false`, t => {
   t.deepEqual([false, false], actual);
 });
 
-test(`getItems(): null`, t => {
+test(`null`, t => {
   localStorage.setItem('firstItem', 'null');
   localStorage.setItem('secondItem', 'null');
 
@@ -107,7 +109,7 @@ test(`getItems(): null`, t => {
   t.deepEqual([null, null], actual);
 });
 
-test(`getItems(): Int`, t => {
+test(`Int`, t => {
   localStorage.setItem('firstItem', '1');
   localStorage.setItem('secondItem', '1');
 
@@ -116,7 +118,7 @@ test(`getItems(): Int`, t => {
   t.deepEqual([1, 1], actual);
 });
 
-test(`getItems(): Float`, t => {
+test(`Float`, t => {
   localStorage.setItem('firstItem', '1.2');
   localStorage.setItem('secondItem', '1.20');
   localStorage.setItem('thirdItem', '120');

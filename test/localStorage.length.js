@@ -1,7 +1,9 @@
 import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
-const { localPorridge } = require('../lib');
+import { WebPorridge } from '../lib';
+const localPorridge = new WebPorridge('localStorage');
+
 import browserEnv from 'browser-env';
 import test from 'ava';
 

@@ -1,23 +1,18 @@
 import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
 
-const { localPorridge } = require('../lib');
+import { WebPorridge } from '../lib';
+const localPorridge = new WebPorridge('localStorage');
+
 import browserEnv from 'browser-env';
 import test from 'ava';
 
 browserEnv(['window']);
 
-import {
-  actualString,
-  actualObject,
-  invalidJSON,
-  actualBase64String,
-  actualBase64Object,
-  invalidBase64JSON,
-} from './shared';
+import * as shared from './shared';
 
 test('String', t => {
-  localStorage.setItem('demo', actualString);
+  localStorage.setItem('demo', shared.actualString);
   localPorridge.removeItem('demo');
 
   const expected = null;
@@ -28,12 +23,12 @@ test('String', t => {
 
 test('Object key', t => {
   localStorage.setItem('demo', JSON.stringify({
-    ...actualObject,
+    ...shared.actualObject,
     deleteMe: true
   }));
   localPorridge.removeItem('demo', 'deleteMe');
 
   const actual = localStorage.getItem('demo')
 
-  t.is(actual, JSON.stringify(actualObject));
+  t.is(actual, JSON.stringify(shared.actualObject));
 });
