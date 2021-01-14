@@ -9,6 +9,7 @@ yarn-error.log
 yarn.lock
 
 # development
+.eslintcache
 *.map
 *.tsbuildinfo
 tslint-to-eslint-config.log

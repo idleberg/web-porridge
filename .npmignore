@@ -7,11 +7,13 @@ test/
 types/
 
 # Files
+.eslintcache
 .gitignore
 .travis.yml
 *.map
 *.tsbuildinfo
 gulpfile.js
+lib/util.*
 npm-debug.log*
 tsconfig.json
 tslint-to-eslint-config.log
