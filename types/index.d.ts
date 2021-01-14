@@ -1,13 +1,13 @@
-interface PayloadOptions {
+export interface PayloadOptions {
   key: string;
-  value?: Boolean | null | Object | string;
+  value?: boolean | null | unknown | string;
   subKey?: string;
   options?: WebPorridgeOptions;
 }
 
-interface WebPorridgeOptions {
-  base64?: Boolean;
+export interface WebPorridgeOptions {
   db?: string;
-  json?: Boolean;
+  keyVal?: boolean;
+  json?: boolean;
   store?: string;
 }
