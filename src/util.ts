@@ -1,18 +1,18 @@
+const serializables = [
+  '[object Array]',
+  '[object Boolean]',
+  '[object Null]',
+  '[object Object]'
+];
+
 /**
  * Checks whether input data requires deserialization after reading it from WebStorage
  * @param {*} inputData
  * @returns {boolean}
  */
-function maybeDeserialize(inputData): boolean {
-  const serializables = [
-    '[object Array]',
-    '[object Boolean]',
-    '[object Null]',
-    '[object Object]'
-  ];
-
+function maybeDeserialize(inputData: string): boolean {
   try {
-    const result = JSON.parse(inputData);
+    const result: any = JSON.parse(inputData);
     const type: string = Object.prototype.toString.call(result);
 
     return serializables.includes(type) || (type === '[object Number]' && isSerializableNumber(inputData));
@@ -27,17 +27,8 @@ function maybeDeserialize(inputData): boolean {
  * @param {*} inputString
  * @returns {boolean}
  */
-function maybeSerialize(inputString: string | Object): boolean {
-  const serializables = [
-    '[object Array]',
-    '[object Boolean]',
-    '[object Null]',
-    '[object Number]',
-    '[object Object]'
-  ];
-
-
-   const type: string = Object.prototype.toString.call(inputString);
+function maybeSerialize(inputString: string | unknown): boolean {
+  const type: string = Object.prototype.toString.call(inputString);
 
   return serializables.includes(type);
 }
@@ -48,7 +39,7 @@ function maybeSerialize(inputString: string | Object): boolean {
  * @param {object} options
  * @returns {string|Object}
  */
-function maybeBase64Decode(inputString: string, decodeJSON: Boolean = true) {
+function maybeBase64Decode(inputString: string, decodeJSON = true): string | unknown {
 
   const outputString: string = isString(inputString) && isBase64(inputString)
     ? base64Decode(inputString)
@@ -65,7 +56,9 @@ function maybeBase64Decode(inputString: string, decodeJSON: Boolean = true) {
  * @returns {string}
  */
 function base64Encode(inputString: string): string {
-  const outputString: string = (maybeSerialize(inputString)) ? JSON.stringify(inputString) : inputString;
+  const outputString: string = (maybeSerialize(inputString))
+    ? JSON.stringify(inputString)
+    : String(inputString);
 
   return Buffer.from(outputString).toString('base64');
 }
@@ -85,7 +78,7 @@ function base64Decode(inputString: string): string {
  * @returns {boolean}
  */
 function isBase64(inputString: string) {
-  const base64RegEx = '(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\/]{3}=)?';
+  const base64RegEx = '(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+/]{3}=)?';
 
   return new RegExp(`^${base64RegEx}$`, 'gi').test(inputString);
 }
@@ -95,32 +88,32 @@ function isBase64(inputString: string) {
  * @param {string} action
  * @returns {boolean}
  */
-function validateAction(action: string) {
-  if (![
-    'clear',
-    'getBase64',
-    'getJSON',
-    'getItem',
-    'getItems',
-    'getMatch',
-    'key',
-    'length',
-    'removeItem',
-    'removeItems',
-    'setItem',
-    'setItems',
-    'setJSON',
-  ].includes(action)) {
-    throw 'Invalid action argument provided';
-  }
-}
+// function validateAction(action: string) {
+//   if (![
+//     'clear',
+//     'getBase64',
+//     'getJSON',
+//     'getItem',
+//     'getItems',
+//     'getMatch',
+//     'key',
+//     'length',
+//     'removeItem',
+//     'removeItems',
+//     'setItem',
+//     'setItems',
+//     'setJSON',
+//   ].includes(action)) {
+//     throw 'Invalid action argument provided';
+//   }
+// }
 
 /**
  * Detect whether input is of type Array
  * @param {*} inputData
  * @returns {boolean}
  */
-function isArray(inputData) {
+function isArray(inputData: unknown): boolean {
   return Object.prototype.toString.call(inputData) === '[object Array]';
 }
 
@@ -129,7 +122,7 @@ function isArray(inputData) {
  * @param {*} inputData
  * @returns {boolean}
  */
-function isObject(inputData) {
+function isObject(inputData: unknown): boolean {
   return Object.prototype.toString.call(inputData) === '[object Object]';
 }
 
@@ -138,7 +131,7 @@ function isObject(inputData) {
  * @param {*} inputData
  * @returns {boolean}
  */
-function isString(inputData) {
+function isString(inputData: unknown): boolean {
   return Object.prototype.toString.call(inputData) === '[object String]';
 }
 
@@ -147,7 +140,7 @@ function isString(inputData) {
  * @param {*} inputData
  * @returns {boolean}
  */
-function isSerializableNumber(inputData) {
+function isSerializableNumber(inputData: any): boolean {
   return !isNaN(parseFloat(inputData)) && parseFloat(inputData.toString()).toString() === inputData.toString();
 }
 
@@ -160,6 +153,5 @@ export {
   isSerializableNumber,
   maybeBase64Decode,
   maybeDeserialize,
-  maybeSerialize,
-  validateAction
+  maybeSerialize
 };

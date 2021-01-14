@@ -1,12 +1,13 @@
-import * as matcher from 'matcher';
+import matcher from 'matcher';
+import { PayloadOptions, WebPorridgeOptions } from '../types';
 
 import {
   clear,
+  createStore,
   del as removeItem,
   get as getItem,
   keys,
-  set as setItem,
-  Store
+  set as setItem
 } from 'idb-keyval';
 
 import * as dotProp from 'dot-prop';
@@ -16,12 +17,11 @@ import {
   isObject,
   maybeBase64Decode,
   maybeDeserialize,
-  maybeSerialize,
-  validateAction
+  maybeSerialize
 } from './util';
 
 export default class WebPorridgeDB {
-  title: string = 'WebPorridge';
+  title = 'WebPorridge';
   store;
 
   // default options
@@ -32,22 +32,22 @@ export default class WebPorridgeDB {
   };
 
   constructor(userOptions: WebPorridgeOptions = {}) {
-    if (typeof <any>window !== 'undefined' && !('indexedDB' in window)) {
+    if (typeof <unknown>window !== 'undefined' && !('indexedDB' in window)) {
       throw Error(`Your browser does not support IndexedDB`);
     }
 
     this.options = { ...this.options, ...userOptions };
-    this.store = new Store(this.options.db, this.options.store);
+    this.store = createStore(this.options.db, this.options.store);
   }
 
   /**
    * Reads single data item from WebStorage type
-   * @param {String} item
-   * @param {Object} subKeyName
-   * @param {Object} options
-   * @returns {*}
+   * @param item
+   * @param subKeyName
+   * @param options
+   * @returns
    */
-  public async getItem(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
+  public async getItem(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}): Promise<string | unknown> {
     options = {
       ...this.options,
       ...options
@@ -58,7 +58,7 @@ export default class WebPorridgeDB {
       return dotProp.get(currentItem, subKeyName);
     }
 
-    let value: string = await getItem(keyName, this.store) ?? null;
+    const value: string = await getItem(keyName, this.store) ?? null;
 
     return (value && maybeDeserialize(value) && options.json === true)
       ? JSON.parse(value)
@@ -67,32 +67,32 @@ export default class WebPorridgeDB {
 
   /**
    * Reads and decodes JSON string from WebStorage type
-   * @param {String} keyName
-   * @param {Object} subKeyName
-   * @returns {*}
+   * @param keyName
+   * @param subKeyName
+   * @returns
    */
-  public async getJSON(keyName: string, subKeyName: string | null = '') {
+  public async getJSON(keyName: string, subKeyName: string | null = ''): Promise<unknown> {
     return await this.getItem(keyName, subKeyName, { json: true });
   }
 
   /**
    * Reads and decodes Base64 string from WebStorage type
-   * @param {String} keyName
-   * @param {Object} subKeyName
-   * @param {Object} options
-   * @returns {*}
+   * @param keyName
+   * @param subKeyName
+   * @param options
+   * @returns
    */
-  public async getBase64(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
+  public async getBase64(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}): Promise<string | unknown> {
     options = {
       ...this.options,
       ...options
     };
 
-    const encodedItem = await this.getItem(keyName, null, options);
+    const encodedItem: any = await this.getItem(keyName, null, options);
     let value;
 
     if (subKeyName?.length || options.json) {
-      const decodedItem = maybeBase64Decode(encodedItem, options.json);
+      const decodedItem = maybeBase64Decode(encodedItem);
 
       value = subKeyName?.length
         ? dotProp.get(decodedItem, subKeyName)
@@ -106,30 +106,44 @@ export default class WebPorridgeDB {
 
   /**
    * Writes data items to WebStorage type
-   * @param {Array} items
-   * @param {Object} options
-   * @returns {*}
+   * @param items
+   * @param options
+   * @returns
    */
-  public async getItems(items: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
+  public async getItems(items: (string | PayloadOptions)[], options: WebPorridgeOptions = {}): Promise<string | unknown> {
     if (isArray(items)) {
+      let result;
+
       return await Promise.all(
         await items.map(async item => {
           if (typeof item === 'string') {
-            return await this.getItem(item, null, options);
+            result = await this.getItem(item, null, options);
+
+            return options.keyVal
+              ? {[item]: result}
+              : result
           } else if (isObject(item)) {
             options = {
               ...options,
               ...item.options
             };
 
-            return await this.getItem(item.key, item.subKey, options);
+            result = await this.getItem(item.key, item.subKey, options);
+
+            return options.keyVal
+              ? {[item.key]: result}
+              : result
           } else if (isArray(item)) {
             options = {
               ...options,
               ...item[2]
             };
 
-            return await this.getItem(item[0], item[1], options);
+            result = await this.getItem(item[0], item[1], options);
+
+            return options.keyVal
+              ? {[item[0]]: result}
+              : result
           }
         })
       );
@@ -138,11 +152,11 @@ export default class WebPorridgeDB {
 
   /**
    * Reads string matching a wildcard from WebStorage type
-   * @param {String|Array} keyName
-   * @param {Object} subKeyName
-   * @returns {*}
+   * @param keyName
+   * @param subKeyName
+   * @returns
    */
-  public async getMatch(keyName: string | string[], subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
+  public async getMatch(keyName: string | string[], subKeyName: string | null = '', options: WebPorridgeOptions = {}): Promise<string | unknown> {
     const matchingItems: PayloadOptions[] = (await this.getMatches(keyName))
       .map(item =>  (
         {
@@ -158,10 +172,10 @@ export default class WebPorridgeDB {
 
   /**
    * Removes single data item from WebStorage type
-   * @param {String} item
-   * @param {Object} subKeyName
+   * @param item
+   * @param subKeyName
    */
-  public async removeItem(keyName: string, subKeyName: string = '') {
+  public async removeItem(keyName: string, subKeyName = ''): Promise<void> {
     if (subKeyName) {
       const currentItem = await this.getItem(keyName) || {};
       dotProp.delete(currentItem, subKeyName);
@@ -174,9 +188,9 @@ export default class WebPorridgeDB {
 
   /**
    * Removes datas item from WebStorage type
-   * @param {Array} items
+   * @param items
    */
-  public async removeItems(items: (string | PayloadOptions)[], subKeyName: string = '') {
+  public async removeItems(items: (string | PayloadOptions)[], subKeyName = ''): Promise<void[]> {
     if (isArray(items)) {
       return await Promise.all(
         await items.map(async (item) => {
@@ -194,10 +208,10 @@ export default class WebPorridgeDB {
 
   /**
    * Removes item matching a wildcard from WebStorage type
-   * @param {String} keyName
-   * @param {Object} subKeyName
+   * @param keyName
+   * @param subKeyName
    */
-  public async removeMatch(keyName: string, subKeyName: string = '') {
+  public async removeMatch(keyName: string, subKeyName = ''): Promise<void[]> {
     if (keyName === '*') {
       this.clear();
     }
@@ -205,27 +219,32 @@ export default class WebPorridgeDB {
     const matchingItems: string[] = await this.getMatches(keyName);
 
     return matchingItems.length
-      ? this.removeItems(matchingItems)
+      ? this.removeItems(matchingItems, subKeyName)
       : null;
   }
 
   /**
    * Writes single data item to WebStorage type
-   * @param {String} item
-   * @param {*} keyValue
-   * @param {String} subKeyName
-   * @param {Object} options
-   * @returns {*}
+   * @param item
+   * @param keyValue
+   * @param subKeyName
+   * @param options
+   * @returns
    */
-  public async setItem(keyName: string, keyValue: any, subKeyName: string = '', options: WebPorridgeOptions = {}) {
-    if (subKeyName?.length || options.json === true) {
+  public async setItem(keyName: string, keyValue: unknown, subKeyName = '', options: WebPorridgeOptions = {}): Promise<void> {
+    options = {
+      ...this.options,
+      ...options
+    };
+
+    if (subKeyName?.length) {
       const currentItem = await this.getItem(keyName) || {};
       dotProp.set(currentItem, subKeyName, keyValue);
 
       return await this.setItem(keyName, currentItem);
     }
 
-    const newValue = (maybeSerialize(keyValue))
+    const newValue = (options.json === false)
       ? JSON.stringify(keyValue)
       : keyValue;
 
@@ -234,11 +253,11 @@ export default class WebPorridgeDB {
 
   /**
    * Writes data items to WebStorage type
-   * @param {Array} items
-   * @param {Object} options
-   * @returns {*}
+   * @param items
+   * @param options
+   * @returns
    */
-  public async setItems(items: PayloadOptions[], options: WebPorridgeOptions = {}) {
+  public async setItems(items: PayloadOptions[], options: WebPorridgeOptions = {}): Promise<void[]> {
     if (isArray(items)) {
       return await Promise.all(
         await items.map(async (item) => {
@@ -264,29 +283,29 @@ export default class WebPorridgeDB {
 
   /**
    * Writes single data item to WebStorage type
-   * @param {String} item
-   * @param {*} keyValue
-   * @param {String} subKeyName
-   * @returns {*}
+   * @param item
+   * @param keyValue
+   * @param subKeyName
+   * @returns
    */
-  public async setJSON(keyName: string, keyValue: any, subKeyName: string = '') {
-    return await this.setItem(keyName, keyValue, subKeyName, { json: false });
+  public async setJSON(keyName: string, keyValue: unknown, subKeyName = ''): Promise<void> {
+    return await this.setItem(keyName, keyValue, subKeyName, { json: true });
   }
 
   /**
    * Returns the length of WebStorage type
-   * @param {Integer} index
-   * @returns {*}
+   * @param index
+   * @returns
    */
-  public async key(index: number) {
+  public async key(index: number): Promise<string | unknown> {
     return (await keys(this.store))[index];
   }
 
   /**
    * Returns the length of WebStorage type
-   * @returns {Integer}
+   * @returns
    */
-  public get length() {
+  public get length(): Promise<number> {
     return (async () => {
       return (await keys(this.store)).length;
     })();
@@ -294,9 +313,9 @@ export default class WebPorridgeDB {
 
   /**
    * Clears WebStorage type
-   * @returns {*}
+   * @returns
    */
-  public async clear() {
+  public async clear(): Promise<void> {
     return await clear(this.store);
   }
 
@@ -311,8 +330,8 @@ export default class WebPorridgeDB {
     }
 
     const patterns = isArray(pattern)
-    ? pattern
-    : [pattern];
+      ? pattern
+      : [pattern];
 
     return matcher(inputs, patterns, { caseSensitive: true });
   }
