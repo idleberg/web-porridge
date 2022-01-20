@@ -86,8 +86,7 @@
     "tabWidth": 4
   },
   "lint-staged": {
-    "*.ts": "eslint --cache --fix",
-    "*.json": "jsonlint --quiet",
+    "*.{json|ts}": "eslint --cache --fix",
     "*.md": "prettier --write"
   }
 }
