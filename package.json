@@ -43,7 +43,7 @@
   "dependencies": {
     "dot-prop": "^6.0.1",
     "idb-keyval": "^6.1.0",
-    "matcher": "^5.0.0"
+    "matcher": "^4.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
