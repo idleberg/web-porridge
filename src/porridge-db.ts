@@ -144,6 +144,10 @@ export class WebPorridgeDB {
    * @returns
    */
   public async clear(): Promise<void> {
+    eventDispatcher(eventName, {
+      value: null
+    });
+
     return await clear(this.store);
   }
 

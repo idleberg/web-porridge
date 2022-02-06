@@ -134,6 +134,10 @@ export class WebPorridge {
    * @returns
    */
   public clear(): void {
+    eventDispatcher(eventName, {
+      value: null
+    });
+
     return (<any>globalThis)[this.type].clear();
   }
 
