@@ -25,10 +25,11 @@ Feature-enhanced wrapper for [Web Storage API][] and [IndexedDB API][], one inte
 All methods and properties of the [Web Storage API][] have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
 
 ```ts
-import { WebPorridge } from 'web-porridge';
+import { WebPorridge, WebPorridgeDB } from 'web-porridge';
 
-const localPorridge = new WebPorridge('localStorage');
+const localPorridge = new WebPorridge('localStorage' /* optional */);
 const sessionPorridge = new WebPorridge('sessionStorage');
+const indexedDB = new WebPorridgeDB();
 ```
 
 ### Browser
@@ -39,9 +40,9 @@ It's intended to import the library in your code, but you can also use the `dist
 <summary><strong>Example</strong></summary>
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/porridge.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/lib/web-porridge.esm.js"></script>
 
-<script>
+<script type="module">
     document.addEventListener('DOMContentLoaded', function () {
         const localPorridge = new WebPorridge('localStorage');
         const sessionPorridge = new WebPorridge('sessionStorage');
@@ -49,7 +50,7 @@ It's intended to import the library in your code, but you can also use the `dist
 </script>
 ```
 
-:warning: For performance reasons, it's recommend using an explicit version number (such as `0.15.2`) in URLs when loading from a CDN
+:warning: When you embed the module from JSDeliver (or other CDNs), make sure to replace `latest` for a specific version. Otherwise, page loading will be slow.
 
 </details>
 
