@@ -5,7 +5,7 @@
 [![CI](https://img.shields.io/github/workflow/status/idleberg/web-porridge/CI?style=flat-square)](https://github.com/idleberg/web-porridge/actions)
 [![David](https://flat.badgen.net/david/dep/idleberg/web-porridge)](https://david-dm.org/idleberg/web-porridge)
 
-Common, feature-enhanced wrapper for [Web Storage API][] and [IndexedDB API][]
+Feature-enhanced wrapper for [Web Storage API][] and [IndexedDB API][], one interface to rule them all
 
 **Features**
 
