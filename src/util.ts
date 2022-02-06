@@ -85,11 +85,15 @@ function didExpire(expires: string): boolean {
 }
 
 function eventDispatcher(eventName, payload) {
-  window.dispatchEvent(
-    new CustomEvent(eventName, {
-      detail: payload
-    })
-  );
+  try {
+    window.dispatchEvent(
+      new CustomEvent(eventName, {
+        detail: payload
+      })
+    );
+  } catch (err) {
+    // CustomEvent is not defined
+  }
 }
 
 function eventListener(eventName: string, keyName: string, callback: (payload: any) => void): void {
