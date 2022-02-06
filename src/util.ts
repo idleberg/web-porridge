@@ -5,23 +5,23 @@ const storageKeys: WebPorridge.StorageKeys = {
 };
 
 /**
- * Base64-encodes input string. Supports serialization
- * @param {*} inputString
+ * Serializes a given type into a string
+ * @param {*} item
  * @returns {string}
  */
- function serialize(inputString: unknown): unknown {
-   switch (typeof inputString) {
+ function serialize(item: unknown): unknown {
+   switch (typeof item) {
     case 'bigint':
-       return inputString.toString();
+       return item.toString();
 
     default:
-      return inputString;
+      return item;
    }
 }
 
 /**
- * Base64-decodes input string
- * @param {*} item
+ * Deserializes string into given type
+ * @param {string} item
  * @returns {*}
  */
 function deserialize(item): unknown {
@@ -39,22 +39,13 @@ function deserialize(item): unknown {
   }
 }
 
-
-function stringify(input: unknown) {
-  switch (typeof input) {
-    case 'string':
-      return input;
-
-    case 'bigint':
-      return input.toString();
-
-    default:
-      return JSON.stringify(input);
-  }
-}
-
-function getType(inputData: unknown): string {
-  const type = Object.prototype.toString.call(inputData);
+/**
+* Returns the type of a given item
+* @param {*} item
+* @returns {string}
+*/
+function getType(item: any): string {
+  const type = Object.prototype.toString.call(item);
 
   switch (type) {
     case '[object Array]':
@@ -84,6 +75,11 @@ function getType(inputData: unknown): string {
   }
 }
 
+/**
+* Runs a check whether a storage item has expired
+* @param {string} expires
+* @returns {boolean}
+*/
 function didExpire(expires: string): boolean {
   return expires && new Date(expires) <= new Date();
 }
