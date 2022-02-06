@@ -14,6 +14,10 @@ declare namespace WebPorridge {
     '@key'?: string;
     '@type': 'boolean' | 'null' | 'number' | 'object' | 'string' | 'undefined';
   }
+  interface EventPayload {
+    'before': any;
+    'after': any;
+  }
 
   interface StorageKeys {
     expires: '@expires';

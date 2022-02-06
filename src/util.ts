@@ -7,7 +7,7 @@ const storageKeys: WebPorridge.StorageKeys = {
 /**
  * Serializes a given type into a string
  * @param {*} item
- * @returns {string}
+ * @returns {String}
  */
  function serialize(item: unknown): unknown {
    switch (typeof item) {
@@ -21,7 +21,7 @@ const storageKeys: WebPorridge.StorageKeys = {
 
 /**
  * Deserializes string into given type
- * @param {string} item
+ * @param {String} item
  * @returns {*}
  */
 function deserialize(item): unknown {
@@ -42,7 +42,7 @@ function deserialize(item): unknown {
 /**
 * Returns the type of a given item
 * @param {*} item
-* @returns {string}
+* @returns {String}
 */
 function getType(item: any): string {
   const type = Object.prototype.toString.call(item);
@@ -77,7 +77,7 @@ function getType(item: any): string {
 
 /**
 * Runs a check whether a storage item has expired
-* @param {string} expires
+* @param {String} expires
 * @returns {boolean}
 */
 function didExpire(expires: string): boolean {

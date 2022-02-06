@@ -8,11 +8,12 @@ import {
   storageKeys
 } from './util';
 
+const eventName = 'web-porridge:storage.didChange';
+
 const validStorageTypes = [
   'localStorage',
   'sessionStorage'
 ];
-
 export class WebPorridge {
   type: string;
 
@@ -24,6 +25,14 @@ export class WebPorridge {
     }
 
     this.type = type;
+  }
+
+  #dispatcher(payload) {
+    window.dispatchEvent(
+      new CustomEvent(eventName, {
+        detail: payload
+      })
+    );
   }
 
   /**
@@ -55,6 +64,12 @@ export class WebPorridge {
     if (options?.expires && String(options.expires).length) {
       newValue[storageKeys.expires] = new Date(options.expires);
     }
+
+    this.#dispatcher({
+      key: keyName,
+      before: this.getItem(keyName),
+      after: keyValue
+    });
 
     return (<any>globalThis)[this.type].setItem(keyName, JSON.stringify(newValue));
   }
@@ -96,6 +111,12 @@ export class WebPorridge {
       return this.setItem(keyName, item);
     }
 
+    this.#dispatcher({
+      key: keyName,
+      before: this.getItem(keyName),
+      after: null
+    });
+
     return (<any>globalThis)[this.type].removeItem(keyName);
   }
 
@@ -122,5 +143,54 @@ export class WebPorridge {
    */
   public clear(): void {
     return (<any>globalThis)[this.type].clear();
+  }
+
+  /**
+   * Returns whether WebStorage contains property
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public hasItem(keyName: string): boolean {
+    return Object.keys(<any>globalThis[this.type]).includes(keyName);
+  }
+
+  /**
+   * Returns an array of WebStorage's enumerable property names
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public keys(): string[] {
+    return Object.keys(<any>globalThis[this.type]);
+  }
+
+  /**
+   * Returns an array of WebStorage's enumerable property values
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public values(): any[] {
+    return Object.keys(<any>globalThis[this.type])
+      .map(item => this.getItem(item));
+  }
+
+  /**
+   * Returns an array of WebStorage's own enumerable string-keyed property `[key, value]` pairs
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public entries(): any[] {
+    return Object.keys(<any>globalThis[this.type])
+      .map(item => [item, this.getItem(item)]);
+  }
+
+  public observe(keyName: string, callback: (payload: WebPorridge.EventPayload) => void): void {
+    window.addEventListener(eventName, (e: CustomEvent) => {
+      if (e.detail.key === keyName) {
+        callback({
+          before: e.detail.before,
+          after: e.detail.after
+        });
+      }
+    });
   }
 }

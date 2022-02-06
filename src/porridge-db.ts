@@ -6,7 +6,7 @@ import {
   del as removeItemIdb,
   get as getItemIdb,
   keys,
-  set as setItemIdb
+  set as setItemIdb,
 } from 'idb-keyval';
 
 import {
@@ -16,6 +16,8 @@ import {
   serialize,
   storageKeys
 } from './util';
+
+const eventName = 'web-porridge:db.didChange';
 
 export class WebPorridgeDB {
   store;
@@ -32,6 +34,14 @@ export class WebPorridgeDB {
     }
 
     this.store = createStore(db, name);
+  }
+
+  #dispatcher(payload) {
+    window.dispatchEvent(
+      new CustomEvent(eventName, {
+        detail: payload
+      })
+    );
   }
 
   /**
@@ -63,6 +73,12 @@ export class WebPorridgeDB {
     if (options?.expires && String(options.expires).length) {
       newValue[storageKeys.expires] = new Date(options.expires);
     }
+
+    this.#dispatcher({
+      key: keyName,
+      before: await this.getItem(keyName),
+      after: keyValue
+    });
 
     return await setItemIdb(keyName, newValue, this.store);
   }
@@ -104,6 +120,12 @@ export class WebPorridgeDB {
       return await this.setItem(keyName, item);
     }
 
+    this.#dispatcher({
+      key: keyName,
+      before: await this.getItem(keyName),
+      after: null
+    });
+
     return await removeItemIdb(keyName, this.store);
   }
 
@@ -132,5 +154,58 @@ export class WebPorridgeDB {
    */
   public async clear(): Promise<void> {
     return await clear(this.store);
+  }
+
+  /**
+   * Returns whether IndexedDB contains property
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public async hasItem(keyName: string): Promise<boolean> {
+     return (await keys(this.store)).includes(keyName);
+   }
+
+  /**
+   * Returns an array of IndexedDB's enumerable property names
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+   public async keys(): Promise<string[]> {
+    return await keys(this.store);
+  }
+
+  /**
+   * Returns an array of IndexedDB's enumerable property values
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public async values(): Promise<any[]> {
+    return Promise.all(
+      (await keys(this.store))
+        .map(async (item: string) => await this.getItem(item))
+    );
+  }
+
+  /**
+   * Returns an array of IndexedDB's own enumerable string-keyed property `[key, value]` pairs
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public async entries(): Promise<[IDBValidKey, any][]> {
+    return Promise.all(
+      (await keys(this.store))
+        .map(async (item: string) => [item, await this.getItem(item)])
+    );
+  }
+
+  public observe(keyName: string, callback: (payload: WebPorridge.EventPayload) => void): void {
+    window.addEventListener(eventName, (e: CustomEvent) => {
+      if (e.detail.key === keyName) {
+        callback({
+          before: e.detail.before,
+          after: e.detail.after
+        });
+      }
+    });
   }
 }
