@@ -92,7 +92,7 @@ function eventDispatcher(eventName, payload) {
       })
     );
   } catch (err) {
-    // CustomEvent is not defined
+    // TODO: fix CustomEvent failing on NodeJS
   }
 }
 
