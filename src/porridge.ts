@@ -3,6 +3,8 @@ import { getProperty, setProperty, deleteProperty } from 'dot-prop';
 import {
   deserialize,
   didExpire,
+  eventDispatcher,
+  eventListener,
   getType,
   serialize,
   storageKeys
@@ -25,14 +27,6 @@ export class WebPorridge {
     }
 
     this.type = type;
-  }
-
-  #dispatcher(payload) {
-    window.dispatchEvent(
-      new CustomEvent(eventName, {
-        detail: payload
-      })
-    );
   }
 
   /**
@@ -65,7 +59,7 @@ export class WebPorridge {
       newValue[storageKeys.expires] = new Date(options.expires);
     }
 
-    this.#dispatcher({
+    eventDispatcher(eventName, {
       key: keyName,
       before: this.getItem(keyName),
       after: keyValue
@@ -111,7 +105,7 @@ export class WebPorridge {
       return this.setItem(keyName, item);
     }
 
-    this.#dispatcher({
+    eventDispatcher(eventName, {
       key: keyName,
       before: this.getItem(keyName),
       after: null
@@ -184,13 +178,6 @@ export class WebPorridge {
   }
 
   public observe(keyName: string, callback: (payload: WebPorridge.EventPayload) => void): void {
-    window.addEventListener(eventName, (e: CustomEvent) => {
-      if (e.detail.key === keyName) {
-        callback({
-          before: e.detail.before,
-          after: e.detail.after
-        });
-      }
-    });
+    eventListener(eventName, keyName, callback);
   }
 }

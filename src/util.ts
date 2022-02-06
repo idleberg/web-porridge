@@ -58,7 +58,7 @@ function getType(item: any): string {
     case '[object Boolean]':
       return 'boolean';
 
-    case '[objectNull]':
+    case '[object Null]':
       return 'null';
 
     case '[object Number]':
@@ -84,9 +84,30 @@ function didExpire(expires: string): boolean {
   return expires && new Date(expires) <= new Date();
 }
 
+function eventDispatcher(eventName, payload) {
+  window.dispatchEvent(
+    new CustomEvent(eventName, {
+      detail: payload
+    })
+  );
+}
+
+function eventListener(eventName: string, keyName: string, callback: (payload: WebPorridge.EventPayload) => void): void {
+  window.addEventListener(eventName, (e: CustomEvent) => {
+    if (e.detail.key === keyName) {
+      callback({
+        before: e.detail.before,
+        after: e.detail.after
+      });
+    }
+  });
+}
+
 export {
   deserialize,
   didExpire,
+  eventDispatcher,
+  eventListener,
   getType,
   serialize,
   storageKeys

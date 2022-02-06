@@ -12,6 +12,8 @@ import {
 import {
   deserialize,
   didExpire,
+  eventDispatcher,
+  eventListener,
   getType,
   serialize,
   storageKeys
@@ -35,15 +37,6 @@ export class WebPorridgeDB {
 
     this.store = createStore(db, name);
   }
-
-  #dispatcher(payload) {
-    window.dispatchEvent(
-      new CustomEvent(eventName, {
-        detail: payload
-      })
-    );
-  }
-
   /**
    * Writes single data item to IndexedDB
    * @param {String} keyName
@@ -74,7 +67,7 @@ export class WebPorridgeDB {
       newValue[storageKeys.expires] = new Date(options.expires);
     }
 
-    this.#dispatcher({
+   eventDispatcher(eventName, {
       key: keyName,
       before: await this.getItem(keyName),
       after: keyValue
@@ -120,7 +113,7 @@ export class WebPorridgeDB {
       return await this.setItem(keyName, item);
     }
 
-    this.#dispatcher({
+   eventDispatcher(eventName, {
       key: keyName,
       before: await this.getItem(keyName),
       after: null
@@ -199,13 +192,6 @@ export class WebPorridgeDB {
   }
 
   public observe(keyName: string, callback: (payload: WebPorridge.EventPayload) => void): void {
-    window.addEventListener(eventName, (e: CustomEvent) => {
-      if (e.detail.key === keyName) {
-        callback({
-          before: e.detail.before,
-          after: e.detail.after
-        });
-      }
-    });
+    eventListener(eventName, keyName, callback);
   }
 }
