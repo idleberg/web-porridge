@@ -1,13 +1,10 @@
-import 'fake-indexeddb/auto';
 import 'localstorage-polyfill';
-
-import { WebPorridge } from '../lib';
-const localPorridge = new WebPorridge('localStorage');
-
+import { WebPorridge } from '../lib/web-porridge.esm.js';
 import browserEnv from 'browser-env';
 import test from 'ava';
 
 browserEnv(['window']);
+const localPorridge = new WebPorridge('localStorage');
 
 test('undefined', t => {
   localStorage.clear();

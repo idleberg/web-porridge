@@ -1,13 +1,23 @@
-export interface PayloadOptions {
-  key: string;
-  value?: boolean | null | unknown | string;
-  subKey?: string;
-  options?: WebPorridgeOptions;
-}
+declare namespace WebPorridge {
+  interface StorageOptions{
+    expires?: string;
+    key?: string;
+  }
 
-export interface WebPorridgeOptions {
-  db?: string;
-  keyVal?: boolean;
-  json?: boolean;
-  store?: string;
+  interface IndexeddbOptions {
+    db: string;
+    name: string;
+  }
+
+  interface Payload {
+    '@expires'?: string;
+    '@key'?: string;
+    '@type': 'boolean' | 'null' | 'number' | 'object' | 'string' | 'undefined';
+  }
+
+  interface StorageKeys {
+    expires: '@expires';
+    value: '@value';
+    type: '@type';
+  }
 }

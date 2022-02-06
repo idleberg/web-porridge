@@ -12,5 +12,20 @@ module.exports = {
   globals: {
     localStorage: true,
     require: true
+  },
+  ignorePatterns: [
+    'test/**/*'
+  ],
+  "overrides": [
+    {
+      "files": ["tsconfig.json"],
+      "rules": {
+        "json/*": ["error", "allowComments"]
+      }
+    }
+  ],
+  rules: {
+    "@typescript-eslint/no-explicit-any": "off",
   }
 };
+
