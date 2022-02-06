@@ -107,15 +107,15 @@ localPorridge.removeItem('secondItem', 'dot.notation.subkey');
 
 #### clear
 
-See [clear()](https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear) on MDN.
+See [`clear()`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear) on MDN.
 
 #### key
 
-See [key()](https://developer.mozilla.org/en-US/docs/Web/API/Storage/key) on MDN
+See [`key()`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/key) on MDN
 
 #### length
 
-See [length](https://developer.mozilla.org/en-US/docs/Web/API/Storage/length) on MDN
+See [`length`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/length) on MDN
 
 ## License
 
