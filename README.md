@@ -32,28 +32,6 @@ const sessionPorridge = new WebPorridge('sessionStorage');
 const indexedDB = new WebPorridgeDB();
 ```
 
-### Browser
-
-It's intended to import the library in your code, but you can also use the `dist`-files or load them from a CDN. This library supports all modern browsers. You will need to BYOP (”Bring your own Polyfills”) to get it working in old browsers.
-
-<details>
-<summary><strong>Example</strong></summary>
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/lib/web-porridge.esm.js"></script>
-
-<script type="module">
-    document.addEventListener('DOMContentLoaded', function () {
-        const localPorridge = new WebPorridge('localStorage');
-        const sessionPorridge = new WebPorridge('sessionStorage');
-    });
-</script>
-```
-
-:warning: When you embed the module a CDN such as JSDelivr, make sure to replace `latest`-part in the URL for a specific version. Otherwise, your page speed might suffer.
-
-</details>
-
 ### Methods
 
 #### getItem
