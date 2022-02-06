@@ -50,7 +50,7 @@ It's intended to import the library in your code, but you can also use the `dist
 </script>
 ```
 
-:warning: When you embed the module from JSDeliver (or other CDNs), make sure to replace `latest` for a specific version. Otherwise, page loading will be slow.
+:warning: When you embed the module a CDN such as JSDelivr, make sure to replace `latest`-part in the URL for a specific version. Otherwise, your page speed might suffer.
 
 </details>
 
