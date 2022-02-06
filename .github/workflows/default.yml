@@ -1,44 +1,184 @@
 name: CI
 
-on: [push]
+on:
+- push
+- pull_request
 
 jobs:
   default:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: ['lts/*']
+        node-version: ['14', '16']
         os: [ubuntu-latest]
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
 
-    - uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
 
-    - name: Cache node modules
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6
+          run_install: |
+            - recursive: true
+            - args: [--frozen-lockfile, --strict-peer-dependencies]
 
-    - name: Install Packages Dependencies
-      run: npm ci
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Lint Source
-      run: npm run lint --if-present
+      - name: Lint Source
+        run: pnpm run lint --if-present
 
-    - name: Build Source
-      run: npm run build --if-present
+      - name: Build Source
+        run: pnpm run build --if-present
 
-    - name: Run Tests
-      run: npm run test --if-present
+      - name: Test Source
+        run: pnpm run test --if-present
+name: CI
+
+on:
+- push
+- pull_request
+
+jobs:
+  default:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: ['14', '16']
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6
+          run_install: |
+            - recursive: true
+            - args: [--frozen-lockfile, --strict-peer-dependencies]
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Lint Source
+        run: pnpm run lint --if-present
+
+      - name: Build Source
+        run: pnpm run build --if-present
+
+      - name: Test Source
+        run: pnpm run test --if-present
+name: CI
+
+on:
+- push
+- pull_request
+
+jobs:
+  default:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: ['14', '16']
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6
+          run_install: |
+            - recursive: true
+            - args: [--frozen-lockfile, --strict-peer-dependencies]
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Lint Source
+        run: pnpm run lint --if-present
+
+      - name: Build Source
+        run: pnpm run build --if-present
+
+      - name: Test Source
+        run: pnpm run test --if-present
+name: CI
+
+on:
+- push
+- pull_request
+
+jobs:
+  default:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: ['14', '16']
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6
+          run_install: |
+            - recursive: true
+            - args: [--frozen-lockfile, --strict-peer-dependencies]
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Lint Source
+        run: pnpm run lint --if-present
+
+      - name: Build Source
+        run: pnpm run build --if-present
+
+      - name: Test Source
+        run: pnpm run test --if-present
