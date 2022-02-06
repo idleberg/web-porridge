@@ -92,13 +92,10 @@ function eventDispatcher(eventName, payload) {
   );
 }
 
-function eventListener(eventName: string, keyName: string, callback: (payload: WebPorridge.EventPayload) => void): void {
+function eventListener(eventName: string, keyName: string, callback: (payload: any) => void): void {
   window.addEventListener(eventName, (e: CustomEvent) => {
     if (e.detail.key === keyName) {
-      callback({
-        before: e.detail.before,
-        after: e.detail.after
-      });
+      callback(e.detail.value);
     }
   });
 }

@@ -61,8 +61,7 @@ export class WebPorridge {
 
     eventDispatcher(eventName, {
       key: keyName,
-      before: this.getItem(keyName),
-      after: keyValue
+      value: keyValue
     });
 
     return (<any>globalThis)[this.type].setItem(keyName, JSON.stringify(newValue));
@@ -107,8 +106,7 @@ export class WebPorridge {
 
     eventDispatcher(eventName, {
       key: keyName,
-      before: this.getItem(keyName),
-      after: null
+      value: null
     });
 
     return (<any>globalThis)[this.type].removeItem(keyName);
@@ -177,7 +175,12 @@ export class WebPorridge {
       .map(item => [item, this.getItem(item)]);
   }
 
-  public observe(keyName: string, callback: (payload: WebPorridge.EventPayload) => void): void {
+  /**
+  * Returns an array of WebStorage's own enumerable string-keyed property `[key, value]` pairs
+  * @param {String} keyName
+  * @returns {function} callback
+  */
+  public observe(keyName: string, callback: (payload: any) => void): void {
     eventListener(eventName, keyName, callback);
   }
 }

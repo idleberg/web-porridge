@@ -69,8 +69,7 @@ export class WebPorridgeDB {
 
    eventDispatcher(eventName, {
       key: keyName,
-      before: await this.getItem(keyName),
-      after: keyValue
+      value: keyValue
     });
 
     return await setItemIdb(keyName, newValue, this.store);
@@ -115,8 +114,7 @@ export class WebPorridgeDB {
 
    eventDispatcher(eventName, {
       key: keyName,
-      before: await this.getItem(keyName),
-      after: null
+      value: null
     });
 
     return await removeItemIdb(keyName, this.store);
@@ -191,7 +189,7 @@ export class WebPorridgeDB {
     );
   }
 
-  public observe(keyName: string, callback: (payload: WebPorridge.EventPayload) => void): void {
+  public observe(keyName: string, callback: (payload: any) => void): void {
     eventListener(eventName, keyName, callback);
   }
 }
