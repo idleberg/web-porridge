@@ -21,15 +21,46 @@ export default [
       {
         compact: isProduction,
         sourcemap: true,
-        file: './lib/web-porridge.esm.js',
+        file: './lib/web-porridge.js',
+        format: 'esm'
+      }
+    ],
+    plugins: plugins
+  },
+  {
+    input: './src/porridge.ts',
+    output: [
+      {
+        compact: isProduction,
+        sourcemap: true,
+        file: './dist/porridge.esm.js',
         format: 'esm'
       },
       {
         compact: isProduction,
         sourcemap: true,
-        file: './lib/web-porridge.umd.js',
+        file: './dist/porridge.umd.js',
         format: 'umd',
         name: 'WebPorridge'
+      }
+    ],
+    plugins: plugins
+  },
+  {
+    input: './src/porridge-db.ts',
+    output: [
+      {
+        compact: isProduction,
+        sourcemap: true,
+        file: './dist/porridge-db.esm.js',
+        format: 'esm',
+      },
+      {
+        compact: isProduction,
+        sourcemap: true,
+        file: './dist/porridge-db.umd.js',
+        format: 'umd',
+        name: 'WebPorridgeDB'
       }
     ],
     plugins: plugins
