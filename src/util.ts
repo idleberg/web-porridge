@@ -28,6 +28,13 @@ function deserialize(item): unknown {
   const decodedString = item[storageKeys.value];
 
   switch(item[storageKeys.type]) {
+    case 'boolean':
+    case 'null':
+    case 'number':
+    case 'object':
+    case 'undefined':
+      return decodedString;
+
     case 'string':
       return decodedString.toString();
 
@@ -35,7 +42,7 @@ function deserialize(item): unknown {
       return BigInt(decodedString);
 
     default:
-      return decodedString;
+      return item;
   }
 }
 
