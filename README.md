@@ -5,14 +5,15 @@
 [![CI](https://img.shields.io/github/workflow/status/idleberg/web-porridge/CI?style=flat-square)](https://github.com/idleberg/web-porridge/actions)
 [![David](https://flat.badgen.net/david/dep/idleberg/web-porridge)](https://david-dm.org/idleberg/web-porridge)
 
-Feature-enhanced wrapper for [Web Storage API][] and [IndexedDB API][], one interface to rule them all
+Feature-enhanced wrapper for both, [Web Storage API][] and [IndexedDB API][], sharing the common interfaced known from the former.
 
 **Features**
 
--   structured data
+-   stores structured data
 -   automatic (de)serialization
 -   Object-level read & write access
 -   data expiry
+-   additional convenience methods
 
 ## Installation
 
@@ -27,18 +28,20 @@ All methods and properties of the [Web Storage API][] have equivalents on `local
 ```ts
 import { WebPorridge, WebPorridgeDB } from 'web-porridge';
 
-const localPorridge = new WebPorridge('localStorage' /* optional */);
+const localPorridge = new WebPorridge('localStorage' /* optional parameter */);
 const sessionPorridge = new WebPorridge('sessionStorage');
-const indexedDB = new WebPorridgeDB();
+const idb = new WebPorridgeDB();
 ```
 
 ### Methods
 
-#### getItem
+The following methods are available for both, Web Storage and IndexedDB. However, the key difference is that the former API is synchronous, while the latter is asynchronous.
 
-Usage: `getItem(key, options?)`
+#### getItem()
 
-Returns the value of a single storage key, automatically parses JSON strings and, optionally, decodes Base64. Supports returning only the value inside an object through the use of [dot notation][] syntax.
+Usage: `getItem(key: string, options?)`
+
+When passed a key name, will return that key's value, or null if the key does not exist, in the given Storage object.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -50,11 +53,11 @@ localPorridge.getItem('secondItem', { key: 'dot.notation.subkey' });
 
 </details>
 
-#### setItem
+#### setItem()
 
-Usage: `setItem(key, value, options?)`
+Usage: `setItem(key: string, value: any, options?)`
 
-Writes a single key/value pair to the storage, automatically stringifies objects. Supports overwriting a single value inside an object through the use of [dot notation][] syntax.
+When passed a key name and value, will add that key to the given Storage object, or update that key's value if it already exists.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -68,11 +71,11 @@ localPorridge.setItem('secondItem', 'Ada Lovelace', { key: 'name' });
 
 </details>
 
-#### removeItem
+#### removeItem()
 
-Usage: `removeItem(key, dot.notation.subkey?)`
+Usage: `removeItem(key: string, dot.notation.subkey?)`
 
-Deletes a single storage key or object key through the use of [dot notation][] syntax.
+When passed a key name, will remove that key from the given Storage object if it exists.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -84,17 +87,47 @@ localPorridge.removeItem('secondItem', 'dot.notation.subkey');
 
 </details>
 
-#### clear
+#### clear()
 
-See [`clear()`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear) on MDN.
+Usage: `clear()`
 
-#### key
+Clears all keys stored in a given Storage object.
 
-See [`key()`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/key) on MDN
+#### key()
+
+Usage: `key(index: number)`
+
+When passed a number n, returns the name of the nth key in a given `Storage` object.
 
 #### length
 
-See [`length`](https://developer.mozilla.org/en-US/docs/Web/API/Storage/length) on MDN
+Usage: `length`
+
+Returns the number of data items stored in a given Storage object.
+
+#### hasItem()
+
+Usage: `hasItem(key: string)`
+
+When passed a key name, returns a boolean indicating whether that key exists in a given Storage object.
+
+#### keys()
+
+Usage: `key()`
+
+Returns an array of a given object's Storage own enumerable property names, iterated in the same order that a normal loop would.
+
+#### values()
+
+Usage: `values()`
+
+Returns an array of a given Storage object's own enumerable property values, iterated in the same order that a normal loop would.
+
+#### entries()
+
+Usage: `entries()`
+
+Returns an array of a given object's own enumerable string-keyed property `[key, value]` pairs, iterated in the same order that a normal loop would.
 
 ## License
 
