@@ -90,13 +90,13 @@ export class WebPorridgeDB {
       return null;
     }
 
-    const decodedItem = deserialize(item);
+    const deserializedItem = deserialize(item);
 
     if (item[storageKeys.type] === 'object' && options?.key?.length) {
-      return getProperty(decodedItem, options.key);
+      return getProperty(deserializedItem, options.key);
     }
 
-    return decodedItem;
+    return deserializedItem;
   }
 
   /**

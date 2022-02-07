@@ -76,19 +76,25 @@ export class WebPorridge {
    * @returns
    */
   public getItem(keyName: string, options?: WebPorridge.StorageOptions): string | unknown {
-    const item: WebPorridge.Payload = JSON.parse((<any>globalThis)[this.type].getItem(keyName));
+    const item = (<any>globalThis)[this.type].getItem(keyName);
 
-    if (!item || (didExpire(item[storageKeys.expires]))) {
-      return null;
+    try {
+      const decodedItem: WebPorridge.Payload = JSON.parse(item);
+
+      if (!decodedItem || (didExpire(decodedItem[storageKeys.expires]))) {
+        return null;
+      }
+
+      const deserializedItem = deserialize(decodedItem);
+
+      if (decodedItem[storageKeys.type] === 'object' && options?.key?.length) {
+        return getProperty(deserializedItem, options.key);
+      }
+
+      return deserializedItem;
+    } catch (err) {
+      return item;
     }
-
-    const decodedItem = deserialize(item);
-
-    if (item[storageKeys.type] === 'object' && options?.key?.length) {
-      return getProperty(decodedItem, options.key);
-    }
-
-    return decodedItem;
   }
 
   /**
