@@ -1,6 +1,6 @@
 import 'localstorage-polyfill';
 import { storageKeys, values } from './shared.mjs';
-import { WebPorridge } from '../lib/web-porridge.esm.js';
+import { WebPorridge } from '../lib/web-porridge.js';
 import browserEnv from 'browser-env';
 import test from 'ava';
 
