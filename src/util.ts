@@ -35,11 +35,11 @@ function deserialize(item): unknown {
     case 'undefined':
       return decodedString;
 
-    case 'string':
-      return decodedString.toString();
-
     case 'bigint':
       return BigInt(decodedString);
+
+    case 'string':
+      return decodedString.toString();
 
     default:
       return item;
