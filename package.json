@@ -20,6 +20,13 @@
     "import": "./lib/web-porridge.esm.js",
     "module": "./lib/web-porridge.esm.js"
   },
+  "files": [
+    "dist/",
+    "lib/",
+    "types/",
+    "LICENSE",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/idleberg/web-porridge.git"
