@@ -1,3 +1,5 @@
+/*! web-porridge | MIT License | https://github.com/idleberg/web-porridge */
+
 import { getProperty, setProperty, deleteProperty } from 'dot-prop';
 
 import {
