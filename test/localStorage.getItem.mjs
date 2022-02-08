@@ -85,7 +85,7 @@ test('Object (key)', t => {
     [$value]: values.object
   }));
 
-  const actual = localPorridge.getItem('demo', { key: 'message' });
+  const actual = localPorridge.getItem('demo', { prop: 'message' });
   const expected = values.object.message;
 
   t.deepEqual(expected, actual);

@@ -12,12 +12,10 @@ import {
 } from 'idb-keyval';
 
 import {
-  deserialize,
   didExpire,
   eventDispatcher,
   eventListener,
   getType,
-  serialize,
   storageKeys
 } from './util';
 
@@ -45,23 +43,23 @@ export class WebPorridgeDB {
    * @param {unknown} keyValue
    * @param {Object} [options]
    * @param {String} [options.expires]
-   * @param {String} [options.key]
+   * @param {String} [options.prop]
    *
    * @returns
    */
   public async setItem(keyName: string, keyValue: unknown, options: WebPorridge.StorageOptions = {}): Promise<void> {
-    if (options?.key?.length) {
+    if (options?.prop?.length) {
       const item = await this.getItem(keyName) || {};
-      setProperty(item, options.key, keyValue);
+      setProperty(item, options.prop, keyValue);
 
       return await this.setItem(keyName, item, {
         ...options,
-        key: undefined
+        prop: undefined
       });
     }
 
     const newValue = {
-      [storageKeys.value]: serialize(keyValue),
+      [storageKeys.value]: keyValue,
       [storageKeys.type]: getType(keyValue)
     };
 
@@ -82,7 +80,7 @@ export class WebPorridgeDB {
    * @param {String} keyName
    * @param {Object} [options]
    * @param {String} [options.expires]
-   * @param {String} [options.key]
+   * @param {String} [options.prop]
    * @returns
    */
    public async getItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<string | unknown> {
@@ -92,13 +90,11 @@ export class WebPorridgeDB {
       return null;
     }
 
-    const deserializedItem = deserialize(item);
-
-    if (item[storageKeys.type] === 'object' && options?.key?.length) {
-      return getProperty(deserializedItem, options.key);
+    if (item[storageKeys.type] === 'object' && options?.prop?.length) {
+      return getProperty(item[storageKeys.value], options.prop);
     }
 
-    return deserializedItem;
+    return item[storageKeys.value];
   }
 
   /**

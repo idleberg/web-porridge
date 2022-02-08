@@ -48,7 +48,7 @@ When passed a key name, will return that key's value, or null if the key does no
 
 ```ts
 localPorridge.getItem('firstItem');
-localPorridge.getItem('secondItem', { key: 'dot.notation.subkey' });
+localPorridge.getItem('secondItem', { prop: 'dot.notation.property' });
 ```
 
 </details>
@@ -58,7 +58,7 @@ localPorridge.getItem('secondItem', { key: 'dot.notation.subkey' });
 
 ```ts
 await idb.getItem('firstItem');
-await idb.getItem('secondItem', { key: 'dot.notation.subkey' });
+await idb.getItem('secondItem', { prop: 'dot.notation.property' });
 ```
 
 </details>
@@ -76,7 +76,7 @@ When passed a key name and value, will add that key to the given Storage object,
 localPorridge.setItem('firstItem', 'Hello World');
 
 localPorridge.setItem('secondItem', { name: 'John Appleseed' });
-localPorridge.setItem('secondItem', 'Ada Lovelace', { key: 'name' });
+localPorridge.setItem('secondItem', 'Ada Lovelace', { prop: 'name' });
 ```
 
 </details>
@@ -88,14 +88,14 @@ localPorridge.setItem('secondItem', 'Ada Lovelace', { key: 'name' });
 await idb.setItem('firstItem', 'Hello World');
 
 await idb.setItem('secondItem', { name: 'John Appleseed' });
-await idb.setItem('secondItem', 'Ada Lovelace', { key: 'name' });
+await idb.setItem('secondItem', 'Ada Lovelace', { prop: 'name' });
 ```
 
 </details>
 
 #### removeItem()
 
-Usage: `removeItem(key: string, dot.notation.subkey?)`
+Usage: `removeItem(key: string, dot.notation.property?)`
 
 When passed a key name, will remove that key from the given Storage object if it exists.
 
@@ -104,7 +104,7 @@ When passed a key name, will remove that key from the given Storage object if it
 
 ```ts
 localPorridge.removeItem('firstItem');
-localPorridge.removeItem('secondItem', 'dot.notation.subkey');
+localPorridge.removeItem('secondItem', { prop: 'dot.notation.property' });
 ```
 
 </details>
@@ -114,7 +114,7 @@ localPorridge.removeItem('secondItem', 'dot.notation.subkey');
 
 ```ts
 await idb.removeItem('firstItem');
-await idb.removeItem('secondItem', 'dot.notation.subkey');
+await idb.removeItem('secondItem', { prop: 'dot.notation.property' });
 ```
 
 </details>

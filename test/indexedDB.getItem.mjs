@@ -63,7 +63,7 @@ test.serial('Object', async t => {
 test.serial('Object (key)', async t => {
   await db.setItem('demo', values.object);
 
-  const actual = await db.getItem('demo', { key: 'message' });
+  const actual = await db.getItem('demo', { prop: 'message' });
   const expected = values.object.message;
 
   t.deepEqual(expected, actual);

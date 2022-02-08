@@ -37,18 +37,18 @@ export class WebPorridge {
    * @param {unknown} keyValue
    * @param {Object} [options]
    * @param {String} [options.expires]
-   * @param {String} [options.key]
+   * @param {String} [options.prop]
    *
    * @returns
    */
   public setItem(keyName: string, keyValue: unknown, options?: WebPorridge.StorageOptions): void {
-    if (options?.key?.length) {
+    if (options?.prop?.length) {
       const item = this.getItem(keyName) || {};
-      setProperty(item, options.key, keyValue);
+      setProperty(item, options.prop, keyValue);
 
       return this.setItem(keyName, item, {
         ...options,
-        key: undefined
+        prop: undefined
       });
     }
 
@@ -74,7 +74,7 @@ export class WebPorridge {
    * @param {String} keyName
    * @param {Object} [options]
    * @param {String} [options.expires]
-   * @param {String} [options.key]
+   * @param {String} [options.prop]
    * @returns
    */
   public getItem(keyName: string, options?: WebPorridge.StorageOptions): string | unknown {
@@ -89,8 +89,8 @@ export class WebPorridge {
 
       const deserializedItem = deserialize(decodedItem);
 
-      if (decodedItem[storageKeys.type] === 'object' && options?.key?.length) {
-        return getProperty(deserializedItem, options.key);
+      if (decodedItem[storageKeys.type] === 'object' && options?.prop?.length) {
+        return getProperty(deserializedItem, options.prop);
       }
 
       return deserializedItem;

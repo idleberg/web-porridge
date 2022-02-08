@@ -48,7 +48,7 @@ test('Object key', t => {
     },
   }));
 
-  localPorridge.setItem('demo', false, { key: 'deleteMe' });
+  localPorridge.setItem('demo', false, { prop: 'deleteMe' });
 
   const actual = JSON.parse(localStorage.getItem('demo'));
   const expected = {
