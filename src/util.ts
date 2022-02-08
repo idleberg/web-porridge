@@ -106,7 +106,10 @@ function eventDispatcher(eventName, payload) {
 function eventListener(eventName: string, keyName: string, callback: (payload: any) => void): void {
   window.addEventListener(eventName, (e: CustomEvent) => {
     if (e.detail.key === keyName || e.detail.key === undefined) {
-      callback(e.detail.value);
+      callback({
+        key: keyName,
+        value: e.detail.value
+      });
     }
   });
 }
