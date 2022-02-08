@@ -35,7 +35,7 @@ const idb = new WebPorridgeDB();
 
 ### Methods
 
-The following methods are available for both, Web Storage and IndexedDB. However, the key difference is that the former API is synchronous, while the latter is asynchronous.
+The following methods are available for both, Web Storage and IndexedDB. However, the key difference is that the former API is synchronous, while the latter is _mostly_ asynchronous.
 
 #### getItem()
 
@@ -44,11 +44,21 @@ Usage: `getItem(key: string, options?)`
 When passed a key name, will return that key's value, or null if the key does not exist, in the given Storage object.
 
 <details>
-<summary><strong>Example</strong></summary>
+<summary><strong>Storage</strong></summary>
 
 ```ts
 localPorridge.getItem('firstItem');
 localPorridge.getItem('secondItem', { key: 'dot.notation.subkey' });
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.getItem('firstItem');
+await idb.getItem('secondItem', { key: 'dot.notation.subkey' });
 ```
 
 </details>
@@ -60,13 +70,25 @@ Usage: `setItem(key: string, value: any, options?)`
 When passed a key name and value, will add that key to the given Storage object, or update that key's value if it already exists.
 
 <details>
-<summary><strong>Example</strong></summary>
+<summary><strong>Storage</strong></summary>
 
 ```ts
 localPorridge.setItem('firstItem', 'Hello World');
 
 localPorridge.setItem('secondItem', { name: 'John Appleseed' });
 localPorridge.setItem('secondItem', 'Ada Lovelace', { key: 'name' });
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.setItem('firstItem', 'Hello World');
+
+await idb.setItem('secondItem', { name: 'John Appleseed' });
+await idb.setItem('secondItem', 'Ada Lovelace', { key: 'name' });
 ```
 
 </details>
@@ -78,11 +100,21 @@ Usage: `removeItem(key: string, dot.notation.subkey?)`
 When passed a key name, will remove that key from the given Storage object if it exists.
 
 <details>
-<summary><strong>Example</strong></summary>
+<summary><strong>Storage</strong></summary>
 
 ```ts
 localPorridge.removeItem('firstItem');
 localPorridge.removeItem('secondItem', 'dot.notation.subkey');
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.removeItem('firstItem');
+await idb.removeItem('secondItem', 'dot.notation.subkey');
 ```
 
 </details>
@@ -93,11 +125,47 @@ Usage: `clear()`
 
 Clears all keys stored in a given Storage object.
 
+<details>
+<summary><strong>Storage</strong></summary>
+
+```ts
+localPorridge.clear();
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.clear();
+```
+
+</details>
+
 #### key()
 
 Usage: `key(index: number)`
 
 When passed a number n, returns the name of the nth key in a given `Storage` object.
+
+<details>
+<summary><strong>Storage</strong></summary>
+
+```ts
+localPorridge.key(0);
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.key(0);
+```
+
+</details>
 
 #### length
 
@@ -105,11 +173,47 @@ Usage: `length`
 
 Returns the number of data items stored in a given Storage object.
 
+<details>
+<summary><strong>Storage</strong></summary>
+
+```ts
+localPorridge.length;
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.length;
+```
+
+</details>
+
 #### hasItem()
 
 Usage: `hasItem(key: string)`
 
 When passed a key name, returns a boolean indicating whether that key exists in a given Storage object.
+
+<details>
+<summary><strong>Storage</strong></summary>
+
+```ts
+localPorridge.hasItem('firstItem');
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.hasItem('firstItem');
+```
+
+</details>
 
 #### keys()
 
@@ -117,17 +221,71 @@ Usage: `keys()`
 
 Returns an array of a given object's Storage own enumerable property names, iterated in the same order that a normal loop would.
 
+<details>
+<summary><strong>Storage</strong></summary>
+
+```ts
+localPorridge.keys();
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.keys();
+```
+
+</details>
+
 #### values()
 
 Usage: `values()`
 
 Returns an array of a given Storage object's own enumerable property values, iterated in the same order that a normal loop would.
 
+<details>
+<summary><strong>Storage</strong></summary>
+
+```ts
+localPorridge.values();
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.values();
+```
+
+</details>
+
 #### entries()
 
 Usage: `entries()`
 
 Returns an array of a given object's own enumerable string-keyed property `[key, value]` pairs, iterated in the same order that a normal loop would.
+
+<details>
+<summary><strong>Storage</strong></summary>
+
+```ts
+localPorridge.entries();
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.entries();
+```
+
+</details>
 
 #### observe()
 
@@ -136,10 +294,21 @@ Usage: `observe(key: string, callback)`
 When passed a key name and callback funcrion, it will listen to changes to the given Storage object's value.
 
 <details>
-<summary><strong>Example</strong></summary>
+<summary><strong>Storage</strong></summary>
 
 ```ts
 localPorridge.observe('demo', ({ key, value }) => {
+    console.log(`${key} has changed to:`, value);
+});
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+idb.observe('demo', ({ key, value }) => {
     console.log(`${key} has changed to:`, value);
 });
 ```
