@@ -11,18 +11,18 @@
     "lint:md": "remark . --quiet --frail --ignore-path .gitignore",
     "lint:ts": "eslint ./src --ignore-path .gitignore",
     "lint": "npm-run-all --parallel lint:*",
+    "prepack": "npm run build",
+    "prepare": "husky install",
     "start": "rollup -c -w",
-    "test": "ava ./test/localStorage.*.mjs ./test/indexedDB.*.mjs --verbose",
-    "prepare": "husky install"
+    "test": "ava ./test/localStorage.*.mjs ./test/indexedDB.*.mjs --verbose"
   },
   "type": "module",
   "exports": {
-    "import": "./lib/web-porridge.esm.js",
-    "module": "./lib/web-porridge.esm.js"
+    "import": "./dist/index.js",
+    "module": "./dist/index.js"
   },
   "files": [
     "dist/",
-    "lib/",
     "types/",
     "LICENSE",
     "README.md"

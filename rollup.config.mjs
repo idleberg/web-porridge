@@ -21,7 +21,7 @@ export default [
       {
         compact: isProduction,
         sourcemap: true,
-        file: './lib/web-porridge.js',
+        file: './dist/index.js',
         format: 'esm'
       }
     ],

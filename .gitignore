@@ -15,6 +15,9 @@ yarn.lock
 *.tsbuildinfo
 tslint-to-eslint-config.log
 
+# build artifacts
+dist/
+
 # project specific
 index.html
 test.js
