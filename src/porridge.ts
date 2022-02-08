@@ -14,21 +14,21 @@ import {
 
 const eventName = 'web-porridge:storage.didChange';
 
-const validStorageTypes = [
+const validStores = [
   'localStorage',
   'sessionStorage'
 ];
 export class WebPorridge {
-  type: string;
+  store: string;
 
-  constructor(type = 'localStorage') {
-    if (typeof <any>window !== 'undefined' && !(type in <any>window)) {
-      throw Error(`Your browser does not support ${type}`);
-    } else if (!validStorageTypes.includes(type)) {
-      throw `Invalid storage type specified, try ${validStorageTypes.join('|')} instead`;
+  constructor(store = 'localStorage') {
+    if (typeof <any>window !== 'undefined' && !(store in <any>window)) {
+      throw Error(`Your browser does not support ${store}`);
+    } else if (!validStores.includes(store)) {
+      throw `Invalid storage type specified, try ${validStores.join('|')} instead`;
     }
 
-    this.type = type;
+    this.store = store;
   }
 
   /**
@@ -66,7 +66,7 @@ export class WebPorridge {
       value: keyValue
     });
 
-    return (<any>globalThis)[this.type].setItem(keyName, JSON.stringify(newValue));
+    return (<any>globalThis)[this.store].setItem(keyName, JSON.stringify(newValue));
   }
 
   /**
@@ -78,7 +78,7 @@ export class WebPorridge {
    * @returns
    */
   public getItem(keyName: string, options?: WebPorridge.StorageOptions): string | unknown {
-    const item = (<any>globalThis)[this.type].getItem(keyName);
+    const item = (<any>globalThis)[this.store].getItem(keyName);
 
     try {
       const decodedItem: WebPorridge.Payload = JSON.parse(item);
@@ -117,7 +117,7 @@ export class WebPorridge {
       value: null
     });
 
-    return (<any>globalThis)[this.type].removeItem(keyName);
+    return (<any>globalThis)[this.store].removeItem(keyName);
   }
 
   /**
@@ -126,7 +126,7 @@ export class WebPorridge {
    * @returns
    */
   public key(index: number): string | unknown {
-    return (<any>globalThis)[this.type].key(index);
+    return (<any>globalThis)[this.store].key(index);
   }
 
   /**
@@ -134,7 +134,7 @@ export class WebPorridge {
    * @returns
    */
   public get length(): number {
-    return (<any>globalThis)[this.type].length;
+    return (<any>globalThis)[this.store].length;
   }
 
   /**
@@ -146,7 +146,7 @@ export class WebPorridge {
       value: null
     });
 
-    return (<any>globalThis)[this.type].clear();
+    return (<any>globalThis)[this.store].clear();
   }
 
   /**
@@ -155,7 +155,7 @@ export class WebPorridge {
    * @returns {boolean}
    */
   public hasItem(keyName: string): boolean {
-    return Object.keys(<any>globalThis[this.type]).includes(keyName);
+    return Object.keys(<any>globalThis[this.store]).includes(keyName);
   }
 
   /**
@@ -164,7 +164,7 @@ export class WebPorridge {
    * @returns {boolean}
    */
   public keys(): string[] {
-    return Object.keys(<any>globalThis[this.type]);
+    return Object.keys(<any>globalThis[this.store]);
   }
 
   /**
@@ -173,7 +173,7 @@ export class WebPorridge {
    * @returns {boolean}
    */
   public values(): any[] {
-    return Object.keys(<any>globalThis[this.type])
+    return Object.keys(<any>globalThis[this.store])
       .map(item => this.getItem(item));
   }
 
@@ -183,7 +183,7 @@ export class WebPorridge {
    * @returns {boolean}
    */
   public entries(): any[] {
-    return Object.keys(<any>globalThis[this.type])
+    return Object.keys(<any>globalThis[this.store])
       .map(item => [item, this.getItem(item)]);
   }
 
