@@ -17,6 +17,7 @@ tslint-to-eslint-config.log
 
 # build artifacts
 dist/
+lib/
 
 # project specific
 index.html

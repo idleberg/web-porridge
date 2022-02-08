@@ -18,11 +18,12 @@
   },
   "type": "module",
   "exports": {
-    "import": "./dist/index.js",
-    "module": "./dist/index.js"
+    "import": "./lib/web-porridge.esm.js",
+    "module": "./lib/web-porridge.esm.js"
   },
   "files": [
     "dist/",
+    "lib/",
     "types/",
     "LICENSE",
     "README.md"
