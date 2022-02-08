@@ -28,7 +28,7 @@ All methods and properties of the [Web Storage API][] have equivalents on `local
 ```ts
 import { WebPorridge, WebPorridgeDB } from 'web-porridge';
 
-const localPorridge = new WebPorridge('localStorage' /* optional parameter */);
+const localPorridge = new WebPorridge();
 const sessionPorridge = new WebPorridge('sessionStorage');
 const idb = new WebPorridgeDB();
 ```
