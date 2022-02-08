@@ -113,7 +113,7 @@ When passed a key name, returns a boolean indicating whether that key exists in 
 
 #### keys()
 
-Usage: `key()`
+Usage: `keys()`
 
 Returns an array of a given object's Storage own enumerable property names, iterated in the same order that a normal loop would.
 
@@ -128,6 +128,23 @@ Returns an array of a given Storage object's own enumerable property values, ite
 Usage: `entries()`
 
 Returns an array of a given object's own enumerable string-keyed property `[key, value]` pairs, iterated in the same order that a normal loop would.
+
+#### observe()
+
+Usage: `observe(key: string, callback)`
+
+When passed a key name and callback funcrion, it will listen to changes to the given Storage object's value.
+
+<details>
+<summary><strong>Example</strong></summary>
+
+```ts
+localPorridge.observe('demo', ({ key, value }) => {
+    console.log(`${key} has changed to:`, value);
+});
+```
+
+</details>
 
 ## License
 
