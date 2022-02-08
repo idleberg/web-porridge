@@ -2,18 +2,18 @@
 
 [![npm](https://flat.badgen.net/npm/license/web-porridge)](https://www.npmjs.org/package/web-porridge)
 [![npm](https://flat.badgen.net/npm/v/web-porridge)](https://www.npmjs.org/package/web-porridge)
-[![CircleCI](https://flat.badgen.net/circleci/github/idleberg/web-porridge)](https://circleci.com/gh/idleberg/web-porridge)
+[![CI](https://img.shields.io/github/workflow/status/idleberg/web-porridge/CI?style=flat-square)](https://github.com/idleberg/web-porridge/actions)
 [![David](https://flat.badgen.net/david/dep/idleberg/web-porridge)](https://david-dm.org/idleberg/web-porridge)
 
-Feature-enhanced wrappers for the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage) interface
+Feature-enhanced wrapper for both, [Web Storage API][] and [IndexedDB API][], sharing the common interfaced known from the former.
 
-- transparent (de)serialization
-- transparent Base64 decoding (optional)
-- Object-level read & write access
-- batch operations
-- support for events
-- async transaction option (through [IndexedDB][indexeddb])
-- about 2kb minified & gzipped (4kb for IndexedDB)
+**Features**
+
+-   stores structured data
+-   automatic (de)serialization
+-   Object-level read & write access
+-   data expiry
+-   additional convenience methods
 
 ## Installation
 
@@ -23,104 +23,41 @@ Feature-enhanced wrappers for the [Web Storage](https://developer.mozilla.org/en
 
 ### Module
 
-All methods and properties of the [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
+All methods and properties of the [Web Storage API][] have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
 
 ```ts
-import { localPorridge, sessionPorridge } from 'web-porridge';
+import { WebPorridge, WebPorridgeDB } from 'web-porridge';
 
-// Optionally, use as drop-in replacement
-window['localStorage'] = localPorridge;
-window['sessionStorage'] = sessionPorridge;
+const localPorridge = new WebPorridge('localStorage' /* optional parameter */);
+const sessionPorridge = new WebPorridge('sessionStorage');
+const idb = new WebPorridgeDB();
 ```
-
-Alternatively, you can import the class and instantiate with custom defaults, e.g. to globally enable Base64 decoding or to disable JSON decoding.
-
-```ts
-import { WebPorridge } from 'web-porridge';
-
-const localPorridge = new WebPorridge('localStorage', {
-    base64: true,
-    json: false
-});
-```
-
-**Note:** The Base64-decoding feature has primarily been added with [Amazon Cognito JWTs][cognito] in mind, but since it is impossible to tell apart text strings from Base64 encoded strings, it is now disabled by default. This behaviour can toggled globally (as seen in the example above) or in the method call options.
-
-### Browser
-
-It's intended to import the library in your code, but you can also use the `dist`-files or load them from a CDN. This library supports all modern browsers. You will need to BYOP (”Bring your own Polyfills”) to get it working in old browsers.
-
-<details>
-<summary><strong>Example</strong></summary>
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/porridge.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const localPorridge = new WebPorridge('localStorage');
-        const sessionPorridge = new WebPorridge('sessionStorage');
-    });
-</script>
-```
-
-⚠️ For performance reasons, it's recommend using an explicit version number (such as `0.15.2`) in URLs when loading from a CDN
-
-</details>
 
 ### Methods
 
-#### getItem
+The following methods are available for both, Web Storage and IndexedDB. However, the key difference is that the former API is synchronous, while the latter is asynchronous.
 
-Usage: `getItem(key, dot.notation.subkey? = '', options = {})`
+#### getItem()
 
-Returns the value of a single storage key, automatically parses JSON strings and, optionally, decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
+Usage: `getItem(key: string, options?)`
+
+When passed a key name, will return that key's value, or null if the key does not exist, in the given Storage object.
 
 <details>
 <summary><strong>Example</strong></summary>
 
 ```ts
 localPorridge.getItem('firstItem');
-localPorridge.getItem('secondItem', 'dot.notation.subkey');
+localPorridge.getItem('secondItem', { key: 'dot.notation.subkey' });
 ```
+
 </details>
 
-The boolean options `base64` and `json` can be used to toggle decoding of the respective values.
+#### setItem()
 
-#### getItems
+Usage: `setItem(key: string, value: any, options?)`
 
-Usage: `getItems([...], options = {})`
-
-Returns value of many storage keys, automatically parses JSON strings and, optionally, decodes Base64. Supports returning only the value inside an object through the use of [dot notation][dot-notation] syntax.
-
-<details>
-<summary><strong>Example</strong></summary>
-
-```ts
-localPorridge.getItem([
-    // String!
-    'firstItem',
-    {
-        // Object!
-        key: 'secondItem',
-        subKey: 'dot.notation.subkey'
-    },
-    [
-        // Array!
-        'thirdItem',
-        'dot.notation.subkey'
-    ]
-]);
-```
-</details>
-
-The boolean options `base64` and `json` can be used to toggle decoding of the respective values.
-
-#### setItem
-
-Usage: `setItem(key, value, dot.notation.subkey? = '')`
-
-Writes a single key/value pair to the storage, automatically stringifies objects. Supports overwriting a single value inside an object through the use of [dot notation][dot-notation] syntax.
+When passed a key name and value, will add that key to the given Storage object, or update that key's value if it already exists.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -129,47 +66,16 @@ Writes a single key/value pair to the storage, automatically stringifies objects
 localPorridge.setItem('firstItem', 'Hello World');
 
 localPorridge.setItem('secondItem', { name: 'John Appleseed' });
-localPorridge.setItem('secondItem', 'Ada Lovelace', 'name');
+localPorridge.setItem('secondItem', 'Ada Lovelace', { key: 'name' });
 ```
+
 </details>
 
-#### setItems
+#### removeItem()
 
-Usage: `setItems([...])`
+Usage: `removeItem(key: string, dot.notation.subkey?)`
 
-Writes many key/value pairs to the storage, automatically stringifies objects. Supports overwriting a single value inside an object through the use of [dot notation][dot-notation] syntax.
-
-<details>
-<summary><strong>Example</strong></summary>
-
-```ts
-localPorridge.setItems([
-    {
-        // Object!
-        key: 'firstItem',
-        value: 'Hello World!'
-    },
-    {
-        // Another Object!
-        key: 'secondItem',
-        value: 'Appleseed',
-        subKey: 'personal.lastName'
-    },
-    [
-        // Array!
-        'thirdItem',
-        'Lovelace',
-        'personal.lastName'
-    ]
-]);
-```
-</details>
-
-#### removeItem
-
-Usage: `removeItem(key, dot.notation.subkey? = '')`
-
-Deletes a single storage key or object key through the use of [dot notation][dot-notation] syntax.
+When passed a key name, will remove that key from the given Storage object if it exists.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -178,194 +84,72 @@ Deletes a single storage key or object key through the use of [dot notation][dot
 localPorridge.removeItem('firstItem');
 localPorridge.removeItem('secondItem', 'dot.notation.subkey');
 ```
+
 </details>
 
-#### removeItems
+#### clear()
 
-Usage: `removeItems([...])`
+Usage: `clear()`
 
-Deletes storage keys or object keys through the use of [dot notation][dot-notation] syntax.
+Clears all keys stored in a given Storage object.
 
-<details>
-<summary><strong>Example</strong></summary>
+#### key()
 
-```ts
-localPorridge.removeItems([
-    // String!
-    'firstItem',
-    {
-        // Object!
-        key: 'secondItem',
-        subKey: 'dot.notation.subkey'
-    },
-    [
-        // Array!
-        'thirdItem',
-        'dot.notation.subkey'
-    ]
-]);
-```
-</details>
+Usage: `key(index: number)`
 
-#### clear
-
-> The `clear()` method of the [`Storage`][storage] interface clears all keys stored in a given `Storage` object.
->
-> – [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/clear)
-
-#### key
-
-> The **`key()`** method of the [`Storage`][storage] interface, when passed a number n, returns the name of the nth key in a given `Storage` object. The order of keys is user-agent defined, so you should not rely on it.
->
-> – [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/key)
-
-### Properties
+When passed a number n, returns the name of the nth key in a given `Storage` object.
 
 #### length
 
-> The *`length`* read-only property of the [`Storage`][storage] interface returns the number of data items stored in a given `Storage` object.
->
-> – [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage/length)
+Usage: `length`
 
-### Events
+Returns the number of data items stored in a given Storage object.
 
-The library provides methods to setup event listeners and dispatch WebPorridge actions. These actions are name after the [WebPorridge methods](#methods).
+#### hasItem()
+
+Usage: `hasItem(key: string)`
+
+When passed a key name, returns a boolean indicating whether that key exists in a given Storage object.
+
+#### keys()
+
+Usage: `keys()`
+
+Returns an array of a given object's Storage own enumerable property names, iterated in the same order that a normal loop would.
+
+#### values()
+
+Usage: `values()`
+
+Returns an array of a given Storage object's own enumerable property values, iterated in the same order that a normal loop would.
+
+#### entries()
+
+Usage: `entries()`
+
+Returns an array of a given object's own enumerable string-keyed property `[key, value]` pairs, iterated in the same order that a normal loop would.
+
+#### observe()
+
+Usage: `observe(key: string, callback)`
+
+When passed a key name and callback funcrion, it will listen to changes to the given Storage object's value.
 
 <details>
 <summary><strong>Example</strong></summary>
 
 ```ts
-import { localPorridge } from 'web-porridge';
-
-// Initialize event listeners
-localPorridge.listen();
-
-// Dispatch event
-localPorridge.dispatch('setItem', {
-        key: 'demo',
-        value: 'Hello World!'
-    }
-);
-
-// Remove event listeners
-localPorridge.mute();
-```
-</details>
-
-#### listen
-
-Usage: `listen(element: Element)`
-
-Adds an event listener for WebPorridge actions
-
-#### mute
-
-Usage: `mute(element: Element)`
-
-Removes an event listener
-
-#### dispatch
-
-Usage: `dispatch(action: string, payload: any)`
-
-### IndexedDB
-
-You can use the same interface to write key/value pairs to [IndexedDB][indexeddb] instead of Web Storage. This allows for asynchronous transactions while using the more familiar API.
-
-**Note:** All [methods](#methods) and [properties](#properties) provided by the WebPorridge API are supported!
-
-```ts
-import { db } from 'web-porridge';
-
-(async () => {
-    const inputValue = 'Hello World!';
-
-    await db.setItem('demo', inputValue);
-    const outputValue = await db.getItem('demo');
-
-    console.log(inputValue === outputValue);
-    // true
-
-    db.clear();
-})();
-```
-
-Again, you can instantiate the class yourself to override its defaults.
-
-```ts
-import { WebPorridgeDB } from 'web-porridge';
-
-const db = new WebPorridgeDB({
-    db: 'Custom DB',
-    base64: true,
-    json: false,
-    store: 'Custom Store'
+localPorridge.observe('demo', ({ key, value }) => {
+    console.log(`${key} has changed to:`, value);
 });
 ```
 
-When IndexedDB is supported by the browser, you can use this interface as drop-in replacement for Web Storage, including `sessionStorage`.
-
-<details>
-<summary><strong>Example</strong></summary>
-
-```ts
-import { db } from 'web-porridge';
-
-window['sessionStorage'] = db;
-window.addEventListener('beforeunload', () => sessionStorage.clear());
-```
-</details>
-
-#### Browser
-
-It's recommended to import the library in your code, but you can also use the `dist`-files or load them from a CDN.
-
-<details>
-<summary><strong>Example</strong></summary>
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/web-porridge@latest/dist/porridge-db.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const db = new WebPorridgeDB();
-    });
-</script>
-```
-
-⚠️ For performance reasons, it's recommend using an explicit version number (such as `0.15.2`) in URLs when loading from a CDN
-
-</details>
-
-### Helpers
-
-This module exposes its two helper function to encode and decode Base64:
-
-<details>
-<summary><strong>Example</strong></summary>
-
-```ts
-import { sessionPorridge, base64Encode, base64Decode } from 'web-porridge';
-
-sessionPorridge.setItem('demo', base64Encode('Hello World!'));
-const decodedStorage = base64Decode(sessionStorage.getItem('demo'));
-
-const decodedPorridge = sessionPorridge.getItem('demo', { base64: true });
-
-console.log(decodedPorridge === decodedStorage);
-// true
-```
 </details>
 
 ## License
 
-This work is licensed under [The MIT License](https://opensource.org/licenses/MIT)
+This work is licensed under [The MIT License](LICENSE)
 
-## Donate
-
-You are welcome to support this project using [Flattr](https://flattr.com/submit/auto?user_id=idleberg&url=https://github.com/idleberg/web-porridge) or Bitcoin `17CXJuPsmhuTzFV2k4RKYwpEHVjskJktRd`
-
-[dot-notation]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors#Dot_notation
-[storage]: https://developer.mozilla.org/en-US/docs/Web/API/Storage
-[indexeddb]: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
-[cognito]: https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html
+[dot notation]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors#Dot_notation
+[web storage api]: https://developer.mozilla.org/en-US/docs/Web/API/Storage
+[indexeddb api]: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API

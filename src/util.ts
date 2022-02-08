@@ -1,156 +1,125 @@
+const storageKeys: WebPorridge.StorageKeys = {
+  value: '@value',
+  type: '@type',
+  expires: '@expires'
+};
 
 /**
- * Checks whether input data requires deserialization after reading it from WebStorage
- * @param {*} inputData
- * @returns {boolean}
+ * Serializes a given type into a string
+ * @param {*} item
+ * @returns {String}
  */
-function maybeDeserialize(inputData): boolean {
-  const serializables = [
-    '[object Array]',
-    '[object Boolean]',
-    '[object Null]',
-    '[object Object]'
-  ];
+ function serialize(item: unknown): unknown {
+   switch (typeof item) {
+    case 'bigint':
+       return item.toString();
 
+    default:
+      return item;
+   }
+}
+
+/**
+ * Deserializes string into given type
+ * @param {String} item
+ * @returns {*}
+ */
+function deserialize(item): unknown {
+  const decodedString = item[storageKeys.value];
+
+  switch(item[storageKeys.type]) {
+    case 'boolean':
+    case 'null':
+    case 'number':
+    case 'object':
+    case 'undefined':
+      return decodedString;
+
+    case 'bigint':
+      return BigInt(decodedString);
+
+    case 'string':
+      return decodedString.toString();
+
+    default:
+      return item;
+  }
+}
+
+/**
+* Returns the type of a given item
+* @param {*} item
+* @returns {String}
+*/
+function getType(item: any): string {
+  const type = Object.prototype.toString.call(item);
+
+  switch (type) {
+    case '[object Array]':
+    case '[object Object]':
+      return 'object';
+
+    case '[object BigInt]':
+      return 'bigint';
+
+    case '[object Boolean]':
+      return 'boolean';
+
+    case '[object Null]':
+      return 'null';
+
+    case '[object Number]':
+      return 'number';
+
+    case '[object String]':
+      return 'string';
+
+    case '[object Undefined]':
+      return 'undefined';
+
+    default:
+      new Error(`Type ${type} cannot be stringified`);
+  }
+}
+
+/**
+* Runs a check whether a storage item has expired
+* @param {String} expires
+* @returns {boolean}
+*/
+function didExpire(expires: string): boolean {
+  return expires && new Date(expires) <= new Date();
+}
+
+function eventDispatcher(eventName, payload) {
   try {
-    const result = JSON.parse(inputData);
-    const type: string = Object.prototype.toString.call(result);
-
-    return serializables.includes(type) || (type === '[object Number]' && isSerializableNumber(inputData));
-  } catch (error) {
-
-    return false;
+    window.dispatchEvent(
+      new CustomEvent(eventName, {
+        detail: payload
+      })
+    );
+  } catch (err) {
+    // TODO: fix CustomEvent failing on NodeJS
   }
 }
 
-/**
- * Checks whether input data requires serialization prior to writing it to WebStorage
- * @param {*} inputString
- * @returns {boolean}
- */
-function maybeSerialize(inputString: string | Object): boolean {
-  const serializables = [
-    '[object Array]',
-    '[object Boolean]',
-    '[object Null]',
-    '[object Number]',
-    '[object Object]'
-  ];
-
-
-   const type: string = Object.prototype.toString.call(inputString);
-
-  return serializables.includes(type);
-}
-
-/**
- * Base64-decodes input data if necessary. Supports deserialization
- * @param {string} inputString
- * @param {object} options
- * @returns {string|Object}
- */
-function maybeBase64Decode(inputString: string, options: WebPorridgeOptions = {}) {
-  const outputString: string = isString(inputString) && isBase64(inputString) ? base64Decode(inputString) : inputString;
-
-  return (outputString && maybeDeserialize(outputString) && options.json) ? JSON.parse(outputString) : outputString;
-}
-
-/**
- * Base64-encodes input string. Supports serialization
- * @param {*} inputString
- * @returns {string}
- */
-function base64Encode(inputString: string): string {
-  const outputString: string = (maybeSerialize(inputString)) ? JSON.stringify(inputString) : inputString;
-
-  return Buffer.from(outputString).toString('base64');
-}
-
-/**
- * Base64-decodes input string
- * @param {*} inputString
- * @returns {string}
- */
-function base64Decode(inputString: string): string {
-  return Buffer.from(inputString, 'base64').toString('binary');
-}
-
-/**
- * Determines whether a string is Base64 encoded
- * @param {*} inputString
- * @returns {boolean}
- */
-function isBase64(inputString: string) {
-  const base64RegEx = '(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\/]{3}=)?';
-
-  return new RegExp(`^${base64RegEx}$`, 'gi').test(inputString);
-}
-
-/**
- * Checks for supported WebStorage methods
- * @param {string} action
- * @returns {boolean}
- */
-function validateAction(action: string) {
-  if (![
-    'clear',
-    'getItem',
-    'getItems',
-    'key',
-    'length',
-    'removeItem',
-    'removeItems',
-    'setItem',
-    'setItems',
-  ].includes(action)) {
-    throw 'Invalid action argument provided';
-  }
-}
-
-/**
- * Detect whether input is of type Array
- * @param {*} inputData
- * @returns {boolean}
- */
-function isArray(inputData) {
-  return Object.prototype.toString.call(inputData) === '[object Array]';
-}
-
-/**
- * Detect whether input is of type Object
- * @param {*} inputData
- * @returns {boolean}
- */
-function isObject(inputData) {
-  return Object.prototype.toString.call(inputData) === '[object Object]';
-}
-
-/**
- * Detect whether input is of type String
- * @param {*} inputData
- * @returns {boolean}
- */
-function isString(inputData) {
-  return Object.prototype.toString.call(inputData) === '[object String]';
-}
-
-/**
- * Determines whether a floating-point number can be safely serialized
- * @param {*} inputData
- * @returns {boolean}
- */
-function isSerializableNumber(inputData) {
-  return !isNaN(parseFloat(inputData)) && parseFloat(inputData.toString()).toString() === inputData.toString();
+function eventListener(eventName: string, keyName: string, callback: (payload: any) => void): void {
+  window.addEventListener(eventName, (e: CustomEvent) => {
+    if (e.detail.key === keyName || e.detail.key === undefined) {
+      callback({
+        key: keyName,
+        value: e.detail.value
+      });
+    }
+  });
 }
 
 export {
-  base64Decode,
-  base64Encode,
-  isArray,
-  isObject,
-  isSerializableNumber,
-  maybeBase64Decode,
-  maybeDeserialize,
-  maybeSerialize,
-  validateAction
+  deserialize,
+  didExpire,
+  eventDispatcher,
+  eventListener,
+  getType,
+  serialize,
+  storageKeys
 };

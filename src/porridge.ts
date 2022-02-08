@@ -1,294 +1,198 @@
-import * as dotProp from 'dot-prop';
+/*! web-porridge | MIT License | https://github.com/idleberg/web-porridge */
+
+import { getProperty, setProperty, deleteProperty } from 'dot-prop';
 
 import {
-  isArray,
-  isObject,
-  maybeBase64Decode,
-  maybeDeserialize,
-  maybeSerialize,
-  validateAction
+  deserialize,
+  didExpire,
+  eventDispatcher,
+  eventListener,
+  getType,
+  serialize,
+  storageKeys
 } from './util';
 
-export default class WebPorridge {
-  title: string;
-  storageType: string;
-  options: WebPorridgeOptions = {
-    base64: false,
-    json: true
-  };
+const eventName = 'web-porridge:storage.didChange';
 
-  constructor(type: string, userOptions: WebPorridgeOptions = {}) {
-    if (!type) {
-      throw Error('Storage type not declared in constructor');
-    } else if (typeof <any>window !== 'undefined' && !(type in (<any>window))) {
-      throw Error(`Your browser does not support ${type}`);
+const validStores = [
+  'localStorage',
+  'sessionStorage'
+];
+export class WebPorridge {
+  store: string;
+
+  constructor(store = 'localStorage') {
+    if (typeof <any>window !== 'undefined' && !(store in <any>window)) {
+      throw Error(`Your browser does not support ${store}`);
+    } else if (!validStores.includes(store)) {
+      throw `Invalid storage type specified, try ${validStores.join('|')} instead`;
     }
 
-    switch (type) {
-      case 'localStorage':
-        this.title = 'localPorridge';
-        break;
+    this.store = store;
+  }
 
-      case 'sessionStorage':
-        this.title = 'sessionPorridge';
-        break;
+  /**
+   * Writes single data item to WebStorage type
+   * @param {String} keyName
+   * @param {unknown} keyValue
+   * @param {Object} [options]
+   * @param {String} [options.expires]
+   * @param {String} [options.key]
+   *
+   * @returns
+   */
+  public setItem(keyName: string, keyValue: unknown, options?: WebPorridge.StorageOptions): void {
+    if (options?.key?.length) {
+      const item = this.getItem(keyName) || {};
+      setProperty(item, options.key, keyValue);
 
-      default:
-        throw 'Invalid storage type specified';
-
+      return this.setItem(keyName, item, {
+        ...options,
+        key: undefined
+      });
     }
 
-    this.options = { ...this.options, ...userOptions };
-    this.storageType = type;
+    const newValue = {
+      [storageKeys.value]: serialize(keyValue),
+      [storageKeys.type]: getType(keyValue),
+    };
+
+    if (options?.expires && String(options.expires).length) {
+      newValue[storageKeys.expires] = new Date(options.expires);
+    }
+
+    eventDispatcher(eventName, {
+      key: keyName,
+      value: keyValue
+    });
+
+    return (<any>globalThis)[this.store].setItem(keyName, JSON.stringify(newValue));
   }
 
   /**
    * Reads single data item from WebStorage type
-   * @param {String} item
-   * @param {Object} subKeyName
-   * @returns {*}
+   * @param {String} keyName
+   * @param {Object} [options]
+   * @param {String} [options.expires]
+   * @param {String} [options.key]
+   * @returns
    */
-  public getItem(keyName: string, subKeyName: string | null = '', options: WebPorridgeOptions = {}) {
-    options = {
-      ...this.options,
-      ...options
-    };
+  public getItem(keyName: string, options?: WebPorridge.StorageOptions): string | unknown {
+    const item = (<any>globalThis)[this.store].getItem(keyName);
 
-    if (subKeyName) {
-      const currentItem = this.getItem(keyName, '', options) || {};
-      return dotProp.get(currentItem, subKeyName);
-    }
+    try {
+      const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
-    const value = (<any>global)[this.storageType].getItem(keyName);
+      if (!decodedItem || (didExpire(decodedItem[storageKeys.expires]))) {
+        return null;
+      }
 
-    return (value && maybeDeserialize(value) && options.json === true)
-      ? JSON.parse(value)
-      : options.base64 ? maybeBase64Decode(value, options) : value;
-  }
+      const deserializedItem = deserialize(decodedItem);
 
-  /**
-   * Writes data items to WebStorage type
-   * @param {Array} item
-   * @returns {*}
-   */
-  public getItems(input: (string | PayloadOptions)[], options: WebPorridgeOptions = {}) {
-    if (isArray(input)) {
-      return input.map(item => {
-        if (typeof item === 'string') {
-          return this.getItem(item, null, options);
-        } else if (isObject(item)) {
-          options = {
-            ...options,
-            ...item.options
-          };
+      if (decodedItem[storageKeys.type] === 'object' && options?.key?.length) {
+        return getProperty(deserializedItem, options.key);
+      }
 
-          return this.getItem(item.key, item.subKey, options);
-        } else if (isArray(item)) {
-          options = {
-            ...options,
-            ...item[2]
-          };
-
-          return this.getItem(item[0], item[1], options);
-        }
-      });
+      return deserializedItem;
+    } catch (err) {
+      return item;
     }
   }
 
   /**
    * Removes single data item from WebStorage type
-   * @param {String} item
-   * @param {Object} subKeyName
+   * @param {String} keyName
+   * @param {String} subKeyName
    */
-  public removeItem(keyName: string, subKeyName: string = '') {
-    if (subKeyName) {
-      const currentItem = this.getItem(keyName) || {};
-      dotProp.delete(currentItem, subKeyName);
+   public removeItem(keyName: string, subKeyName = ''): void {
+    if (subKeyName?.length) {
+      const item = this.getItem(keyName) || {};
+      deleteProperty(item, subKeyName);
 
-      return this.setItem(keyName, currentItem);
+      return this.setItem(keyName, item);
     }
 
-    return (<any>global)[this.storageType].removeItem(keyName);
-  }
+    eventDispatcher(eventName, {
+      key: keyName,
+      value: null
+    });
 
-  /**
-   * Removes datas item from WebStorage type
-   * @param {String} input
-   */
-  public removeItems(input: (string | PayloadOptions)[]) {
-    if (isArray(input)) {
-      return input.map(item => {
-        if (typeof item === 'string') {
-          return this.removeItem(item);
-        } else if (isObject(item)) {
-          return this.removeItem(item.key, item.subKey);
-        } else if (isArray(item)) {
-          return this.removeItem(item[0], item[1]);
-        }
-      });
-    }
-  }
-
-  /**
-  * Writes single data item to WebStorage type
-  * @param {String} item
-  * @param {*} value
-  * @param {Object} userOptions
-  * @returns {*}
-  */
- public setItem(keyName: string, keyValue: any, subKeyName: string = '') {
-    if (subKeyName) {
-      const currentItem = this.getItem(keyName) || {};
-      dotProp.set(currentItem, subKeyName, keyValue);
-
-      return this.setItem(keyName, currentItem);
-    }
-
-    const newValue = (maybeSerialize(keyValue)) ? JSON.stringify(keyValue) : keyValue;
-
-    return (<any>global)[this.storageType].setItem(keyName, newValue);
-  }
-
-  /**
-  * Writes data items to WebStorage type
-  * @param {Array} item
-  * @returns {*}
-  */
-  public setItems(input: PayloadOptions[]) {
-    if (isArray(input)) {
-      return input.map(item => {
-        if (isObject(item)) {
-          return this.setItem(item.key, item.value, item.subKey);
-        } else if (isArray(item)) {
-          return this.setItem(item[0], item[1], item[2]);
-        }
-      });
-    }
+    return (<any>globalThis)[this.store].removeItem(keyName);
   }
 
   /**
    * Returns the length of WebStorage type
-   * @param {Integer} index
-   * @returns {*}
+   * @param index
+   * @returns
    */
-  public key(index: number) {
-    return (<any>global)[this.storageType].key(index);
+  public key(index: number): string | unknown {
+    return (<any>globalThis)[this.store].key(index);
   }
 
   /**
    * Returns the length of WebStorage type
-   * @returns {Integer}
+   * @returns
    */
-  public get length() {
-    return (<any>global)[this.storageType].length;
+  public get length(): number {
+    return (<any>globalThis)[this.store].length;
   }
 
- /**
-  * Clears WebStorage type
-  * @returns {*}
+  /**
+   * Clears WebStorage type
+   * @returns
+   */
+  public clear(): void {
+    eventDispatcher(eventName, {
+      value: null
+    });
+
+    return (<any>globalThis)[this.store].clear();
+  }
+
+  /**
+   * Returns whether WebStorage contains property
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public hasItem(keyName: string): boolean {
+    return Object.keys(<any>globalThis[this.store]).includes(keyName);
+  }
+
+  /**
+   * Returns an array of WebStorage's enumerable property names
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public keys(): string[] {
+    return Object.keys(<any>globalThis[this.store]);
+  }
+
+  /**
+   * Returns an array of WebStorage's enumerable property values
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public values(): any[] {
+    return Object.keys(<any>globalThis[this.store])
+      .map(item => this.getItem(item));
+  }
+
+  /**
+   * Returns an array of WebStorage's own enumerable string-keyed property `[key, value]` pairs
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public entries(): any[] {
+    return Object.keys(<any>globalThis[this.store])
+      .map(item => [item, this.getItem(item)]);
+  }
+
+  /**
+  * Returns an array of WebStorage's own enumerable string-keyed property `[key, value]` pairs
+  * @param {String} keyName
+  * @returns {function} callback
   */
-  public clear() {
-    return (<any>global)[this.storageType].clear();
-  }
-
-  /**
-   * Registers an event listener on the window or custom element
-   * @param {Element|Window} element
-   * @returns {*}
-   */
-  public listen(element: Element | Window = window) {
-    element.addEventListener(this.title, event => this.eventHandler(event));
-  }
-
-  /**
-   * Removes an event listener on the window or custom element
-   * @param {Element|Window} element
-   * @returns {*}
-   */
-  public mute(element: Element | Window = window) {
-      element.removeEventListener(this.title, event => this.eventHandler(event));
-  }
-
-  /**
-   * Dispatches an event to WebPorridge listeners
-   * @param {String} action
-   * @param {*} payload
-   * @returns {*}
-   */
-  public dispatch(action: string, payload: Number | PayloadOptions) {
-    validateAction(action);
-
-    const customEvent = new CustomEvent(
-      this.title,
-      {
-        detail: {
-          action: action,
-          payload: payload
-        }
-      }
-    );
-
-    (<any>global).dispatchEvent(customEvent);
-  }
-
-  /**
-   * Event handler
-   * @param {Event} event
-   * @returns {void}
-   */
-  private eventHandler(event: Event) {
-    validateAction((<any>event).detail.action);
-
-    let key, value, subKey, options;
-
-    switch ((<any>event).detail.action) {
-      case 'getItem':
-        key = (<any>event).detail.payload.key;
-        subKey = (<any>event).detail.payload.subKey || '';
-        options = (<any>event).detail.options || {};
-
-        return this.getItem(key, subKey, options);
-
-      case 'getItems':
-        key = (<any>event).detail.payload;
-        options = (<any>event).detail.options || {};
-
-        return this.getItems(key, options);
-
-      case 'removeItem':
-        key = (<any>event).detail.payload.key;
-        subKey = (<any>event).detail.payload.subKey || '';
-
-        return this.removeItem(key, subKey);
-
-      case 'removeItems':
-        key = (<any>event).detail.payload;
-
-        return this.removeItems(key);
-
-      case 'setItem':
-        key = (<any>event).detail.payload.key;
-        value = (<any>event).detail.payload.value;
-        subKey = (<any>event).detail.payload.subKey || '';
-
-        return this.setItem(key, value, subKey);
-
-      case 'setItems':
-        key = (<any>event).detail.payload;
-
-        return this.setItems(key);
-
-      case 'key':
-        return this.key((<any>event).detail.payload);
-
-      case 'length':
-        return this.length();
-
-      case 'clear':
-        return this.clear();
-
-      default:
-        break;
-    }
+  public observe(keyName: string, callback: (payload: any) => void): void {
+    eventListener(eventName, keyName, callback);
   }
 }

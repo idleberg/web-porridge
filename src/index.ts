@@ -1,17 +1,7 @@
-import WebPorridge from './porridge';
-import WebPorridgeDB from './porridge-db';
-
-const localPorridge = new WebPorridge('localStorage');
-const sessionPorridge = new WebPorridge('sessionStorage');
-const db = new WebPorridgeDB();
+import { WebPorridge } from './porridge';
+import { WebPorridgeDB } from './porridge-db';
 
 export {
-  localPorridge,
-  sessionPorridge,
-  db,
-
   WebPorridge,
-  WebPorridgeDB,
+  WebPorridgeDB
 };
-
-export { base64Decode, base64Encode } from './util';

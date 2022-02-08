@@ -1,13 +1,23 @@
-interface PayloadOptions {
-  key: string;
-  value?: Boolean | null | Object | string;
-  subKey?: string;
-  options?: WebPorridgeOptions;
-}
+declare namespace WebPorridge {
+  interface StorageOptions{
+    expires?: string;
+    key?: string;
+  }
 
-interface WebPorridgeOptions {
-  base64?: Boolean;
-  db?: string;
-  json?: Boolean;
-  store?: string;
+  interface IndexeddbOptions {
+    db: string;
+    name: string;
+  }
+
+  interface Payload {
+    '@expires'?: string;
+    '@key'?: string;
+    '@type': 'boolean' | 'null' | 'number' | 'object' | 'string' | 'undefined';
+  }
+
+  interface StorageKeys {
+    expires: '@expires';
+    value: '@value';
+    type: '@type';
+  }
 }
