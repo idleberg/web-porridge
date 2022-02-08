@@ -4,7 +4,7 @@
   "description": "Feature-enhanced wrappers for the WebStorage interface",
   "license": "MIT",
   "scripts": {
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "rimraf ./dist ./lib && cross-env NODE_ENV=production rollup -c",
     "dev": "npm run start",
     "fix": "eslint --fix ./src",
     "lint:json": "eslint ./*.json --ignore-path .gitignore",
