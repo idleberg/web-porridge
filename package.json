@@ -38,6 +38,7 @@
     "localstorage",
     "session-storage",
     "sessionstorage",
+    "storage api",
     "indexeddb"
   ],
   "engines": {
