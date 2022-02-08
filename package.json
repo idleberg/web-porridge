@@ -38,8 +38,7 @@
     "localstorage",
     "session-storage",
     "sessionstorage",
-    "indexeddb",
-    "amazon cognito"
+    "indexeddb"
   ],
   "engines": {
     "node": ">=14.0.0"
