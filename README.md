@@ -71,7 +71,7 @@ await idb.setItem('secondItem', 'Ada Lovelace', { prop: 'name' });
 
 Usage: `getItem(key: string, options?)`
 
-When passed a key name, will return that key's value, or null if the key does not exist, in the given Storage object.
+When passed a key name, will return that key's value, or `null` if the key does not exist, in the given Storage object.
 
 <details>
 <summary><strong>Storage</strong></summary>
