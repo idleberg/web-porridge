@@ -37,32 +37,6 @@ const idb = new WebPorridgeDB();
 
 The following methods are available for both, Web Storage and IndexedDB. However, the key difference is that the former API is synchronous, while the latter is _mostly_ asynchronous.
 
-#### getItem()
-
-Usage: `getItem(key: string, options?)`
-
-When passed a key name, will return that key's value, or null if the key does not exist, in the given Storage object.
-
-<details>
-<summary><strong>Storage</strong></summary>
-
-```ts
-localPorridge.getItem('firstItem');
-localPorridge.getItem('secondItem', { prop: 'dot.notation.property' });
-```
-
-</details>
-
-<details>
-<summary><strong>IndexedDB</strong></summary>
-
-```ts
-await idb.getItem('firstItem');
-await idb.getItem('secondItem', { prop: 'dot.notation.property' });
-```
-
-</details>
-
 #### setItem()
 
 Usage: `setItem(key: string, value: any, options?)`
@@ -89,6 +63,32 @@ await idb.setItem('firstItem', 'Hello World');
 
 await idb.setItem('secondItem', { name: 'John Appleseed' });
 await idb.setItem('secondItem', 'Ada Lovelace', { prop: 'name' });
+```
+
+</details>
+
+#### getItem()
+
+Usage: `getItem(key: string, options?)`
+
+When passed a key name, will return that key's value, or null if the key does not exist, in the given Storage object.
+
+<details>
+<summary><strong>Storage</strong></summary>
+
+```ts
+localPorridge.getItem('firstItem');
+localPorridge.getItem('secondItem', { prop: 'dot.notation.property' });
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.getItem('firstItem');
+await idb.getItem('secondItem', { prop: 'dot.notation.property' });
 ```
 
 </details>
