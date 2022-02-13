@@ -5,7 +5,7 @@
 [![CI](https://img.shields.io/github/workflow/status/idleberg/web-porridge/CI?style=flat-square)](https://github.com/idleberg/web-porridge/actions)
 [![David](https://flat.badgen.net/david/dep/idleberg/web-porridge)](https://david-dm.org/idleberg/web-porridge)
 
-Feature-enhanced wrapper for both, [Web Storage API][] and [IndexedDB API][], sharing the common interfaced known from the former.
+Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharing a common, familiar interface.
 
 **Features**
 
@@ -23,7 +23,7 @@ Feature-enhanced wrapper for both, [Web Storage API][] and [IndexedDB API][], sh
 
 ### Module
 
-All methods and properties of the [Web Storage API][] have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
+All methods and properties of the [Storage API][] have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
 
 ```ts
 import { WebPorridge, WebPorridgeDB } from 'web-porridge';
@@ -35,7 +35,7 @@ const idb = new WebPorridgeDB();
 
 ### Methods
 
-The following methods are available for both, Web Storage and IndexedDB. However, the key difference is that the former API is synchronous, while the latter is _mostly_ asynchronous.
+The following methods are available for both, Storage and IndexedDB. However, the key difference is that the former API is synchronous, while the latter is _mostly_ asynchronous.
 
 #### setItem()
 
@@ -320,5 +320,5 @@ idb.observe('demo', ({ key, value }) => {
 This work is licensed under [The MIT License](LICENSE)
 
 [dot notation]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors#Dot_notation
-[web storage api]: https://developer.mozilla.org/en-US/docs/Web/API/Storage
+[storage api]: https://developer.mozilla.org/en-US/docs/Web/API/Storage
 [indexeddb api]: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API

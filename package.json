@@ -1,7 +1,7 @@
 {
   "name": "web-porridge",
   "version": "0.18.0",
-  "description": "Feature-enhanced wrappers for the WebStorage interface",
+  "description": "Feature-enhanced wrappers for the Storage and IndexedDB APIs",
   "license": "MIT",
   "scripts": {
     "build": "rimraf ./dist ./lib && cross-env NODE_ENV=production rollup -c",
