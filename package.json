@@ -17,6 +17,7 @@
     "test": "ava ./test/localStorage.*.mjs ./test/indexedDB.*.mjs --verbose"
   },
   "type": "module",
+  "typings": "./types/index.d.ts",
   "exports": {
     "import": "./lib/web-porridge.esm.js",
     "module": "./lib/web-porridge.esm.js"

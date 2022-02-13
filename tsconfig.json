@@ -29,7 +29,10 @@
      * of JS in `.svelte` files.
      */
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+
+    /* Custom rules */
+    "typeRoots": ["./types", "./node_modules/@types"]
   },
   /**
    * Use global.d.ts instead of compilerOptions.types
