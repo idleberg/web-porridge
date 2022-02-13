@@ -3,7 +3,7 @@
 [![npm](https://flat.badgen.net/npm/license/web-porridge)](https://www.npmjs.org/package/web-porridge)
 [![npm](https://flat.badgen.net/npm/v/web-porridge)](https://www.npmjs.org/package/web-porridge)
 [![CI](https://img.shields.io/github/workflow/status/idleberg/web-porridge/CI?style=flat-square)](https://github.com/idleberg/web-porridge/actions)
-[![David](https://flat.badgen.net/david/dep/idleberg/web-porridge)](https://david-dm.org/idleberg/web-porridge)
+[![Snyk](https://flat.badgen.net/snyk/idleberg/web-porridge)](https://snyk.io/vuln/npm:web-porridge)
 
 Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharing a common, familiar interface.
 
