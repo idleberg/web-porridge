@@ -102,12 +102,13 @@ export class WebPorridge {
   /**
    * Removes single data item from WebStorage type
    * @param {String} keyName
-   * @param {String} subKeyName
+   * @param {Object} [options]
+   * @param {String} [options.prop]
    */
-   public removeItem(keyName: string, subKeyName = ''): void {
-    if (subKeyName?.length) {
+   public removeItem(keyName: string, options?: WebPorridge.StorageOptions): void {
+    if (options?.prop?.length) {
       const item = this.getItem(keyName) || {};
-      deleteProperty(item, subKeyName);
+      deleteProperty(item, options.prop);
 
       return this.setItem(keyName, item);
     }

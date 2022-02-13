@@ -15,7 +15,7 @@ yarn.lock
 *.tsbuildinfo
 tslint-to-eslint-config.log
 
-# build artifacts
+# build
 dist/
 lib/
 

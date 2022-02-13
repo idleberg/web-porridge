@@ -95,7 +95,7 @@ await idb.getItem('secondItem', { prop: 'dot.notation.property' });
 
 #### removeItem()
 
-Usage: `removeItem(key: string, dot.notation.property?)`
+Usage: `removeItem(key: string, options?)`
 
 When passed a key name, will remove that key from the given Storage object if it exists.
 

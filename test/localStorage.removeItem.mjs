@@ -26,7 +26,7 @@ test('Object key', t => {
     [storageKeys.type]: 'object'
   }));
 
-  localPorridge.removeItem('demo', 'deleteMe');
+  localPorridge.removeItem('demo', { prop: 'deleteMe' });
 
   const actual = JSON.parse(localStorage.getItem('demo'));
   const expected = {

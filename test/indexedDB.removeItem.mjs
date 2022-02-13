@@ -27,7 +27,7 @@ test.serial('Object key', async t => {
       deleteMe: true
     });
 
-  await db.removeItem('demo', 'deleteMe');
+  await db.removeItem('demo', { prop: 'deleteMe' });
 
   const actual = await db.getItem('demo');
   const expected =  {

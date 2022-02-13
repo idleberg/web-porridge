@@ -100,12 +100,13 @@ export class WebPorridgeDB {
   /**
    * Removes single data item from IndexedDB
    * @param {String} keyName
-   * @param {String} subKeyName
+   * @param {Object} [options]
+   * @param {String} [options.prop]
    */
-  public async removeItem(keyName: string, subKeyName = ''): Promise<void> {
-    if (subKeyName?.length) {
+  public async removeItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<void> {
+    if (options?.prop?.length) {
       const item = await this.getItem(keyName) || {};
-      deleteProperty(item, subKeyName);
+      deleteProperty(item, options.prop);
 
       return await this.setItem(keyName, item);
     }
