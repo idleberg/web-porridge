@@ -68,6 +68,7 @@ export class WebPorridgeDB {
     }
 
    eventDispatcher(eventName, {
+      store: 'IndexedDB',
       key: keyName,
       value: keyValue
     });
@@ -112,6 +113,7 @@ export class WebPorridgeDB {
     }
 
    eventDispatcher(eventName, {
+      store: 'IndexedDB',
       key: keyName,
       value: null
     });
@@ -144,6 +146,7 @@ export class WebPorridgeDB {
    */
   public async clear(): Promise<void> {
     eventDispatcher(eventName, {
+      store: 'IndexedDB',
       value: null
     });
 

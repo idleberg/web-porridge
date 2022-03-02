@@ -62,6 +62,7 @@ export class WebPorridge {
     }
 
     eventDispatcher(eventName, {
+      store: this.store,
       key: keyName,
       value: keyValue
     });
@@ -114,6 +115,7 @@ export class WebPorridge {
     }
 
     eventDispatcher(eventName, {
+      store: this.store,
       key: keyName,
       value: null
     });
@@ -144,6 +146,7 @@ export class WebPorridge {
    */
   public clear(): void {
     eventDispatcher(eventName, {
+      store: this.store,
       value: null
     });
 
