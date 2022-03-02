@@ -19,6 +19,7 @@ import {
   storageKeys
 } from './util';
 
+const storageType = 'IndexedDB';
 const eventName = 'web-porridge:db.didChange';
 
 export class WebPorridgeDB {
@@ -68,7 +69,7 @@ export class WebPorridgeDB {
     }
 
    eventDispatcher(eventName, {
-      store: 'IndexedDB',
+      store: storageType,
       key: keyName,
       value: keyValue
     });
@@ -113,7 +114,7 @@ export class WebPorridgeDB {
     }
 
    eventDispatcher(eventName, {
-      store: 'IndexedDB',
+      store: storageType,
       key: keyName,
       value: null
     });
@@ -146,7 +147,7 @@ export class WebPorridgeDB {
    */
   public async clear(): Promise<void> {
     eventDispatcher(eventName, {
-      store: 'IndexedDB',
+      store: storageType,
       value: null
     });
 
