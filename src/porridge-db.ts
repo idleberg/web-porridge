@@ -181,7 +181,7 @@ export class WebPorridgeDB {
   }
 
   /**
-   * Returns an array of IndexedDB's own enumerable string-keyed property `[key, value]` pairs
+   * Observes value changes on a IndexedDB item
    * @param {String} keyName
    * @returns {boolean}
    */

@@ -32,7 +32,7 @@ export class WebPorridge {
   }
 
   /**
-   * Writes single data item to WebStorage type
+   * Writes single data item to Storage type
    * @param {String} keyName
    * @param {unknown} keyValue
    * @param {Object} [options]
@@ -70,7 +70,7 @@ export class WebPorridge {
   }
 
   /**
-   * Reads single data item from WebStorage type
+   * Reads single data item from Storage type
    * @param {String} keyName
    * @param {Object} [options]
    * @param {String} [options.expires]
@@ -100,7 +100,7 @@ export class WebPorridge {
   }
 
   /**
-   * Removes single data item from WebStorage type
+   * Removes single data item from Storage type
    * @param {String} keyName
    * @param {Object} [options]
    * @param {String} [options.prop]
@@ -122,7 +122,7 @@ export class WebPorridge {
   }
 
   /**
-   * Returns the length of WebStorage type
+   * Returns the length of Storage type
    * @param index
    * @returns
    */
@@ -131,7 +131,7 @@ export class WebPorridge {
   }
 
   /**
-   * Returns the length of WebStorage type
+   * Returns the length of Storage type
    * @returns
    */
   public get length(): number {
@@ -139,7 +139,7 @@ export class WebPorridge {
   }
 
   /**
-   * Clears WebStorage type
+   * Clears Storage type
    * @returns
    */
   public clear(): void {
@@ -151,7 +151,7 @@ export class WebPorridge {
   }
 
   /**
-   * Returns whether WebStorage contains property
+   * Returns whether Storage contains property
    * @param {String} keyName
    * @returns {boolean}
    */
@@ -160,7 +160,7 @@ export class WebPorridge {
   }
 
   /**
-   * Returns an array of WebStorage's enumerable property names
+   * Returns an array of Storage's enumerable property names
    * @param {String} keyName
    * @returns {boolean}
    */
@@ -169,7 +169,7 @@ export class WebPorridge {
   }
 
   /**
-   * Returns an array of WebStorage's enumerable property values
+   * Returns an array of Storage's enumerable property values
    * @param {String} keyName
    * @returns {boolean}
    */
@@ -179,7 +179,7 @@ export class WebPorridge {
   }
 
   /**
-   * Returns an array of WebStorage's own enumerable string-keyed property `[key, value]` pairs
+   * Returns an array of Storage's own enumerable string-keyed property `[key, value]` pairs
    * @param {String} keyName
    * @returns {boolean}
    */
@@ -189,7 +189,7 @@ export class WebPorridge {
   }
 
   /**
-  * Returns an array of WebStorage's own enumerable string-keyed property `[key, value]` pairs
+  * Observes value changes of a Storage item
   * @param {String} keyName
   * @returns {function} callback
   */
