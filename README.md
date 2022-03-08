@@ -23,8 +23,6 @@ Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharin
 
 ### Module
 
-All methods and properties of the [Storage API][] have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
-
 ```ts
 import { Porridge, PorridgeDB } from 'web-porridge';
 
@@ -34,6 +32,8 @@ const idb = new PorridgeDB();
 ```
 
 ### Methods
+
+All methods and properties of the [Storage API][] have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
 
 The following methods are available for both, Storage and IndexedDB. However, the key difference is that the former API is synchronous, while the latter is _mostly_ asynchronous.
 
