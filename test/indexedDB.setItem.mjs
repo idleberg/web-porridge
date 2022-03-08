@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto.js';
 import { Navigator } from 'node-navigator';
 import { values } from './shared.mjs';
-import { WebPorridgeDB } from '../lib/web-porridge.js';
+import { PorridgeDB } from '../lib/web-porridge.js';
 import browserEnv from 'browser-env';
 import test from 'ava';
 
@@ -9,7 +9,7 @@ browserEnv(['window']);
 global['navigator'] = new Navigator();
 window.indexedDB = {}
 
-const db = new WebPorridgeDB();
+const db = new PorridgeDB();
 
 test.beforeEach(async () => {
 	await db.clear();

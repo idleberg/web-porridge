@@ -22,16 +22,16 @@ import {
 const storageType = 'IndexedDB';
 const eventName = 'web-porridge:db.didChange';
 
-export class WebPorridgeDB {
+export class PorridgeDB {
   store;
 
-  constructor(options?: WebPorridge.IndexeddbOptions) {
+  constructor(options?: Porridge.IndexeddbOptions) {
     if (typeof <any>window !== 'undefined' && !('indexedDB' in <any>window)) {
       throw Error(`Your browser does not support IndexedDB`);
     }
 
     const { db, name } = {
-      db: 'WebPorridge',
+      db: 'Porridge',
       name: '(default store)',
       ...options
     }
@@ -48,7 +48,7 @@ export class WebPorridgeDB {
    *
    * @returns
    */
-  public async setItem(keyName: string, keyValue: unknown, options: WebPorridge.StorageOptions = {}): Promise<void> {
+  public async setItem(keyName: string, keyValue: unknown, options: Porridge.StorageOptions = {}): Promise<void> {
     if (options?.prop?.length) {
       const item = await this.getItem(keyName) || {};
       setProperty(item, options.prop, keyValue);
@@ -85,8 +85,8 @@ export class WebPorridgeDB {
    * @param {String} [options.prop]
    * @returns
    */
-   public async getItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<string | unknown> {
-    const item: WebPorridge.Payload = await getItemIdb(keyName, this.store);
+   public async getItem(keyName: string, options?: Porridge.StorageOptions): Promise<string | unknown> {
+    const item: Porridge.Payload = await getItemIdb(keyName, this.store);
 
     if (!item || didExpire(item[storageKeys.expires])) {
       return null;
@@ -105,7 +105,7 @@ export class WebPorridgeDB {
    * @param {Object} [options]
    * @param {String} [options.prop]
    */
-  public async removeItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<void> {
+  public async removeItem(keyName: string, options?: Porridge.StorageOptions): Promise<void> {
     if (options?.prop?.length) {
       const item = await this.getItem(keyName) || {};
       deleteProperty(item, options.prop);

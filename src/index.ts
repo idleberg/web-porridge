@@ -1,7 +1,7 @@
-import { WebPorridge } from './porridge';
-import { WebPorridgeDB } from './porridge-db';
+import { Porridge } from './porridge';
+import { PorridgeDB } from './porridge-db';
 
 export {
-  WebPorridge,
-  WebPorridgeDB
+  Porridge,
+  PorridgeDB
 };

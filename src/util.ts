@@ -1,4 +1,4 @@
-const storageKeys: WebPorridge.StorageKeys = {
+const storageKeys: Porridge.StorageKeys = {
   value: '@value',
   type: '@type',
   expires: '@expires'

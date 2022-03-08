@@ -41,7 +41,7 @@ export default [
         sourcemap: true,
         file: './dist/porridge.umd.js',
         format: 'umd',
-        name: 'WebPorridge'
+        name: 'Porridge'
       }
     ],
     plugins: plugins
@@ -60,7 +60,7 @@ export default [
         sourcemap: true,
         file: './dist/porridge-db.umd.js',
         format: 'umd',
-        name: 'WebPorridgeDB'
+        name: 'PorridgeDB'
       }
     ],
     plugins: plugins

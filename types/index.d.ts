@@ -1,4 +1,4 @@
-declare namespace WebPorridge {
+declare namespace Porridge {
   interface StorageOptions{
     expires?: string;
     prop?: string;

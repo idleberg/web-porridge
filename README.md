@@ -26,11 +26,11 @@ Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharin
 All methods and properties of the [Storage API][] have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
 
 ```ts
-import { WebPorridge, WebPorridgeDB } from 'web-porridge';
+import { Porridge, PorridgeDB } from 'web-porridge';
 
-const localPorridge = new WebPorridge();
-const sessionPorridge = new WebPorridge('sessionStorage');
-const idb = new WebPorridgeDB();
+const localPorridge = new Porridge();
+const sessionPorridge = new Porridge('sessionStorage');
+const idb = new PorridgeDB();
 ```
 
 ### Methods

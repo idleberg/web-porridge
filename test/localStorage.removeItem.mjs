@@ -1,11 +1,11 @@
 import 'localstorage-polyfill';
 import { storageKeys, values } from './shared.mjs';
-import { WebPorridge } from '../lib/web-porridge.js';
+import { Porridge } from '../lib/web-porridge.js';
 import browserEnv from 'browser-env';
 import test from 'ava';
 
 browserEnv(['window']);
-const localPorridge = new WebPorridge('localStorage');
+const localPorridge = new Porridge('localStorage');
 
 test('String', t => {
   localStorage.setItem('demo', values.string);
