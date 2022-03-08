@@ -31,7 +31,7 @@ export class PorridgeDB {
     }
 
     const { db, name } = {
-      db: 'Porridge',
+      db: 'web-porridge:db',
       name: '(default store)',
       ...options
     }
