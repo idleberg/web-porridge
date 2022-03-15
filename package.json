@@ -1,6 +1,6 @@
 {
   "name": "web-porridge",
-  "version": "0.19.1",
+  "version": "0.19.2",
   "description": "Feature-enhanced wrappers for the Storage and IndexedDB APIs",
   "license": "MIT",
   "scripts": {
