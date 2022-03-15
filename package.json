@@ -19,8 +19,18 @@
   "type": "module",
   "typings": "./types/index.d.ts",
   "exports": {
-    "import": "./lib/web-porridge.esm.js",
-    "module": "./lib/web-porridge.esm.js"
+    ".": {
+      "import": "./lib/web-porridge.mjs",
+      "require": "./lib/web-porridge.cjs"
+    },
+    "./storage": {
+      "import": "./lib/storage/index.mjs",
+      "require": "./lib/storage/index.cjs"
+    },
+    "./db": {
+      "import": "./lib/db/index.mjs",
+      "require": "./lib/db/index.cjs"
+    }
   },
   "files": [
     "dist/",

@@ -1,5 +1,5 @@
 import 'localstorage-polyfill';
-import { Porridge } from '../lib/web-porridge.js';
+import { Porridge } from '../lib/web-porridge.mjs';
 import browserEnv from 'browser-env';
 import test from 'ava';
 
