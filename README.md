@@ -289,9 +289,9 @@ await idb.entries();
 
 #### observe()
 
-Usage: `observe(key: string, callback)`
+Usage: `observe(key: string, callback, targetOrigins = [])`
 
-When passed a key name and callback funcrion, it will listen to changes to the given Storage object's value.
+When passed a key name and callback funcrion, it will listen to changes to the given Storage object's value. Changes can optionally be broadcasted to cross origin using `postMessage`.
 
 <details>
 <summary><strong>Storage</strong></summary>

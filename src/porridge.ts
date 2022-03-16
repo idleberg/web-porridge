@@ -192,11 +192,12 @@ export class Porridge {
   }
 
   /**
-  * Observes value changes of a Storage item
-  * @param {String} keyName
-  * @returns {function} callback
-  */
-  public observe(keyName: string, callback: (payload: any) => void): void {
-    eventListener(eventName, keyName, callback);
+   * Observes value changes of a Storage item. Optionally sends messages to specified origins.
+   * @param {String} keyName
+   * @param {Function} callback
+   * @param {Array} targetOrigins
+   */
+  public observe(keyName: string, callback: (payload: any) => void, targetOrigins: string[] = []): void {
+    eventListener(eventName, keyName, callback, targetOrigins);
   }
 }

@@ -103,13 +103,28 @@ function eventDispatcher(eventName, payload) {
   }
 }
 
-function eventListener(eventName: string, keyName: string, callback: (payload: any) => void): void {
+function eventListener(eventName: string, keyName: string, callback: (payload: any) => void, targetOrigins = []): void {
   window.addEventListener(eventName, (e: CustomEvent) => {
     if (e.detail.key === keyName || e.detail.key === undefined) {
       callback({
         key: keyName,
         value: e.detail.value
       });
+
+      if (targetOrigins?.length) {
+        for (const targetOrigin of targetOrigins) {
+          try {
+            const url = new URL(targetOrigin);
+
+            window.postMessage({
+              key: keyName,
+              value: e.detail.value
+            }, url.origin);
+          } catch ({ message }) {
+            console.error(message);
+          }
+        }
+      }
     }
   });
 }
