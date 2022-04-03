@@ -23,57 +23,32 @@ Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharin
 
 ### Import
 
+```ts
+import { Porridge, PorridgeDB } from 'web-porridge';
+
+const localPorridge = new Porridge();
+const idb = new PorridgeDB();
+```
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+import { Porridge, PorridgeDB } from 'https://cdn.skypack.dev/web-porridge';
+
+const localPorridge = new Porridge();
+const idb = new PorridgeDB();
+```
+
+</details>
+
 #### Porridge
 
 Usage: `new Porridge(store: 'localStorage' | 'sessionStorage' = 'localStorage')`
 
-<details>
-<summary><strong>npm</strong></summary>
-
-```ts
-import { Porridge } from 'web-porridge';
-
-const localPorridge = new Porridge();
-```
-
-</details>
-
-<details>
-<summary><strong>Skypack</strong></summary>
-
-```ts
-import { Porridge } from 'https://cdn.skypack.dev/web-porridge';
-
-const localPorridge = new Porridge();
-```
-
-</details>
-
 #### PorridgeDB
 
 Usage: `new PorridgeDB(options?: {db: string; name: string})`
-
-<details>
-<summary><strong>npm</strong></summary>
-
-```ts
-import { PorridgeDB } from 'web-porridge';
-
-const idb = new PorridgeDB();
-```
-
-</details>
-
-<details>
-<summary><strong>Skypack</strong></summary>
-
-```ts
-import { Porridge } from 'https://cdn.skypack.dev/web-porridge';
-
-const idb = new PorridgeDB();
-```
-
-</details>
 
 ### Methods
 
