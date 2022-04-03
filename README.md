@@ -39,7 +39,7 @@ const localPorridge = new Porridge();
 const idb = new PorridgeDB();
 ```
 
-### Instantance
+### Instance
 
 #### Porridge
 
