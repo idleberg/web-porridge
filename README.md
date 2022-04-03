@@ -47,6 +47,8 @@ import { Porridge } from 'https://cdn.skypack.dev/web-porridge';
 const localPorridge = new Porridge();
 ```
 
+</details>
+
 #### PorridgeDB
 
 Usage: `new PorridgeDB(options?: {db: string; name: string})`
