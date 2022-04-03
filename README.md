@@ -21,15 +21,35 @@ Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharin
 
 ## Usage
 
-### Module
+### Import
+
+#### npm
 
 ```ts
 import { Porridge, PorridgeDB } from 'web-porridge';
 
 const localPorridge = new Porridge();
-const sessionPorridge = new Porridge('sessionStorage');
 const idb = new PorridgeDB();
 ```
+
+#### Skypack
+
+```ts
+import { Porridge, PorridgeDB } from 'https://cdn.skypack.dev/web-porridge';
+
+const localPorridge = new Porridge();
+const idb = new PorridgeDB();
+```
+
+### Instantiate
+
+#### Porridge
+
+Usage: `new Porridge(store: 'localStorage' | 'sessionStorage' = 'localStorage')`
+
+#### PorridgeDB
+
+Usage: `new PorridgeDB(options?: {db: string; name: string})`
 
 ### Methods
 
