@@ -39,6 +39,8 @@ const localPorridge = new Porridge();
 const idb = new PorridgeDB();
 ```
 
+### Instantance
+
 #### Porridge
 
 Usage: `new Porridge(store: 'localStorage' | 'sessionStorage' = 'localStorage')`
