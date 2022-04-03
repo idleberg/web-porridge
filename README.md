@@ -32,17 +32,12 @@ const idb = new PorridgeDB();
 
 Alternatively, you can import the module from [Skypack][].
 
-<details>
-<summary><strong>Example</strong></summary>
-
 ```ts
 import { Porridge, PorridgeDB } from 'https://cdn.skypack.dev/web-porridge';
 
 const localPorridge = new Porridge();
 const idb = new PorridgeDB();
 ```
-
-</details>
 
 #### Porridge
 
