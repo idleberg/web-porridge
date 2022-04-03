@@ -31,7 +31,7 @@ const idb = new PorridgeDB();
 ```
 
 <details>
-<summary><strong>IndexedDB</strong></summary>
+<summary><strong>Skypack</strong></summary>
 
 ```ts
 import { Porridge, PorridgeDB } from 'https://cdn.skypack.dev/web-porridge';
