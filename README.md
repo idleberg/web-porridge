@@ -30,7 +30,7 @@ const localPorridge = new Porridge();
 const idb = new PorridgeDB();
 ```
 
-Alternatively, you can import the module from [Skypack][].
+Alternatively, you can import the module from [Skypack][]:
 
 ```ts
 import { Porridge, PorridgeDB } from 'https://cdn.skypack.dev/web-porridge';
