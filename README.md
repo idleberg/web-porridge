@@ -291,7 +291,7 @@ await idb.entries();
 
 Usage: `observe(key: string, callback, targetOrigins = [])`
 
-When passed a key name and callback funcrion, it will listen to changes to the given Storage object's value. Optionally, changes can be [broadcasted](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to cross-origin targets.
+When passed a key name and callback function, it will listen to changes to the given Storage object's value. Optionally, changes can also be [broadcasted](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to cross-origin targets.
 
 <details>
 <summary><strong>Storage</strong></summary>
