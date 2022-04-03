@@ -30,8 +30,10 @@ const localPorridge = new Porridge();
 const idb = new PorridgeDB();
 ```
 
+Alternatively, you can import the module from [Skypack][].
+
 <details>
-<summary><strong>Skypack</strong></summary>
+<summary><strong>Example</strong></summary>
 
 ```ts
 import { Porridge, PorridgeDB } from 'https://cdn.skypack.dev/web-porridge';
@@ -341,3 +343,4 @@ This work is licensed under [The MIT License](LICENSE)
 [dot notation]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors#Dot_notation
 [storage api]: https://developer.mozilla.org/en-US/docs/Web/API/Storage
 [indexeddb api]: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
+[skypack]: https://www.skypack.dev/view/web-porridge
