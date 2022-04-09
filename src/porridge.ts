@@ -23,7 +23,7 @@ export class Porridge {
 
   constructor(store = 'localStorage') {
     if (typeof <any>window !== 'undefined' && !(store in <any>window)) {
-      throw Error(`Your browser does not support ${store}`);
+      throw Error(`Your browser does not support the ${store} API`);
     } else if (!validStores.includes(store)) {
       throw `Invalid storage type specified, try ${validStores.join('|')} instead`;
     }

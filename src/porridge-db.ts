@@ -27,7 +27,7 @@ export class PorridgeDB {
 
   constructor(options?: Porridge.IndexeddbOptions) {
     if (typeof <any>window !== 'undefined' && !('indexedDB' in <any>window)) {
-      throw Error(`Your browser does not support IndexedDB`);
+      throw Error(`Your browser does not support the IndexedDB API`);
     }
 
     const { db, name } = {
