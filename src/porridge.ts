@@ -200,4 +200,16 @@ export class Porridge {
   public observe(keyName: string, callback: (payload: any) => void, targetOrigins: string[] = []): void {
     eventListener(eventName, keyName, callback, targetOrigins);
   }
+
+  /**
+   * Returns whether a single Storage item has expired
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public didExpire(keyName: string): boolean {
+    const item = (<any>globalThis)[this.store].getItem(keyName);
+    const decodedItem: Porridge.Payload = JSON.parse(item);
+
+    return didExpire(decodedItem[storageKeys.expires]);
+  }
 }

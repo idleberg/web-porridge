@@ -197,12 +197,23 @@ export class PorridgeDB {
   }
 
   /**
-   * Observes value changes of a Storage item. Optionally sends messages to specified origins.
+   * Observes value changes of an IndexedDB item. Optionally sends messages to specified origins.
    * @param {String} keyName
    * @param {Function} callback
    * @param {Array} targetOrigins
    */
   public observe(keyName: string, callback: (payload: any) => void, targetOrigins: string[] = []): void {
     eventListener(eventName, keyName, callback, targetOrigins);
+  }
+
+  /**
+   * Returns whether a single IndexedDB item has expired
+   * @param {String} keyName
+   * @returns {boolean}
+   */
+  public async didExpire(keyName: string): Promise<boolean> {
+    const item: Porridge.Payload = await getItemIdb(keyName, this.store);
+
+    return didExpire(item[storageKeys.expires]);
   }
 }

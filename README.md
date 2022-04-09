@@ -305,6 +305,30 @@ await idb.entries();
 
 </details>
 
+#### didExpire()
+
+Usage: `didExpire(key: string)`
+
+When passed a key name, will return whether that key has expired.
+
+<details>
+<summary><strong>Storage</strong></summary>
+
+```ts
+localPorridge.didExpire('firstItem');
+```
+
+</details>
+
+<details>
+<summary><strong>IndexedDB</strong></summary>
+
+```ts
+await idb.didExpire('firstItem');
+```
+
+</details>
+
 #### observe()
 
 Usage: `observe(key: string, callback, targetOrigins = [])`
