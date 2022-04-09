@@ -14,7 +14,7 @@ test('String', t => {
   const actual = localStorage.getItem('demo');
   const expected = null
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test('Object key', t => {
@@ -36,5 +36,5 @@ test('Object key', t => {
     [storageKeys.type]: 'object'
   };
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });

@@ -26,7 +26,7 @@ test('String', t => {
   const actual = localPorridge.getItem('demo');
   const expected = values.string;
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test('String (has expired)', t => {
@@ -39,7 +39,7 @@ test('String (has expired)', t => {
   const actual = localPorridge.getItem('demo');
   const expected = null;
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test('String (hasn\'t expired)', t => {
@@ -52,7 +52,7 @@ test('String (hasn\'t expired)', t => {
   const expected = values.string;
   const actual = localPorridge.getItem('demo');
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test('BigInt', t => {
@@ -64,7 +64,7 @@ test('BigInt', t => {
   const actual = localPorridge.getItem('demo');
   const expected = values.bigint;
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test('Object', t => {
@@ -76,7 +76,7 @@ test('Object', t => {
   const actual = localPorridge.getItem('demo');
   const expected = values.object;
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test('Object (key)', t => {
@@ -88,7 +88,7 @@ test('Object (key)', t => {
   const actual = localPorridge.getItem('demo', { prop: 'message' });
   const expected = values.object.message;
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test('Array', t => {
@@ -100,7 +100,7 @@ test('Array', t => {
   const actual = localPorridge.getItem('demo');
   const expected = values.array;
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test('true', t => {
@@ -112,7 +112,7 @@ test('true', t => {
 
   const actual = localPorridge.getItem('demo');
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test('false', t => {
@@ -124,7 +124,7 @@ test('false', t => {
 
   const actual = localPorridge.getItem('demo');
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test('null', t => {
@@ -136,7 +136,7 @@ test('null', t => {
 
   const actual = localPorridge.getItem('demo');
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test('undefined', t => {
@@ -148,5 +148,5 @@ test('undefined', t => {
 
   const actual = localPorridge.getItem('demo');
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });

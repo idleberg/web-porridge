@@ -18,7 +18,7 @@ test.serial('String', async t => {
   const actual = await db.getItem('demo');
   const expected = null
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test.serial('Object key', async t => {
@@ -34,5 +34,5 @@ test.serial('Object key', async t => {
     ...values.object
   };
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });

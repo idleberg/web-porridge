@@ -18,7 +18,7 @@ test('String', t => {
   const actual = JSON.parse(localStorage.getItem('demo'))[$value];
   const expected = values.string;
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test('BigInt', t => {
@@ -27,7 +27,7 @@ test('BigInt', t => {
   const actual = BigInt(JSON.parse(localStorage.getItem('demo'))[$value]);
   const expected = values.bigint;
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test('Object', t => {
@@ -36,7 +36,7 @@ test('Object', t => {
   const actual = JSON.parse(localStorage.getItem('demo'))[$value];
   const expected = values.object;
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test('Object key', t => {
@@ -60,7 +60,7 @@ test('Object key', t => {
   };
 
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test('Array', t => {
@@ -69,7 +69,7 @@ test('Array', t => {
   const actual = JSON.parse(localStorage.getItem('demo'))[$value];
   const expected = values.array;
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test('true', t => {
@@ -78,7 +78,7 @@ test('true', t => {
 
   const actual = JSON.parse(localStorage.getItem('demo'))[$value];
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test('false', t => {
@@ -87,7 +87,7 @@ test('false', t => {
 
   const actual = JSON.parse(localStorage.getItem('demo'))[$value];
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test('null', t => {
@@ -96,7 +96,7 @@ test('null', t => {
 
   const actual = JSON.parse(localStorage.getItem('demo'))[$value];
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test('undefined', t => {
@@ -105,5 +105,5 @@ test('undefined', t => {
 
   const actual = JSON.parse(localStorage.getItem('demo'))[$value];
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });

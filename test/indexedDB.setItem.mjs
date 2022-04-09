@@ -21,7 +21,7 @@ test.serial('String', async t => {
   const actual = await db.getItem('demo');
   const expected = values.string;
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test.serial('BigInt', async t => {
@@ -30,7 +30,7 @@ test.serial('BigInt', async t => {
   const actual = await db.getItem('demo');
   const expected = values.bigint;
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test.serial('Object', async t => {
@@ -39,7 +39,7 @@ test.serial('Object', async t => {
   const actual = await db.getItem('demo');
   const expected = values.object;
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test.serial('Object key', async t => {
@@ -57,7 +57,7 @@ test.serial('Object key', async t => {
     }
 
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test.serial('Array', async t => {
@@ -66,7 +66,7 @@ test.serial('Array', async t => {
   const actual = await db.getItem('demo');
   const expected = values.array;
 
-  t.deepEqual(expected, actual);
+  t.deepEqual(actual, expected);
 });
 
 test.serial('true', async t => {
@@ -75,7 +75,7 @@ test.serial('true', async t => {
 
   const actual = await db.getItem('demo');
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test.serial('false', async t => {
@@ -84,7 +84,7 @@ test.serial('false', async t => {
 
   const actual = await db.getItem('demo');
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test.serial('null', async t => {
@@ -93,7 +93,7 @@ test.serial('null', async t => {
 
   const actual = await db.getItem('demo');
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
 
 test.serial('undefined', async t => {
@@ -102,5 +102,5 @@ test.serial('undefined', async t => {
 
   const actual = await db.getItem('demo');
 
-  t.is(expected, actual);
+  t.is(actual, expected);
 });
