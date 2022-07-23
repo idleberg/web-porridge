@@ -8,5 +8,6 @@ export const values = {
   string: 'Hello World',
   array: ['Hello', 'World!'],
   object: { message: 'Hello World!' },
-  bigint: 2n ** 53n
+  bigint: 2n ** 53n,
+  date: new Date()
 }

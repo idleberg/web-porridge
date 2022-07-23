@@ -10,9 +10,12 @@ const storageKeys: Porridge.StorageKeys = {
  * @returns {String}
  */
  function serialize(item: unknown): unknown {
-   switch (typeof item) {
-    case 'bigint':
-       return item.toString();
+   switch (true) {
+    case typeof item === 'bigint':
+      return item.toString().valueOf();
+
+    case item instanceof Date:
+      return new Date(item as Date).valueOf();
 
     default:
       return item;
@@ -37,6 +40,9 @@ function deserialize(item): unknown {
 
     case 'bigint':
       return BigInt(decodedString);
+
+    case 'date':
+      return new Date(decodedString);
 
     case 'string':
       return decodedString.toString();
@@ -64,6 +70,9 @@ function getType(item: any): string {
 
     case '[object Boolean]':
       return 'boolean';
+
+    case '[object Date]':
+      return 'date';
 
     case '[object Null]':
       return 'null';

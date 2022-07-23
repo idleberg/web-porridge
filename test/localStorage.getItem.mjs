@@ -67,6 +67,19 @@ test('BigInt', t => {
   t.is(actual, expected);
 });
 
+test('Date', t => {
+  localStorage.setItem('demo', JSON.stringify({
+    [$type]: 'date',
+    [$value]: values.date.valueOf()
+  }));
+
+  const actual = localPorridge.getItem('demo');
+  const expected = values.date;
+
+  t.is(actual instanceof Date, expected instanceof Date);
+  t.is(actual.valueOf(), expected.valueOf());
+});
+
 test('Object', t => {
   localStorage.setItem('demo', JSON.stringify({
     [$type]: 'object',

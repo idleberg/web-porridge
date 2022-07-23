@@ -51,6 +51,16 @@ test.serial('BigInt', async t => {
   t.is(actual, expected);
 });
 
+test.serial('Date', async t => {
+  await db.setItem('demo', values.date);
+
+  const actual = await db.getItem('demo');
+  const expected = values.date;
+
+  t.is(actual instanceof Date, expected instanceof Date);
+  t.is(actual.valueOf(), expected.valueOf());
+});
+
 test.serial('Object', async t => {
   await db.setItem('demo', values.object);
 
