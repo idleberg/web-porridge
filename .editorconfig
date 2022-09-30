@@ -1,7 +1,10 @@
+# EditorConfig is awesome: https://EditorConfig.org
+root = true
+
 [*]
 charset = utf-8
 indent_size = 2
-indent_style = space
+indent_style = tab
 insert_final_newline = true
 trim_trailing_whitespace = true
 
@@ -9,6 +12,9 @@ trim_trailing_whitespace = true
 block_comment_start = /*
 block_comment = *
 block_comment_end = */
+
+[*.{yml,yaml}]
+indent_style = space
 
 [*.md]
 trim_trailing_whitespace = false
