@@ -16,20 +16,20 @@ test.beforeEach(async () => {
 });
 
 test.serial('true', async t => {
-  Promise.all(values.map(async item => await db.setItem(`demo${item}`, item)));
+	Promise.all(values.map(async item => await db.setItem(`demo${item}`, item)));
 
-  const actual = await db.hasItem('demo1');
-  const expected = true;
+	const actual = await db.hasItem('demo1');
+	const expected = true;
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });
 
 test.serial('false', async t => {
-  Promise.all(values.map(async item => await db.setItem(`demo${item}`, item)));
+	Promise.all(values.map(async item => await db.setItem(`demo${item}`, item)));
 
-  await db.clear();
-  const actual = await db.hasItem('demo1');
-  const expected = false;
+	await db.clear();
+	const actual = await db.hasItem('demo1');
+	const expected = false;
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });

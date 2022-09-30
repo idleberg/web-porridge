@@ -16,19 +16,19 @@ test.beforeEach(async () => {
 });
 
 test.serial('Did expire', async t => {
-  await db.setItem('demo', values.string, { expires: Date.now() - 1000});
+	await db.setItem('demo', values.string, { expires: Date.now() - 1000});
 
-  const actual = await db.didExpire('demo');
-  const expected = true;
+	const actual = await db.didExpire('demo');
+	const expected = true;
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });
 
 test.serial('Did not expire)', async t => {
-  await db.setItem('demo', values.string, { expires: Date.now() + 1000});
+	await db.setItem('demo', values.string, { expires: Date.now() + 1000});
 
-  const actual = await db.didExpire('demo');
-  const expected = false;
+	const actual = await db.didExpire('demo');
+	const expected = false;
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });

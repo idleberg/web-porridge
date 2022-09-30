@@ -7,20 +7,20 @@ browserEnv(['window']);
 const localPorridge = new Porridge('localStorage');
 
 test('undefined', t => {
-  localStorage.clear();
+	localStorage.clear();
 
-  const actual = localPorridge.key(0);
+	const actual = localPorridge.key(0);
 
-  t.is(actual, undefined);
+	t.is(actual, undefined);
 });
 
 test('Single Item', t => {
-  const expected = 'demo';
+	const expected = 'demo';
 
-  localStorage.clear();
-  localStorage.setItem(expected, 'Hello World!');
+	localStorage.clear();
+	localStorage.setItem(expected, 'Hello World!');
 
-  const actual = localPorridge.key(0);
+	const actual = localPorridge.key(0);
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });

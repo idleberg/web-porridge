@@ -12,27 +12,27 @@ window.indexedDB = {}
 const db = new PorridgeDB();
 
 test.serial('String', async t => {
-  await db.setItem('demo', values.string);
-  await db.removeItem('demo');
+	await db.setItem('demo', values.string);
+	await db.removeItem('demo');
 
-  const actual = await db.getItem('demo');
-  const expected = null
+	const actual = await db.getItem('demo');
+	const expected = null
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });
 
 test.serial('Object key', async t => {
-  await db.setItem('demo', {
-      ...values.object,
-      deleteMe: true
-    });
+	await db.setItem('demo', {
+			...values.object,
+			deleteMe: true
+		});
 
-  await db.removeItem('demo', { prop: 'deleteMe' });
+	await db.removeItem('demo', { prop: 'deleteMe' });
 
-  const actual = await db.getItem('demo');
-  const expected =  {
-    ...values.object
-  };
+	const actual = await db.getItem('demo');
+	const expected =  {
+		...values.object
+	};
 
-  t.deepEqual(actual, expected);
+	t.deepEqual(actual, expected);
 });

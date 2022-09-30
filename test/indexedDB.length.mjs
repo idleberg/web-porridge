@@ -15,19 +15,19 @@ test.beforeEach(async () => {
 });
 
 test.serial('Empty', async t => {
-  await db.setItem('demo', 'Hello World!');
-  await db.clear();
+	await db.setItem('demo', 'Hello World!');
+	await db.clear();
 
-  const actual = await db.length;
+	const actual = await db.length;
 
-  t.is(actual, 0);
+	t.is(actual, 0);
 });
 
 test.serial('Single Item', async t => {
-  await db.clear();
-  await db.setItem('demo', 'Hello World!');
+	await db.clear();
+	await db.setItem('demo', 'Hello World!');
 
-  const actual = await db.length;
+	const actual = await db.length;
 
-  t.is(actual, 1);
+	t.is(actual, 1);
 });

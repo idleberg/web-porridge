@@ -15,10 +15,10 @@ test.beforeEach(async () => {
 });
 
 test('Default', async t => {
-  await db.setItem('demo', 'Hello World!');
-  await db.clear();
+	await db.setItem('demo', 'Hello World!');
+	await db.clear();
 
-  const actual = await db.length;
+	const actual = await db.length;
 
-  t.is(actual, 0);
+	t.is(actual, 0);
 });

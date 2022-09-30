@@ -8,33 +8,33 @@ browserEnv(['window']);
 const localPorridge = new Porridge('localStorage');
 
 test('String', t => {
-  localStorage.setItem('demo', values.string);
-  localPorridge.removeItem('demo');
+	localStorage.setItem('demo', values.string);
+	localPorridge.removeItem('demo');
 
-  const actual = localStorage.getItem('demo');
-  const expected = null
+	const actual = localStorage.getItem('demo');
+	const expected = null
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });
 
 test('Object key', t => {
-  localStorage.setItem('demo', JSON.stringify({
-    [storageKeys.value]: {
-      ...values.object,
-      deleteMe: true
-    },
-    [storageKeys.type]: 'object'
-  }));
+	localStorage.setItem('demo', JSON.stringify({
+		[storageKeys.value]: {
+			...values.object,
+			deleteMe: true
+		},
+		[storageKeys.type]: 'object'
+	}));
 
-  localPorridge.removeItem('demo', { prop: 'deleteMe' });
+	localPorridge.removeItem('demo', { prop: 'deleteMe' });
 
-  const actual = JSON.parse(localStorage.getItem('demo'));
-  const expected = {
-    [storageKeys.value]: {
-      ...values.object
-    },
-    [storageKeys.type]: 'object'
-  };
+	const actual = JSON.parse(localStorage.getItem('demo'));
+	const expected = {
+		[storageKeys.value]: {
+			...values.object
+		},
+		[storageKeys.type]: 'object'
+	};
 
-  t.deepEqual(actual, expected);
+	t.deepEqual(actual, expected);
 });

@@ -1,23 +1,23 @@
 declare namespace Porridge {
-  interface StorageOptions{
-    expires?: string;
-    prop?: string;
-  }
+	interface StorageOptions{
+		expires?: string;
+		prop?: string;
+	}
 
-  interface IndexeddbOptions {
-    db: string;
-    name: string;
-  }
+	interface IndexeddbOptions {
+		db: string;
+		name: string;
+	}
 
-  interface Payload {
-    '@expires'?: string;
-    '@type': 'boolean' | 'null' | 'number' | 'object' | 'string' | 'undefined';
-    '@value': string;
-  }
+	interface Payload {
+		'@expires'?: string;
+		'@type': 'boolean' | 'null' | 'number' | 'object' | 'string' | 'undefined';
+		'@value': string;
+	}
 
-  interface StorageKeys {
-    expires: '@expires';
-    value: '@value';
-    type: '@type';
-  }
+	interface StorageKeys {
+		expires: '@expires';
+		value: '@value';
+		type: '@type';
+	}
 }

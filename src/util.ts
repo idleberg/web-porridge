@@ -1,7 +1,7 @@
 const storageKeys: Porridge.StorageKeys = {
-  value: '@value',
-  type: '@type',
-  expires: '@expires'
+	value: '@value',
+	type: '@type',
+	expires: '@expires'
 };
 
 /**
@@ -9,17 +9,17 @@ const storageKeys: Porridge.StorageKeys = {
  * @param {*} item
  * @returns {String}
  */
- function serialize(item: unknown): unknown {
-   switch (true) {
-    case typeof item === 'bigint':
-      return item.toString().valueOf();
+function serialize(item: unknown): unknown {
+	switch (true) {
+		case typeof item === 'bigint':
+			return item.toString().valueOf();
 
-    case item instanceof Date:
-      return new Date(item as Date).valueOf();
+		case item instanceof Date:
+			return new Date(item as Date).valueOf();
 
-    default:
-      return item;
-   }
+		default:
+			return item;
+	}
 }
 
 /**
@@ -28,28 +28,28 @@ const storageKeys: Porridge.StorageKeys = {
  * @returns {*}
  */
 function deserialize(item): unknown {
-  const decodedString = item[storageKeys.value];
+	const decodedString = item[storageKeys.value];
 
-  switch(item[storageKeys.type]) {
-    case 'boolean':
-    case 'null':
-    case 'number':
-    case 'object':
-    case 'undefined':
-      return decodedString;
+	switch(item[storageKeys.type]) {
+		case 'boolean':
+		case 'null':
+		case 'number':
+		case 'object':
+		case 'undefined':
+			return decodedString;
 
-    case 'bigint':
-      return BigInt(decodedString);
+		case 'bigint':
+			return BigInt(decodedString);
 
-    case 'date':
-      return new Date(decodedString);
+		case 'date':
+			return new Date(decodedString);
 
-    case 'string':
-      return decodedString.toString();
+		case 'string':
+			return decodedString.toString();
 
-    default:
-      return item;
-  }
+		default:
+			return item;
+	}
 }
 
 /**
@@ -58,37 +58,37 @@ function deserialize(item): unknown {
 * @returns {String}
 */
 function getType(item: any): string {
-  const type = Object.prototype.toString.call(item);
+	const type = Object.prototype.toString.call(item);
 
-  switch (type) {
-    case '[object Array]':
-    case '[object Object]':
-      return 'object';
+	switch (type) {
+		case '[object Array]':
+		case '[object Object]':
+			return 'object';
 
-    case '[object BigInt]':
-      return 'bigint';
+		case '[object BigInt]':
+			return 'bigint';
 
-    case '[object Boolean]':
-      return 'boolean';
+		case '[object Boolean]':
+			return 'boolean';
 
-    case '[object Date]':
-      return 'date';
+		case '[object Date]':
+			return 'date';
 
-    case '[object Null]':
-      return 'null';
+		case '[object Null]':
+			return 'null';
 
-    case '[object Number]':
-      return 'number';
+		case '[object Number]':
+			return 'number';
 
-    case '[object String]':
-      return 'string';
+		case '[object String]':
+			return 'string';
 
-    case '[object Undefined]':
-      return 'undefined';
+		case '[object Undefined]':
+			return 'undefined';
 
-    default:
-      new Error(`Type ${type} cannot be stringified`);
-  }
+		default:
+			new Error(`Type ${type} cannot be stringified`);
+	}
 }
 
 /**
@@ -97,53 +97,53 @@ function getType(item: any): string {
 * @returns {boolean}
 */
 function didExpire(expires: string): boolean {
-  return expires && new Date(expires) <= new Date();
+	return expires && new Date(expires) <= new Date();
 }
 
 function eventDispatcher(eventName, payload) {
-  try {
-    window.dispatchEvent(
-      new CustomEvent(eventName, {
-        detail: payload
-      })
-    );
-  } catch (err) {
-    // TODO: fix CustomEvent failing on NodeJS
-  }
+	try {
+		window.dispatchEvent(
+			new CustomEvent(eventName, {
+				detail: payload
+			})
+		);
+	} catch (err) {
+		// TODO: fix CustomEvent failing on NodeJS
+	}
 }
 
 function eventListener(eventName: string, keyName: string, callback: (payload: any) => void, targetOrigins = []): void {
-  window.addEventListener(eventName, (e: CustomEvent) => {
-    if (e.detail.key === keyName || e.detail.key === undefined) {
-      callback({
-        key: keyName,
-        value: e.detail.value
-      });
+	window.addEventListener(eventName, (e: CustomEvent) => {
+		if (e.detail.key === keyName || e.detail.key === undefined) {
+			callback({
+				key: keyName,
+				value: e.detail.value
+			});
 
-      if (targetOrigins?.length) {
-        for (const targetOrigin of targetOrigins) {
-          try {
-            const url = new URL(targetOrigin);
+			if (targetOrigins?.length) {
+				for (const targetOrigin of targetOrigins) {
+					try {
+						const url = new URL(targetOrigin);
 
-            window.postMessage({
-              key: keyName,
-              value: e.detail.value
-            }, url.origin);
-          } catch ({ message }) {
-            console.error(message);
-          }
-        }
-      }
-    }
-  });
+						window.postMessage({
+							key: keyName,
+							value: e.detail.value
+						}, url.origin);
+					} catch ({ message }) {
+						console.error(message);
+					}
+				}
+			}
+		}
+	});
 }
 
 export {
-  deserialize,
-  didExpire,
-  eventDispatcher,
-  eventListener,
-  getType,
-  serialize,
-  storageKeys
+	deserialize,
+	didExpire,
+	eventDispatcher,
+	eventListener,
+	getType,
+	serialize,
+	storageKeys
 };

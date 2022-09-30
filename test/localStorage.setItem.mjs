@@ -8,112 +8,112 @@ browserEnv(['window']);
 const localPorridge = new Porridge('localStorage');
 
 const {
-  type: $type,
-  value: $value
+	type: $type,
+	value: $value
 } = storageKeys;
 
 test('String', t => {
-  localPorridge.setItem('demo', values.string);
+	localPorridge.setItem('demo', values.string);
 
-  const actual = JSON.parse(localStorage.getItem('demo'))[$value];
-  const expected = values.string;
+	const actual = JSON.parse(localStorage.getItem('demo'))[$value];
+	const expected = values.string;
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });
 
 test('BigInt', t => {
-  localPorridge.setItem('demo', values.bigint);
+	localPorridge.setItem('demo', values.bigint);
 
-  const actual = BigInt(JSON.parse(localStorage.getItem('demo'))[$value]);
-  const expected = values.bigint;
+	const actual = BigInt(JSON.parse(localStorage.getItem('demo'))[$value]);
+	const expected = values.bigint;
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });
 
 test('Date', t => {
-  localPorridge.setItem('demo', values.date);
+	localPorridge.setItem('demo', values.date);
 
-  const actual = new Date(JSON.parse(localStorage.getItem('demo'))[$value]);
-  const expected = values.date;
+	const actual = new Date(JSON.parse(localStorage.getItem('demo'))[$value]);
+	const expected = values.date;
 
-  t.is(actual instanceof Date, expected instanceof Date);
-  t.is(actual.valueOf(), expected.valueOf());
+	t.is(actual instanceof Date, expected instanceof Date);
+	t.is(actual.valueOf(), expected.valueOf());
 });
 
 test('Object', t => {
-  localPorridge.setItem('demo', values.object);
+	localPorridge.setItem('demo', values.object);
 
-  const actual = JSON.parse(localStorage.getItem('demo'))[$value];
-  const expected = values.object;
+	const actual = JSON.parse(localStorage.getItem('demo'))[$value];
+	const expected = values.object;
 
-  t.deepEqual(actual, expected);
+	t.deepEqual(actual, expected);
 });
 
 test('Object key', t => {
-  localStorage.setItem('demo', JSON.stringify({
-    [$type]: 'object',
-    [$value]: {
-      ...values.object,
-      deleteMe: true
-    },
-  }));
+	localStorage.setItem('demo', JSON.stringify({
+		[$type]: 'object',
+		[$value]: {
+			...values.object,
+			deleteMe: true
+		},
+	}));
 
-  localPorridge.setItem('demo', false, { prop: 'deleteMe' });
+	localPorridge.setItem('demo', false, { prop: 'deleteMe' });
 
-  const actual = JSON.parse(localStorage.getItem('demo'));
-  const expected = {
-    [$type]: 'object',
-    [$value]: {
-      ...values.object,
-      deleteMe: false
-    }
-  };
+	const actual = JSON.parse(localStorage.getItem('demo'));
+	const expected = {
+		[$type]: 'object',
+		[$value]: {
+			...values.object,
+			deleteMe: false
+		}
+	};
 
 
-  t.deepEqual(actual, expected);
+	t.deepEqual(actual, expected);
 });
 
 test('Array', t => {
-  localPorridge.setItem('demo', values.array);
+	localPorridge.setItem('demo', values.array);
 
-  const actual = JSON.parse(localStorage.getItem('demo'))[$value];
-  const expected = values.array;
+	const actual = JSON.parse(localStorage.getItem('demo'))[$value];
+	const expected = values.array;
 
-  t.deepEqual(actual, expected);
+	t.deepEqual(actual, expected);
 });
 
 test('true', t => {
-  const expected = true;
-  localPorridge.setItem('demo', expected);
+	const expected = true;
+	localPorridge.setItem('demo', expected);
 
-  const actual = JSON.parse(localStorage.getItem('demo'))[$value];
+	const actual = JSON.parse(localStorage.getItem('demo'))[$value];
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });
 
 test('false', t => {
-  const expected = false;
-  localPorridge.setItem('demo', expected);
+	const expected = false;
+	localPorridge.setItem('demo', expected);
 
-  const actual = JSON.parse(localStorage.getItem('demo'))[$value];
+	const actual = JSON.parse(localStorage.getItem('demo'))[$value];
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });
 
 test('null', t => {
-  const expected = null;
-  localPorridge.setItem('demo', expected);
+	const expected = null;
+	localPorridge.setItem('demo', expected);
 
-  const actual = JSON.parse(localStorage.getItem('demo'))[$value];
+	const actual = JSON.parse(localStorage.getItem('demo'))[$value];
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });
 
 test('undefined', t => {
-  const expected = undefined;
-  localPorridge.setItem('demo', expected);
+	const expected = undefined;
+	localPorridge.setItem('demo', expected);
 
-  const actual = JSON.parse(localStorage.getItem('demo'))[$value];
+	const actual = JSON.parse(localStorage.getItem('demo'))[$value];
 
-  t.is(actual, expected);
+	t.is(actual, expected);
 });
