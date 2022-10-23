@@ -357,6 +357,20 @@ idb.observe('demo', ({ key, value }) => {
 
 </details>
 
+### Options
+
+#### expires
+
+Type: `string`
+
+Sets an expiry date for the storage value. Can be anything that can be parsed by `new Date()`.
+
+#### prop
+
+Type: `string`
+
+Sets a object property in dot-notation that will be read, written or deleted.
+
 ## License
 
 This work is licensed under [The MIT License](LICENSE)
