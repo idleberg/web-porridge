@@ -340,7 +340,7 @@ When passed a key name and callback function, it will listen to changes to the g
 
 ```ts
 localPorridge.observe('demo', ({ key, value }) => {
-    console.log(`${key} has changed to:`, value);
+	console.log(`${key} has changed to:`, value);
 });
 ```
 
@@ -351,7 +351,7 @@ localPorridge.observe('demo', ({ key, value }) => {
 
 ```ts
 idb.observe('demo', ({ key, value }) => {
-    console.log(`${key} has changed to:`, value);
+	console.log(`${key} has changed to:`, value);
 });
 ```
 
@@ -369,7 +369,7 @@ Sets an expiry date for the storage value. Can be anything that can be parsed by
 
 Type: `string`
 
-Specifies an object property as a dot notation string. Allows granular reading and writing.
+Specifies an object property as a dot notation string. Allows granular reads and updates.
 
 ## License
 
