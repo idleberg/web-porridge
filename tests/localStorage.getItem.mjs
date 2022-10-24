@@ -1,8 +1,11 @@
 import 'localstorage-polyfill';
-import { storageKeys, values } from './shared.mjs';
 import { Porridge } from '../lib/web-porridge.mjs';
+import { storageKeys, values } from './shared.mjs';
+import { suite } from 'uvu';
+import * as assert from 'uvu/assert';
 import browserEnv from 'browser-env';
-import test from 'ava';
+
+const test = suite('localStorage.getItem');
 
 browserEnv(['window']);
 const localPorridge = new Porridge('localStorage');
@@ -13,11 +16,11 @@ const {
 	value: $value
 } = storageKeys;
 
-test.beforeEach(t => {
+test.before.each(() => {
 	localStorage.removeItem('demo');
 });
 
-test('String', t => {
+test('String', () => {
 	localStorage.setItem('demo', JSON.stringify({
 		[$type]: 'string',
 		[$value]: values.string
@@ -26,10 +29,10 @@ test('String', t => {
 	const actual = localPorridge.getItem('demo');
 	const expected = values.string;
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test('String (has expired)', t => {
+test('String (has expired)', () => {
 	localStorage.setItem('demo', JSON.stringify({
 		[$expires]: Date.now() - 1000,
 		[$type]: 'string',
@@ -39,10 +42,10 @@ test('String (has expired)', t => {
 	const actual = localPorridge.getItem('demo');
 	const expected = null;
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test('String (hasn\'t expired)', t => {
+test('String (hasn\'t expired)', () => {
 	localStorage.setItem('demo', JSON.stringify({
 		[$expires]: Date.now() + 1000,
 		[$type]: 'string',
@@ -52,10 +55,10 @@ test('String (hasn\'t expired)', t => {
 	const expected = values.string;
 	const actual = localPorridge.getItem('demo');
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test('BigInt', t => {
+test('BigInt', () => {
 	localStorage.setItem('demo', JSON.stringify({
 		[$type]: 'bigint',
 		[$value]: values.bigint.toString()
@@ -64,10 +67,10 @@ test('BigInt', t => {
 	const actual = localPorridge.getItem('demo');
 	const expected = values.bigint;
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test('Date', t => {
+test('Date', () => {
 	localStorage.setItem('demo', JSON.stringify({
 		[$type]: 'date',
 		[$value]: values.date.valueOf()
@@ -76,11 +79,11 @@ test('Date', t => {
 	const actual = localPorridge.getItem('demo');
 	const expected = values.date;
 
-	t.is(actual instanceof Date, expected instanceof Date);
-	t.is(actual.valueOf(), expected.valueOf());
+	assert.is(actual instanceof Date, expected instanceof Date);
+	assert.is(actual.valueOf(), expected.valueOf());
 });
 
-test('Object', t => {
+test('Object', () => {
 	localStorage.setItem('demo', JSON.stringify({
 		[$type]: 'object',
 		[$value]: values.object
@@ -89,10 +92,10 @@ test('Object', t => {
 	const actual = localPorridge.getItem('demo');
 	const expected = values.object;
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
 
-test('Object (key)', t => {
+test('Object (key)', () => {
 	localStorage.setItem('demo', JSON.stringify({
 		[$type]: 'object',
 		[$value]: values.object
@@ -101,10 +104,10 @@ test('Object (key)', t => {
 	const actual = localPorridge.getItem('demo', { prop: 'message' });
 	const expected = values.object.message;
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
 
-test('Array', t => {
+test('Array', () => {
 	localStorage.setItem('demo', JSON.stringify({
 		[$type]: 'object',
 		[$value]: values.array
@@ -113,10 +116,10 @@ test('Array', t => {
 	const actual = localPorridge.getItem('demo');
 	const expected = values.array;
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
 
-test('true', t => {
+test('true', () => {
 	const expected = true;
 	localStorage.setItem('demo', JSON.stringify({
 		[$type]: 'boolean',
@@ -125,10 +128,10 @@ test('true', t => {
 
 	const actual = localPorridge.getItem('demo');
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
 
-test('false', t => {
+test('false', () => {
 	const expected = false;
 	localStorage.setItem('demo', JSON.stringify({
 		[$type]: 'boolean',
@@ -137,10 +140,10 @@ test('false', t => {
 
 	const actual = localPorridge.getItem('demo');
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
 
-test('null', t => {
+test('null', () => {
 	const expected = null;
 	localStorage.setItem('demo', JSON.stringify({
 		[$type]: 'null',
@@ -149,10 +152,10 @@ test('null', t => {
 
 	const actual = localPorridge.getItem('demo');
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
 
-test('undefined', t => {
+test('undefined', () => {
 	const expected = undefined;
 	localStorage.setItem('demo', JSON.stringify({
 		[$type]: 'undefined',
@@ -161,5 +164,8 @@ test('undefined', t => {
 
 	const actual = localPorridge.getItem('demo');
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
+
+
+test.run()

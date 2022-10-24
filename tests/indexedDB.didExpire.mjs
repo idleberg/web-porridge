@@ -1,9 +1,12 @@
 import 'fake-indexeddb/auto.js';
 import { Navigator } from 'node-navigator';
-import { values } from './shared.mjs';
 import { PorridgeDB } from '../lib/web-porridge.mjs';
+import { suite } from 'uvu';
+import { values } from './shared.mjs';
+import * as assert from 'uvu/assert';
 import browserEnv from 'browser-env';
-import test from 'ava';
+
+const test = suite('indexedDB.didExpire');
 
 browserEnv(['window']);
 global['navigator'] = new Navigator();
@@ -11,24 +14,26 @@ window.indexedDB = {}
 
 const db = new PorridgeDB();
 
-test.beforeEach(async () => {
+test.before.each(async () => {
 	await db.clear();
 });
 
-test.serial('true', async t => {
+test('true', async () => {
 	await db.setItem('demo', values.string, { expires: Date.now() - 1000});
 
 	const actual = await db.didExpire('demo');
 	const expected = true;
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test.serial('false', async t => {
+test('false', async () => {
 	await db.setItem('demo', values.string, { expires: Date.now() + 1000});
 
 	const actual = await db.didExpire('demo');
 	const expected = false;
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
+
+test.run();

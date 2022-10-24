@@ -1,8 +1,11 @@
 import 'localstorage-polyfill';
-import { storageKeys, values } from './shared.mjs';
 import { Porridge } from '../lib/web-porridge.mjs';
+import { storageKeys, values } from './shared.mjs';
+import { suite } from 'uvu';
+import * as assert from 'uvu/assert';
 import browserEnv from 'browser-env';
-import test from 'ava';
+
+const test = suite('localStorage.didExpire');
 
 browserEnv(['window']);
 const localPorridge = new Porridge('localStorage');
@@ -13,11 +16,11 @@ const {
 	value: $value
 } = storageKeys;
 
-test.beforeEach(t => {
+test.before.each(() => {
 	localStorage.removeItem('demo');
 });
 
-test('Did expire', t => {
+test('Did expire', () => {
 	localStorage.setItem('demo', JSON.stringify({
 		[$expires]: Date.now() - 1000,
 		[$type]: 'string',
@@ -27,10 +30,10 @@ test('Did expire', t => {
 	const actual = localPorridge.didExpire('demo');
 	const expected = true;
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test('Did not expire', t => {
+test('Did not expire', () => {
 	localStorage.setItem('demo', JSON.stringify({
 		[$expires]: Date.now() + 1000,
 		[$type]: 'string',
@@ -40,5 +43,7 @@ test('Did not expire', t => {
 	const actual = localPorridge.didExpire('demo');
 	const expected = false;
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
+
+test.run();

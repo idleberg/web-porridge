@@ -1,8 +1,11 @@
 import 'fake-indexeddb/auto.js';
 import { Navigator } from 'node-navigator';
 import { PorridgeDB } from '../lib/web-porridge.mjs';
+import { suite } from 'uvu';
+import * as assert from 'uvu/assert';
 import browserEnv from 'browser-env';
-import test from 'ava';
+
+const test = suite('indexedDB.clear');
 
 browserEnv(['window']);
 global['navigator'] = new Navigator();
@@ -10,24 +13,17 @@ window.indexedDB = {}
 
 const db = new PorridgeDB();
 
-test.beforeEach(async () => {
+test.before.each(async () => {
 	await db.clear();
 });
 
-test.serial('Empty', async t => {
+test('Default', async () => {
 	await db.setItem('demo', 'Hello World!');
 	await db.clear();
 
 	const actual = await db.length;
 
-	t.is(actual, 0);
+	assert.is(actual, 0);
 });
 
-test.serial('Single Item', async t => {
-	await db.clear();
-	await db.setItem('demo', 'Hello World!');
-
-	const actual = await db.length;
-
-	t.is(actual, 1);
-});
+test.run();

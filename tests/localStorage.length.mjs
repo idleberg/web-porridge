@@ -1,24 +1,29 @@
 import 'localstorage-polyfill';
 import { Porridge } from '../lib/web-porridge.mjs';
+import { suite } from 'uvu';
+import * as assert from 'uvu/assert';
 import browserEnv from 'browser-env';
-import test from 'ava';
+
+const test = suite('localStorage.length');
 
 browserEnv(['window']);
 const localPorridge = new Porridge('localStorage');
 
-test('Empty', t => {
+test('Empty', () => {
 	localStorage.clear();
 
 	const actual = localPorridge.length;
 
-	t.is(actual, 0);
+	assert.is(actual, 0);
 });
 
-test('Single Item', t => {
+test('Single Item', () => {
 	localStorage.clear();
 	localStorage.setItem('demo', 'Hello World!');
 
 	const actual = localPorridge.length;
 
-	t.is(actual, 1);
+	assert.is(actual, 1);
 });
+
+test.run();

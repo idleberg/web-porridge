@@ -1,23 +1,26 @@
 import 'localstorage-polyfill';
-import { storageKeys, values } from './shared.mjs';
 import { Porridge } from '../lib/web-porridge.mjs';
+import { storageKeys, values } from './shared.mjs';
+import { suite } from 'uvu';
+import * as assert from 'uvu/assert';
 import browserEnv from 'browser-env';
-import test from 'ava';
+
+const test = suite('localStorage.removeItem');
 
 browserEnv(['window']);
 const localPorridge = new Porridge('localStorage');
 
-test('String', t => {
+test('String', () => {
 	localStorage.setItem('demo', values.string);
 	localPorridge.removeItem('demo');
 
 	const actual = localStorage.getItem('demo');
 	const expected = null
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test('Object key', t => {
+test('Object key', () => {
 	localStorage.setItem('demo', JSON.stringify({
 		[storageKeys.value]: {
 			...values.object,
@@ -36,5 +39,7 @@ test('Object key', t => {
 		[storageKeys.type]: 'object'
 	};
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
+
+test.run();

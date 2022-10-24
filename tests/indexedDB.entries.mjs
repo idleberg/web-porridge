@@ -1,8 +1,11 @@
 import 'fake-indexeddb/auto.js';
 import { Navigator } from 'node-navigator';
 import { PorridgeDB } from '../lib/web-porridge.mjs';
+import { suite } from 'uvu';
+import * as assert from 'uvu/assert';
 import browserEnv from 'browser-env';
-import test from 'ava';
+
+const test = suite('indexedDB.entries');
 
 browserEnv(['window']);
 global['navigator'] = new Navigator();
@@ -11,25 +14,29 @@ window.indexedDB = {}
 const db = new PorridgeDB();
 const values = [0, 1, 3];
 
-test.beforeEach(async () => {
+test.before.each(async () => {
 	await db.clear();
 });
 
-test.serial('true', async t => {
+test('true', async () => {
 	Promise.all(values.map(async item => await db.setItem(`demo${item}`, item)));
 
-	const actual = await db.values();
-	const expected = values;
+	const actual = await db.entries();
+	const expected = values.map(item => {
+		return [`demo${item}`, item];
+	});
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
 
-test.serial('false', async t => {
+test('false', async () => {
 	Promise.all(values.map(async item => await db.setItem(`demo${item}`, item)));
 
 	await db.clear();
-	const actual = await db.values();
+	const actual = await db.entries();
 	const expected = [];
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
+
+test.run();

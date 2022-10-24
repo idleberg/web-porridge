@@ -1,9 +1,12 @@
 import 'fake-indexeddb/auto.js';
 import { Navigator } from 'node-navigator';
-import { values } from './shared.mjs';
 import { PorridgeDB } from '../lib/web-porridge.mjs';
+import { suite } from 'uvu';
+import { values } from './shared.mjs';
+import * as assert from 'uvu/assert';
 import browserEnv from 'browser-env';
-import test from 'ava';
+
+const test = suite('indexedDB.setItem');
 
 browserEnv(['window']);
 global['navigator'] = new Navigator();
@@ -11,48 +14,48 @@ window.indexedDB = {}
 
 const db = new PorridgeDB();
 
-test.beforeEach(async () => {
+test.before.each(async () => {
 	await db.clear();
 });
 
-test.serial('String', async t => {
+test('String', async () => {
 	await db.setItem('demo', values.string);
 
 	const actual = await db.getItem('demo');
 	const expected = values.string;
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test.serial('BigInt', async t => {
+test('BigInt', async () => {
 	await db.setItem('demo', values.bigint);
 
 	const actual = await db.getItem('demo');
 	const expected = values.bigint;
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test.serial('Date', async t => {
+test('Date', async () => {
 	await db.setItem('demo', values.date);
 
 	const actual = await db.getItem('demo');
 	const expected = values.date;
 
-	t.is(actual instanceof Date, expected instanceof Date);
-	t.is(actual.valueOf(), expected.valueOf());
+	assert.is(actual instanceof Date, expected instanceof Date);
+	assert.is(actual.valueOf(), expected.valueOf());
 });
 
-test.serial('Object', async t => {
+test('Object', async () => {
 	await db.setItem('demo', values.object);
 
 	const actual = await db.getItem('demo');
 	const expected = values.object;
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
 
-test.serial('Object key', async t => {
+test('Object key', async () => {
 	await db.setItem('demo', {
 		...values.object,
 		deleteMe: true
@@ -67,50 +70,52 @@ test.serial('Object key', async t => {
 		}
 
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
 
-test.serial('Array', async t => {
+test('Array', async () => {
 	await db.setItem('demo', values.array);
 
 	const actual = await db.getItem('demo');
 	const expected = values.array;
 
-	t.deepEqual(actual, expected);
+	assert.equal(actual, expected);
 });
 
-test.serial('true', async t => {
+test('true', async () => {
 	const expected = true;
 	await db.setItem('demo', expected);
 
 	const actual = await db.getItem('demo');
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test.serial('false', async t => {
+test('false', async () => {
 	const expected = false;
 	await db.setItem('demo', expected);
 
 	const actual = await db.getItem('demo');
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test.serial('null', async t => {
+test('null', async () => {
 	const expected = null;
 	await db.setItem('demo', expected);
 
 	const actual = await db.getItem('demo');
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
 
-test.serial('undefined', async t => {
+test('undefined', async () => {
 	const expected = undefined;
 	await db.setItem('demo', expected);
 
 	const actual = await db.getItem('demo');
 
-	t.is(actual, expected);
+	assert.is(actual, expected);
 });
+
+test.run();
