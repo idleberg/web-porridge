@@ -369,7 +369,7 @@ Sets an expiry date for the storage value. Can be anything that can be parsed by
 
 Type: `string`
 
-Sets a object property in dot notation that will be read, written or deleted.
+Specifies an object property as a dot notation string. Allows granular reading and writing.
 
 ## License
 
