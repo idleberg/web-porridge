@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: ['*', 'lts/*']
+        node-version: ['lts/*', '*']
         os: [ubuntu-latest]
 
     steps:
@@ -41,9 +41,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
+
       - name: Lint Source
         run: pnpm run --if-present lint
+
       - name: Build Source
         run: pnpm run --if-present build
+
       - name: Run Tests
         run: pnpm run --if-present test
