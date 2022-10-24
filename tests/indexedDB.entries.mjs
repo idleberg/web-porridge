@@ -1,4 +1,4 @@
-import 'fake-indexeddb/auto.js';
+import 'fake-indexeddb/auto';
 import { Navigator } from 'node-navigator';
 import { PorridgeDB } from '../lib/web-porridge.mjs';
 import { suite } from 'uvu';

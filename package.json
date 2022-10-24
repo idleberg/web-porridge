@@ -70,7 +70,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.26.0",
     "eslint-plugin-json": "^3.1.0",
-    "fake-indexeddb": "^3.1.8",
+    "fake-indexeddb": "^4.0.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "localstorage-polyfill": "^1.0.1",
