@@ -22,15 +22,15 @@ export class Porridge {
 
 	constructor(store = 'localStorage', eventName = 'porridge.didChange') {
 		if (typeof eventName !== 'string') {
-			throw TypeError('Event name must be of type "string"');
+			throw new TypeError('Event name must be of type "string"');
 		}
 
 		this.eventName = eventName;
 
 		if (typeof <any>window !== 'undefined' && !(store in <any>window)) {
-			throw Error(`Your browser does not support the ${store} API`);
+			throw new Error(`Your browser does not support the ${store} API`);
 		} else if (!validStores.includes(store)) {
-			throw `Invalid storage type specified, try ${validStores.join('|')} instead`;
+			throw new TypeError(`Invalid storage type specified, try ${validStores.join('|')} instead`);
 		}
 
 		this.store = store;
@@ -203,6 +203,10 @@ export class Porridge {
 	 * @param {Array} targetOrigins
 	 */
 	public observe(keyName: string, callback: (payload: any) => void, targetOrigins: string[] = []): void {
+		if (typeof callback !== 'function') {
+			throw new TypeError('The callback argument is not a function');
+		}
+
 		eventListener(this.eventName, keyName, callback, targetOrigins);
 	}
 

@@ -206,6 +206,10 @@ export class PorridgeDB {
 	* @param {Array} targetOrigins
 	*/
 	public observe(keyName: string, callback: (payload: any) => void, targetOrigins: string[] = []): void {
+		if (typeof callback !== 'function') {
+			throw new TypeError('The callback argument is not a function');
+		}
+
 		eventListener(this.eventName, keyName, callback, targetOrigins);
 	}
 
