@@ -12,7 +12,7 @@ import {
 	storageKeys
 } from './util';
 
-const eventName = 'storage.didChange';
+const eventName = 'porridge.didChange';
 
 const validStores = [
 	'localStorage',

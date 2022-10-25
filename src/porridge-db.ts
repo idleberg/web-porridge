@@ -20,7 +20,7 @@ import {
 } from './util';
 
 const storageType = 'IndexedDB';
-const eventName = 'db.didChange';
+const eventName = 'porridgeDB.didChange';
 
 export class PorridgeDB {
 	store;
