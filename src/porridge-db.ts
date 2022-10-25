@@ -1,5 +1,6 @@
 /*! web-porridge | MIT License | https://github.com/idleberg/web-porridge */
 
+import type { WebPorridge } from '../types';
 import { getProperty, setProperty, deleteProperty } from 'dot-prop';
 
 import {
@@ -26,7 +27,7 @@ export class PorridgeDB {
 	eventName: string;
 	customStore: UseStore;
 
-	constructor(options?: Porridge.IndexeddbOptions) {
+	constructor(options?: WebPorridge.IndexeddbOptions) {
 		if (typeof <any>window !== 'undefined' && !('indexedDB' in <any>window)) {
 			throw Error(`Your browser does not support the IndexedDB API`);
 		}
@@ -51,7 +52,7 @@ export class PorridgeDB {
 	*
 	* @returns
 	*/
-	public async setItem(keyName: string, keyValue: unknown, options: Porridge.StorageOptions = {}): Promise<void> {
+	public async setItem(keyName: string, keyValue: unknown, options: WebPorridge.StorageOptions = {}): Promise<void> {
 		if (options?.prop?.length) {
 			const item = await this.getItem(keyName) || {};
 			setProperty(item, options.prop, keyValue);
@@ -88,7 +89,7 @@ export class PorridgeDB {
 	* @param {String} [options.prop]
 	* @returns
 	*/
-	public async getItem(keyName: string, options?: Porridge.StorageOptions): Promise<string | unknown> {
+	public async getItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<string | unknown> {
 		const item: Porridge.Payload = await getItemIdb(keyName, this.customStore);
 
 		if (!item || didExpire(item[storageKeys.expires])) {
@@ -108,7 +109,7 @@ export class PorridgeDB {
 	* @param {Object} [options]
 	* @param {String} [options.prop]
 	*/
-	public async removeItem(keyName: string, options?: Porridge.StorageOptions): Promise<void> {
+	public async removeItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<void> {
 		if (options?.prop?.length) {
 			const item = await this.getItem(keyName) || {};
 			deleteProperty(item, options.prop);
@@ -219,7 +220,7 @@ export class PorridgeDB {
 	* @returns {boolean}
 	*/
 	public async didExpire(keyName: string): Promise<boolean> {
-		const item: Porridge.Payload = await getItemIdb(keyName, this.customStore);
+		const item: WebPorridge.Payload = await getItemIdb(keyName, this.customStore);
 
 		return didExpire(item[storageKeys.expires]);
 	}

@@ -1,5 +1,6 @@
 /*! web-porridge | MIT License | https://github.com/idleberg/web-porridge */
 
+import type { WebPorridge } from '../types';
 import { getProperty, setProperty, deleteProperty } from 'dot-prop';
 
 import {
@@ -46,7 +47,7 @@ export class Porridge {
 	 *
 	 * @returns
 	 */
-	public setItem(keyName: string, keyValue: unknown, options?: Porridge.StorageOptions): void {
+	public setItem(keyName: string, keyValue: unknown, options?: WebPorridge.StorageOptions): void {
 		if (options?.prop?.length) {
 			const item = this.getItem(keyName) || {};
 			setProperty(item, options.prop, keyValue);
@@ -83,11 +84,11 @@ export class Porridge {
 	 * @param {String} [options.prop]
 	 * @returns
 	 */
-	public getItem(keyName: string, options?: Porridge.StorageOptions): string | unknown {
+	public getItem(keyName: string, options?: WebPorridge.StorageOptions): string | unknown {
 		const item = (<any>globalThis)[this.store].getItem(keyName);
 
 		try {
-			const decodedItem: Porridge.Payload = JSON.parse(item);
+			const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
 			if (!decodedItem || (didExpire(decodedItem[storageKeys.expires]))) {
 				return null;
@@ -111,7 +112,7 @@ export class Porridge {
 	 * @param {Object} [options]
 	 * @param {String} [options.prop]
 	 */
-	public removeItem(keyName: string, options?: Porridge.StorageOptions): void {
+	public removeItem(keyName: string, options?: WebPorridge.StorageOptions): void {
 		if (options?.prop?.length) {
 			const item = this.getItem(keyName) || {};
 			deleteProperty(item, options.prop);
@@ -217,7 +218,7 @@ export class Porridge {
 	 */
 	public didExpire(keyName: string): boolean {
 		const item = (<any>globalThis)[this.store].getItem(keyName);
-		const decodedItem: Porridge.Payload = JSON.parse(item);
+		const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
 		return didExpire(decodedItem[storageKeys.expires]);
 	}

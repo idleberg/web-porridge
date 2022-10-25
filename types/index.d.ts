@@ -1,4 +1,6 @@
-declare namespace Porridge {
+import type { Porridge } from "src";
+
+declare namespace WebPorridge {
 	interface StorageOptions{
 		expires?: string;
 		prop?: string;
@@ -21,3 +23,7 @@ declare namespace Porridge {
 		type: '@type';
 	}
 }
+
+export {
+	WebPorridge
+};
