@@ -12,16 +12,21 @@ import {
 	storageKeys
 } from './util';
 
-const eventName = 'porridge.didChange';
-
 const validStores = [
 	'localStorage',
 	'sessionStorage'
 ];
 export class Porridge {
+	eventName: string;
 	store: string;
 
-	constructor(store = 'localStorage') {
+	constructor(store = 'localStorage', eventName = 'porridge.didChange') {
+		if (typeof eventName !== 'string') {
+			throw TypeError('Event name must be of type "string"');
+		}
+
+		this.eventName = eventName;
+
 		if (typeof <any>window !== 'undefined' && !(store in <any>window)) {
 			throw Error(`Your browser does not support the ${store} API`);
 		} else if (!validStores.includes(store)) {
@@ -61,7 +66,7 @@ export class Porridge {
 			newValue[storageKeys.expires] = new Date(options.expires);
 		}
 
-		eventDispatcher(eventName, {
+		eventDispatcher(this.eventName, {
 			store: this.store,
 			key: keyName,
 			value: keyValue
@@ -114,7 +119,7 @@ export class Porridge {
 			return this.setItem(keyName, item);
 		}
 
-		eventDispatcher(eventName, {
+		eventDispatcher(this.eventName, {
 			store: this.store,
 			key: keyName,
 			value: null
@@ -145,7 +150,7 @@ export class Porridge {
 	 * @returns
 	 */
 	public clear(): void {
-		eventDispatcher(eventName, {
+		eventDispatcher(this.eventName, {
 			store: this.store,
 			value: null
 		});
@@ -198,7 +203,7 @@ export class Porridge {
 	 * @param {Array} targetOrigins
 	 */
 	public observe(keyName: string, callback: (payload: any) => void, targetOrigins: string[] = []): void {
-		eventListener(eventName, keyName, callback, targetOrigins);
+		eventListener(this.eventName, keyName, callback, targetOrigins);
 	}
 
 	/**

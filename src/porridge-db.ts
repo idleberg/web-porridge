@@ -9,6 +9,7 @@ import {
 	get as getItemIdb,
 	keys,
 	set as setItemIdb,
+	UseStore
 } from 'idb-keyval';
 
 import {
@@ -20,22 +21,24 @@ import {
 } from './util';
 
 const storageType = 'IndexedDB';
-const eventName = 'porridgeDB.didChange';
 
 export class PorridgeDB {
-	store;
+	eventName: string;
+	store: UseStore;
 
 	constructor(options?: Porridge.IndexeddbOptions) {
 		if (typeof <any>window !== 'undefined' && !('indexedDB' in <any>window)) {
 			throw Error(`Your browser does not support the IndexedDB API`);
 		}
 
-		const { db, name } = {
+		const { db, eventName, name } = {
 			db: 'web-porridge:db',
+			eventName: 'porridgeDB.didChange',
 			name: '(default store)',
 			...options
 		}
 
+		this.eventName = eventName;
 		this.store = createStore(db, name);
 	}
 	/**
@@ -68,7 +71,7 @@ export class PorridgeDB {
 			newValue[storageKeys.expires] = new Date(options.expires);
 		}
 
-	eventDispatcher(eventName, {
+	eventDispatcher(this.eventName, {
 			store: storageType,
 			key: keyName,
 			value: keyValue
@@ -113,7 +116,7 @@ export class PorridgeDB {
 			return await this.setItem(keyName, item);
 		}
 
-	eventDispatcher(eventName, {
+	eventDispatcher(this.eventName, {
 			store: storageType,
 			key: keyName,
 			value: null
@@ -146,7 +149,7 @@ export class PorridgeDB {
 	* @returns
 	*/
 	public async clear(): Promise<void> {
-		eventDispatcher(eventName, {
+		eventDispatcher(this.eventName, {
 			store: storageType,
 			value: null
 		});
@@ -203,7 +206,7 @@ export class PorridgeDB {
 	* @param {Array} targetOrigins
 	*/
 	public observe(keyName: string, callback: (payload: any) => void, targetOrigins: string[] = []): void {
-		eventListener(eventName, keyName, callback, targetOrigins);
+		eventListener(this.eventName, keyName, callback, targetOrigins);
 	}
 
 	/**

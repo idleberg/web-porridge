@@ -44,11 +44,11 @@ const idb = new PorridgeDB();
 
 #### Porridge
 
-Usage: `new Porridge(store: 'localStorage' | 'sessionStorage' = 'localStorage')`
+Usage: `new Porridge(store: 'localStorage' | 'sessionStorage' = 'localStorage', eventName = 'porridge.didChange')`
 
 #### PorridgeDB
 
-Usage: `new PorridgeDB(options?: {db: string; name: string})`
+Usage: `new PorridgeDB(options?: {db: string; eventName = 'porridgeDB.didChange'; name: string})`
 
 ### Methods
 
