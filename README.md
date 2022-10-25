@@ -48,7 +48,7 @@ Usage: `new Porridge(store: 'localStorage' | 'sessionStorage' = 'localStorage', 
 
 #### PorridgeDB
 
-Usage: `new PorridgeDB(options?: {db: string; eventName = 'porridgeDB.didChange'; name: string})`
+Usage: `new PorridgeDB(options?: {db: string; eventName = 'porridgeDB.didChange'; store: string})`
 
 ### Methods
 

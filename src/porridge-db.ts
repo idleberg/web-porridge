@@ -31,15 +31,15 @@ export class PorridgeDB {
 			throw Error(`Your browser does not support the IndexedDB API`);
 		}
 
-		const { db, eventName, name } = {
+		const { db, eventName, store } = {
 			db: 'web-porridge:db',
 			eventName: 'porridgeDB.didChange',
-			name: '(default store)',
+			store: '(default store)',
 			...options
 		}
 
 		this.eventName = eventName;
-		this.store = createStore(db, name);
+		this.store = createStore(db, store);
 	}
 	/**
 	* Writes single data item to IndexedDB
