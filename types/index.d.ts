@@ -13,7 +13,7 @@ declare namespace WebPorridge {
 
 	interface Payload {
 		'@expires'?: string;
-		'@type': 'boolean' | 'null' | 'number' | 'object' | 'string' | 'undefined';
+		'@type': 'boolean' | 'date' | 'null' | 'number' | 'object' | 'string' | 'undefined';
 		'@value': string;
 	}
 
