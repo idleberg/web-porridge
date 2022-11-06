@@ -52,7 +52,7 @@ Usage: `new PorridgeDB(options?: {db: string; eventName = 'porridgeDB.didChange'
 
 ### Methods
 
-All methods and properties of the [Storage API][] have equivalents on `localPorridge` / `sessionPorridge`, completed by additional methods for batch operations.
+All methods and properties of the [Storage API][] have equivalents on `localPorridge` / `sessionPorridge`, completed by additional convenience methods as listed below.
 
 The following methods are available for both, Storage and IndexedDB. However, the key difference is that the former API is synchronous, while the latter is _mostly_ asynchronous.
 
