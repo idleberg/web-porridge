@@ -53,10 +53,10 @@ function deserialize(item): unknown {
 }
 
 /**
-* Returns the type of a given item
-* @param {*} item
-* @returns {String}
-*/
+ * Returns the type of a given item
+ * @param {*} item
+ * @returns {String}
+ */
 function getType(item: any): string {
 	const type = Object.prototype.toString.call(item);
 
@@ -92,10 +92,10 @@ function getType(item: any): string {
 }
 
 /**
-* Runs a check whether a storage item has expired
-* @param {String} expires
-* @returns {boolean}
-*/
+ * Runs a check whether a storage item has expired
+ * @param {String} expires
+ * @returns {boolean}
+ */
 function didExpire(expires: string): boolean {
 	return expires && new Date(expires) <= new Date();
 }
