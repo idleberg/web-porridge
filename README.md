@@ -56,6 +56,21 @@ All methods and properties of the [Storage API][] have equivalents on `localPorr
 
 The following methods are available for both, Storage and IndexedDB. However, the key difference is that the former API is synchronous, while the latter is _mostly_ asynchronous.
 
+**Table of contents**
+
+- [setItem()](#setitem)
+- [getItem()](#getitem)
+- [removeItem()](#removeitem)
+- [clear()](#clear)
+- [key()](#key)
+- [length](#length)
+- [hasItem()](#hasitem)
+- [keys()](#keys)
+- [values()](#values)
+- [entries()](#entries)
+- [didExpire()](#didexpire)
+- [observe()](#observe)
+
 #### setItem()
 
 Usage: `setItem(key: string, value: any, options?)`
