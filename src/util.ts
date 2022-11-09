@@ -1,4 +1,6 @@
-const storageKeys: Porridge.StorageKeys = {
+import type { WebPorridge } from '../types';
+
+const storageKeys: WebPorridge.StorageKeys = {
 	value: '@value',
 	type: '@type',
 	expires: '@expires'

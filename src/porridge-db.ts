@@ -90,7 +90,7 @@ export class PorridgeDB {
 	 * @returns
 	 */
 	public async getItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<string | unknown> {
-		const item: Porridge.Payload = await getItemIdb(keyName, this.customStore);
+		const item: WebPorridge.Payload = await getItemIdb(keyName, this.customStore);
 
 		if (!item || didExpire(item[storageKeys.expires])) {
 			return null;
