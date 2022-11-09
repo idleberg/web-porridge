@@ -42,11 +42,11 @@ const idb = new PorridgeDB();
 
 ### Instance
 
-#### Porridge
+#### `Porridge`
 
 Usage: `new Porridge(store: 'localStorage' | 'sessionStorage' = 'localStorage', eventName = 'porridge.didChange')`
 
-#### PorridgeDB
+#### `PorridgeDB`
 
 Usage: `new PorridgeDB(options?: {db: string; eventName = 'porridgeDB.didChange'; store: string})`
 
@@ -71,7 +71,7 @@ The following methods are available for both, Storage and IndexedDB. However, th
 - [didExpire()](#didexpire)
 - [observe()](#observe)
 
-#### setItem()
+#### `setItem()`
 
 Usage: `setItem(key: string, value: any, options?)`
 
@@ -101,7 +101,7 @@ await idb.setItem('secondItem', 'Ada Lovelace', { prop: 'name' });
 
 </details>
 
-#### getItem()
+#### `getItem()`
 
 Usage: `getItem(key: string, options?)`
 
@@ -127,7 +127,7 @@ await idb.getItem('secondItem', { prop: 'dot.notation.property' });
 
 </details>
 
-#### removeItem()
+#### `removeItem()`
 
 Usage: `removeItem(key: string, options?)`
 
@@ -153,7 +153,7 @@ await idb.removeItem('secondItem', { prop: 'dot.notation.property' });
 
 </details>
 
-#### clear()
+#### `clear()`
 
 Usage: `clear()`
 
@@ -177,7 +177,7 @@ await idb.clear();
 
 </details>
 
-#### key()
+#### `key()`
 
 Usage: `key(index: number)`
 
@@ -201,7 +201,7 @@ await idb.key(0);
 
 </details>
 
-#### length
+#### `length`
 
 Usage: `length`
 
@@ -225,7 +225,7 @@ await idb.length;
 
 </details>
 
-#### hasItem()
+#### `hasItem()`
 
 Usage: `hasItem(key: string)`
 
@@ -249,7 +249,7 @@ await idb.hasItem('firstItem');
 
 </details>
 
-#### keys()
+#### `keys()`
 
 Usage: `keys()`
 
@@ -273,7 +273,7 @@ await idb.keys();
 
 </details>
 
-#### values()
+#### `values()`
 
 Usage: `values()`
 
@@ -297,7 +297,7 @@ await idb.values();
 
 </details>
 
-#### entries()
+#### `entries()`
 
 Usage: `entries()`
 
@@ -321,7 +321,7 @@ await idb.entries();
 
 </details>
 
-#### didExpire()
+#### `didExpire()`
 
 Usage: `didExpire(key: string)`
 
@@ -345,7 +345,7 @@ await idb.didExpire('firstItem');
 
 </details>
 
-#### observe()
+#### `observe()`
 
 Usage: `observe(key: string, callback: function, targetOrigins: string[] = [])`
 
@@ -375,13 +375,13 @@ idb.observe('demo', ({ key, value }) => {
 
 ### Options
 
-#### expires
+#### `expires`
 
 Type: `string`
 
 Sets an expiry date for the storage value. Can be anything that can be parsed by `new Date()`.
 
-#### prop
+#### `prop`
 
 Type: `string`
 
