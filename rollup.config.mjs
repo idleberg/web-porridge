@@ -1,4 +1,3 @@
-import { terser } from "rollup-plugin-terser";
 import commonjs from '@rollup/plugin-commonjs';
 import filesize from 'rollup-plugin-filesize';
 import resolve from '@rollup/plugin-node-resolve';
@@ -10,7 +9,6 @@ const plugins = [
 	commonjs(),
 	isProduction && filesize(),
 	resolve(),
-	isProduction && terser(),
 	typescript(),
 ];
 
