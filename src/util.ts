@@ -117,10 +117,12 @@ function eventDispatcher(eventName, payload) {
 function eventListener(eventName: string, keyName: string, callback: (payload: any) => void, targetOrigins = []): void {
 	window.addEventListener(eventName, (e: CustomEvent) => {
 		if (e.detail.key === keyName || e.detail.key === undefined) {
-			callback({
-				key: keyName,
-				value: e.detail.value
-			});
+			if (typeof callback === 'function') {
+				callback({
+					key: keyName,
+					value: e.detail.value
+				});
+			}
 
 			if (targetOrigins?.length) {
 				for (const targetOrigin of targetOrigins) {
