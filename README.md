@@ -18,7 +18,7 @@ Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharin
 
 ## Installation
 
-`npm install web-porridge -S`
+`npm install web-porridge@next -S`
 
 ## Usage
 
@@ -62,18 +62,30 @@ The following methods are available for both, Storage and IndexedDB. However, th
 
 **Table of contents**
 
-- [`setItem()`](#setitem)
-- [`getItem()`](#getitem)
-- [`removeItem()`](#removeitem)
-- [`clear()`](#clear)
-- [`key()`](#key)
-- [`length`](#length)
-- [`hasItem()`](#hasitem)
-- [`keys()`](#keys)
-- [`values()`](#values)
-- [`entries()`](#entries)
-- [`didExpire()`](#didexpire)
-- [`observe()`](#observe)
+-   [web-porridge](#web-porridge)
+    -   [Installation](#installation)
+    -   [Usage](#usage)
+        -   [Import](#import)
+        -   [Instance](#instance)
+            -   [`Porridge`](#porridge)
+            -   [`PorridgeDB`](#porridgedb)
+        -   [Methods](#methods)
+            -   [`setItem()`](#setitem)
+            -   [`getItem()`](#getitem)
+            -   [`removeItem()`](#removeitem)
+            -   [`clear()`](#clear)
+            -   [`key()`](#key)
+            -   [`length`](#length)
+            -   [`hasItem()`](#hasitem)
+            -   [`keys()`](#keys)
+            -   [`values()`](#values)
+            -   [`entries()`](#entries)
+            -   [`didExpire()`](#didexpire)
+            -   [`observe()`](#observe)
+        -   [Options](#options)
+            -   [`expires`](#expires)
+            -   [`prop`](#prop)
+    -   [License](#license)
 
 #### `setItem()`
 
