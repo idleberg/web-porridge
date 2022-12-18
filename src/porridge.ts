@@ -4,10 +4,10 @@ import type { WebPorridge } from '../types';
 import { getProperty, setProperty, deleteProperty } from 'dot-prop';
 
 import {
+	addCustomEventListener,
 	deserialize,
 	didExpire,
 	eventDispatcher,
-	eventListener,
 	getType,
 	serialize,
 	storageKeys
@@ -208,7 +208,7 @@ export class Porridge {
 			throw new TypeError('The callback argument is not a function');
 		}
 
-		eventListener(this.eventName, keyName, callback, targetOrigins);
+		addCustomEventListener(this.eventName, keyName, callback, targetOrigins);
 	}
 
 	/**

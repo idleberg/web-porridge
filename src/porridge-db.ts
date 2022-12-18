@@ -14,9 +14,9 @@ import {
 } from 'idb-keyval';
 
 import {
+	addCustomEventListener,
 	didExpire,
 	eventDispatcher,
-	eventListener,
 	getType,
 	storageKeys
 } from './util';
@@ -211,7 +211,7 @@ export class PorridgeDB {
 			throw new TypeError('The callback argument is not a function');
 		}
 
-		eventListener(this.eventName, keyName, callback, targetOrigins);
+		addCustomEventListener(this.eventName, keyName, callback, targetOrigins);
 	}
 
 	/**
