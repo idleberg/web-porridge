@@ -9,12 +9,12 @@ on:
     - 'package.json'
     - 'pnpm-lock.yaml'
   pull_request:
-      paths:
-      - 'src/**'
-      - 'test/**'
-      - 'types/**'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
+    paths:
+    - 'src/**'
+    - 'test/**'
+    - 'types/**'
+    - 'package.json'
+    - 'pnpm-lock.yaml'
 
 jobs:
   default:
