@@ -1,5 +1,3 @@
-import type { Porridge } from "src";
-
 declare namespace WebPorridge {
 	interface StorageOptions{
 		expires?: string;
