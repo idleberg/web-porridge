@@ -1,5 +1,5 @@
-import { Porridge } from './porridge';
-import { PorridgeDB } from './porridge-db';
+import { Porridge } from './porridge.js';
+import { PorridgeDB } from './porridge-db.js';
 
 export {
 	Porridge,

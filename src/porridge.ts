@@ -11,7 +11,7 @@ import {
 	getType,
 	serialize,
 	storageKeys
-} from './util';
+} from './util.js';
 
 const validStores = [
 	'localStorage',
