@@ -32,7 +32,7 @@
       "import": "./lib/db/index.mjs"
     },
     "./types": {
-      "import": "./types/index.d.tjs"
+      "import": "./types/index.d.ts"
     }
   },
 	"typesVersions": {
