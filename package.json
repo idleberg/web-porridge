@@ -30,6 +30,9 @@
     },
     "./db": {
       "import": "./lib/db/index.mjs"
+    },
+    "./types": {
+      "import": "./types/index.d.tjs"
     }
   },
 	"typesVersions": {
