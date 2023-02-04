@@ -35,11 +35,13 @@
       "import": "./types/index.d.ts"
     }
   },
-	"typesVersions": {
-		"*": {
-			"./": ["./types/index.d.ts"]
-		}
-	},
+  "typesVersions": {
+    "*": {
+      "./": [
+        "./types/index.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/",
     "lib/",
@@ -68,27 +70,27 @@
     "idb-keyval": "^6.2.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.9",
-    "@typescript-eslint/eslint-plugin": "^5.42.1",
-    "@typescript-eslint/parser": "^5.42.1",
+    "@types/node": "^18.11.18",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
     "browser-env": "^3.3.0",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.15.13",
-    "eslint": "^8.27.0",
+    "esbuild": "^0.17.5",
+    "eslint": "^8.33.0",
     "eslint-plugin-json": "^3.1.0",
-    "fake-indexeddb": "^4.0.0",
-    "husky": "^8.0.2",
-    "lint-staged": "^13.0.3",
+    "fake-indexeddb": "^4.0.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
     "localstorage-polyfill": "^1.0.1",
     "node-navigator": "^1.0.1",
     "npm-run-all2": "^6.0.4",
-    "prettier": "^2.7.1",
+    "prettier": "^2.8.3",
     "remark-cli": "^11.0.0",
     "remark-preset-lint-recommended": "^6.1.2",
     "remark-preset-prettier": "^2.0.1",
-    "rimraf": "^3.0.2",
-    "tslib": "^2.4.1",
-    "typescript": "^4.8.4",
+    "rimraf": "^4.1.2",
+    "tslib": "^2.5.0",
+    "typescript": "^4.9.5",
     "uvu": "^0.5.6"
   },
   "prettier": {
