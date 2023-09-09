@@ -1,21 +1,21 @@
 declare namespace WebPorridge {
-	interface StorageOptions{
+	type StorageOptions ={
 		expires?: string;
 		prop?: string;
 	}
 
-	interface IndexeddbOptions {
+	type IndexeddbOptions = {
 		db: string;
 		name: string;
 	}
 
-	interface Payload {
+	type Payload = {
 		'@expires'?: string;
 		'@type': 'boolean' | 'date' | 'null' | 'number' | 'object' | 'string' | 'undefined';
 		'@value': string;
 	}
 
-	interface StorageKeys {
+	type StorageKeys = {
 		expires: '@expires';
 		value: '@value';
 		type: '@type';
