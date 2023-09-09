@@ -22,7 +22,7 @@ test.before.each(() => {
 
 test('Did expire', () => {
 	localStorage.setItem('demo', JSON.stringify({
-		[$expires]: (Date.now() - 1000).valueOf().toString(),
+		[$expires]: Date.now() - 1000,
 		[$type]: 'string',
 		[$value]: values.string,
 	}));
@@ -35,7 +35,7 @@ test('Did expire', () => {
 
 test('Did not expire', () => {
 	localStorage.setItem('demo', JSON.stringify({
-		[$expires]: (Date.now() + 1000).valueOf().toString(),
+		[$expires]: Date.now() + 1000,
 		[$type]: 'string',
 		[$value]: values.string
 	}));

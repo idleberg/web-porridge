@@ -34,7 +34,7 @@ test('String', () => {
 
 test('String (has expired)', () => {
 	localStorage.setItem('demo', JSON.stringify({
-		[$expires]: (Date.now() - 1000).valueOf().toString(),
+		[$expires]: Date.now() - 1000,
 		[$type]: 'string',
 		[$value]: values.string,
 	}));
@@ -47,7 +47,7 @@ test('String (has expired)', () => {
 
 test('String (hasn\'t expired)', () => {
 	localStorage.setItem('demo', JSON.stringify({
-		[$expires]: (Date.now() + 1000).valueOf().toString(),
+		[$expires]: Date.now() + 1000,
 		[$type]: 'string',
 		[$value]: values.string
 	}));

@@ -28,7 +28,7 @@ test('String', async () => {
 });
 
 test('String (has expired)', async () => {
-	await db.setItem('demo', values.string, { expires: (Date.now() - 1000).valueOf().toString()});
+	await db.setItem('demo', values.string, { expires: Date.now() - 1000});
 
 	const actual = await db.getItem('demo');
 	const expected = null;
@@ -37,7 +37,7 @@ test('String (has expired)', async () => {
 });
 
 test('String (hasn\'t expired)', async () => {
-	await db.setItem('demo', values.string, { expires: (Date.now() + 1000).valueOf().toString()});
+	await db.setItem('demo', values.string, { expires: Date.now() + 1000});
 
 	const actual = await db.getItem('demo');
 	const expected = values.string;
