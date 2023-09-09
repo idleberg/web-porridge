@@ -17,11 +17,22 @@ const validStores = [
 	'localStorage',
 	'sessionStorage'
 ];
+
+/**
+ * Instantiates the class with provided options
+ * @param {'localStorage' | 'sessionStorage'} store
+ * @param {string} [eventName]
+ *
+ * @example
+ * ```js
+ * const localPorridge = new Porridge();
+ * ```
+ */
 export class Porridge {
 	eventName: string;
 	store: string;
 
-	constructor(store = 'localStorage', eventName = 'porridge.didChange') {
+	constructor(store: 'localStorage' | 'sessionStorage' = 'localStorage', eventName = 'porridge.didChange') {
 		if (typeof eventName !== 'string') {
 			throw new TypeError('Event name must be of type "string"');
 		}
@@ -39,13 +50,19 @@ export class Porridge {
 
 	/**
 	 * Writes single data item to Storage type
-	 * @param {String} keyName
+	 * @param {string} keyName
 	 * @param {unknown} keyValue
 	 * @param {Object} [options]
-	 * @param {String} [options.expires]
-	 * @param {String} [options.prop]
+	 * @param {string} [options.expires]
+	 * @param {string} [options.prop]
 	 *
-	 * @returns
+	 * @example
+	 * ```js
+	 * localPorridge.setItem('firstItem', 'Hello World');
+	 *
+	 * localPorridge.setItem('secondItem', { name: 'John Appleseed' });
+	 * localPorridge.setItem('secondItem', 'Ada Lovelace', { prop: 'name' });
+	 * ```
 	 */
 	public setItem(keyName: string, keyValue: unknown, options?: WebPorridge.StorageOptions): void {
 		if (options?.prop?.length) {
@@ -78,13 +95,19 @@ export class Porridge {
 
 	/**
 	 * Reads single data item from Storage type
-	 * @param {String} keyName
-	 * @param {Object} [options]
-	 * @param {String} [options.expires]
-	 * @param {String} [options.prop]
-	 * @returns
+	 * @param {string} keyName
+	 * @param {WebPorridge.StorageOptions} [options]
+	 * @param {string} [options.expires]
+	 * @param {string} [options.prop]
+	 * @returns {unknown}
+	 *
+	 * @example
+	 * ```js
+	 * localPorridge.getItem('firstItem');
+	 * localPorridge.getItem('secondItem', { prop: 'dot.notation.property' });
+	 * ```
 	 */
-	public getItem(keyName: string, options?: WebPorridge.StorageOptions): string | unknown {
+	public getItem(keyName: string, options?: WebPorridge.StorageOptions): unknown {
 		const item = (<any>globalThis)[this.store].getItem(keyName);
 
 		try {
@@ -108,9 +131,15 @@ export class Porridge {
 
 	/**
 	 * Removes single data item from Storage type
-	 * @param {String} keyName
+	 * @param {string} keyName
 	 * @param {Object} [options]
-	 * @param {String} [options.prop]
+	 * @param {string} [options.prop]
+	 *
+	 * @example
+	 * ```js
+	 * localPorridge.removeItem('firstItem');
+	 * localPorridge.removeItem('secondItem', { prop: 'dot.notation.property' });
+	 * ```
 	 */
 	public removeItem(keyName: string, options?: WebPorridge.StorageOptions): void {
 		if (options?.prop?.length) {
@@ -132,15 +161,20 @@ export class Porridge {
 	/**
 	 * Returns the length of Storage type
 	 * @param index
-	 * @returns
+	 * @returns {unknown}
 	 */
-	public key(index: number): string | unknown {
+	public key(index: number): unknown {
 		return (<any>globalThis)[this.store].key(index);
 	}
 
 	/**
 	 * Returns the length of Storage type
-	 * @returns
+	 * @returns {number}
+	 *
+	 * @example
+	 * ```js
+	 * localPorridge.length;
+	 * ```
 	 */
 	public get length(): number {
 		return (<any>globalThis)[this.store].length;
@@ -148,7 +182,11 @@ export class Porridge {
 
 	/**
 	 * Clears Storage type
-	 * @returns
+	 *
+	 * @example
+	 * ```js
+	 * localPorridge.clear();
+	 * ```
 	 */
 	public clear(): void {
 		eventDispatcher(this.eventName, {
@@ -161,47 +199,74 @@ export class Porridge {
 
 	/**
 	 * Returns whether Storage contains property
-	 * @param {String} keyName
+	 * @param {string} keyName
 	 * @returns {boolean}
+	 *
+	 * @example
+	 * ```js
+	 * localPorridge.hasItem('firstItem');
+	 * ```
 	 */
 	public hasItem(keyName: string): boolean {
-		return Object.keys(<any>globalThis[this.store]).includes(keyName);
+		return Object.keys(globalThis[this.store]).includes(keyName);
 	}
 
 	/**
 	 * Returns an array of Storage's enumerable property names
-	 * @param {String} keyName
-	 * @returns {boolean}
+	 * @param {string} keyName
+	 * @returns {string[]}
+	 *
+	 * @example
+	 * ```js
+	 * localPorridge.keys();
+	 * ```
 	 */
 	public keys(): string[] {
-		return Object.keys(<any>globalThis[this.store]);
+		return Object.keys(globalThis[this.store]);
 	}
 
 	/**
 	 * Returns an array of Storage's enumerable property values
-	 * @param {String} keyName
+	 * @param {string} keyName
 	 * @returns {boolean}
+	 *
+	 * @example
+	 * ```js
+	 * localPorridge.values();
+	 * ```
 	 */
-	public values(): any[] {
-		return Object.keys(<any>globalThis[this.store])
+	public values(): unknown[] {
+		return Object.keys(globalThis[this.store])
 			.map(item => this.getItem(item));
 	}
 
 	/**
 	 * Returns an array of Storage's own enumerable string-keyed property `[key, value]` pairs
-	 * @param {String} keyName
+	 * @param {string} keyName
 	 * @returns {boolean}
+	 *
+	 * @example
+	 * ```js
+	 * localPorridge.entries();
+	 * ```
 	 */
-	public entries(): any[] {
-		return Object.keys(<any>globalThis[this.store])
-			.map(item => [item, this.getItem(item)]);
+	public entries(): [string, unknown][] {
+		return Object.keys(globalThis[this.store])
+			.map((item: string) => [item, this.getItem(item)]);
 	}
 
 	/**
 	 * Observes value changes of a Storage item. Optionally sends messages to specified origins.
-	 * @param {String} keyName
+	 * @param {string} keyName
 	 * @param {Function} callback
 	 * @param {Array} targetOrigins
+	 *
+	 * @example
+	 * ```js
+	 * localPorridge.observe('demo', ({ key, value }) => {
+	 * 	console.log(`${key} has changed to:`, value);
+	 * });
+	 * ```
 	 */
 	public observe(keyName: string, callback: (payload: any) => void, targetOrigins: string[] = []): void {
 		if (typeof callback !== 'function') {
@@ -213,8 +278,13 @@ export class Porridge {
 
 	/**
 	 * Returns whether a single Storage item has expired
-	 * @param {String} keyName
+	 * @param {string} keyName
 	 * @returns {boolean}
+	 *
+	 * @example
+	 * ```js
+	 * localPorridge.didExpire('firstItem');
+	 * ```
 	 */
 	public didExpire(keyName: string): boolean {
 		const item = (<any>globalThis)[this.store].getItem(keyName);
