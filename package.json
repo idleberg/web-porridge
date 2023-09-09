@@ -20,7 +20,7 @@
     "test": "uvu -r tsm tests"
   },
   "type": "module",
-  "typings": "./types/index.d.ts",
+  "typings": "./lib",
   "exports": {
     ".": {
       "import": "./lib/index.js"
@@ -32,14 +32,7 @@
       "import": "./lib/porridge-db.js"
     },
     "./types": {
-      "import": "./types/index.d.ts"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "./": [
-        "./types/index.d.ts"
-      ]
+      "import": "./lib"
     }
   },
   "files": [
