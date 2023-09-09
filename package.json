@@ -4,9 +4,9 @@
   "description": "Feature-enhanced wrappers for the Storage and IndexedDB APIs",
   "license": "MIT",
   "scripts": {
-    "build:bundle": "esbuild src/index.ts --outfile=lib/web-porridge.mjs --format=esm",
-    "build:storage": "esbuild src/porridge.ts --outfile=lib/storage/index.mjs --format=esm",
-    "build:db": "esbuild src/porridge-db.ts --outfile=lib/db/index.mjs --format=esm",
+    "build:bundle": "tsup src/index.ts --out-dir=lib --format=esm --sourcemap --dts",
+    "build:storage": "tsup src/porridge.ts --out-dir=lib --format=esm --sourcemap --dts",
+    "build:db": "tsup src/porridge-db.ts --out-dir=lib --format=esm --sourcemap --dts",
     "build": "npm-run-all --parallel build:*",
     "dev": "npm run build:bundle -- --watch",
     "fix": "eslint --fix ./src",
@@ -17,19 +17,19 @@
     "prepack": "npm run build",
     "prepare": "husky install",
     "start": "npm run dev",
-    "test": "uvu tests"
+    "test": "uvu -r tsm tests"
   },
   "type": "module",
   "typings": "./types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./lib/web-porridge.mjs"
+      "import": "./lib/index.js"
     },
     "./storage": {
-      "import": "./lib/storage/index.mjs"
+      "import": "./lib/porridge.js"
     },
     "./db": {
-      "import": "./lib/db/index.mjs"
+      "import": "./lib/porridge-db.js"
     },
     "./types": {
       "import": "./types/index.d.ts"
@@ -43,7 +43,6 @@
     }
   },
   "files": [
-    "dist/",
     "lib/",
     "types/",
     "LICENSE",
@@ -67,30 +66,31 @@
   },
   "dependencies": {
     "dot-prop": "^7.2.0",
-    "idb-keyval": "^6.2.0"
+    "idb-keyval": "^6.2.1"
   },
   "devDependencies": {
     "@types/node": "^18.13.0",
-    "@typescript-eslint/eslint-plugin": "^5.52.0",
-    "@typescript-eslint/parser": "^5.52.0",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
     "browser-env": "^3.3.0",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.17.8",
-    "eslint": "^8.34.0",
+    "eslint": "^8.49.0",
     "eslint-plugin-json": "^3.1.0",
-    "fake-indexeddb": "^4.0.1",
+    "fake-indexeddb": "^4.0.2",
     "husky": "^8.0.3",
-    "lint-staged": "^13.1.2",
+    "lint-staged": "^14.0.1",
     "localstorage-polyfill": "^1.0.1",
     "node-navigator": "^1.0.1",
-    "npm-run-all2": "^6.0.4",
+    "npm-run-all2": "^6.0.6",
     "prettier": "^2.8.4",
     "remark-cli": "^11.0.0",
     "remark-preset-lint-recommended": "^6.1.2",
     "remark-preset-prettier": "^2.0.1",
     "rimraf": "^4.1.2",
-    "tslib": "^2.5.0",
-    "typescript": "^4.9.5",
+    "tslib": "^2.6.2",
+    "tsm": "^2.3.0",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2",
     "uvu": "^0.5.6"
   },
   "prettier": {

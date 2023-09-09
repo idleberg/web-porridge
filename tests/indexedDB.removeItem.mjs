@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { Navigator } from 'node-navigator';
-import { PorridgeDB } from '../lib/web-porridge.mjs';
+import { PorridgeDB } from '../src/index';
 import { suite } from 'uvu';
 import { values } from './shared.mjs';
 import * as assert from 'uvu/assert';

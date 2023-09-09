@@ -1,5 +1,5 @@
 import 'localstorage-polyfill';
-import { Porridge } from '../lib/web-porridge.mjs';
+import { Porridge } from '../src/index';
 import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
 import browserEnv from 'browser-env';
