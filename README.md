@@ -17,7 +17,7 @@ Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharin
 
 ## Installation
 
-`npm install web-porridge@next -S`
+`npm install web-porridge -S`
 
 ## Usage
 
@@ -25,15 +25,6 @@ Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharin
 
 ```ts
 import { Porridge, PorridgeDB } from 'web-porridge';
-
-const localPorridge = new Porridge();
-const idb = new PorridgeDB();
-```
-
-Alternatively, you can import the module from [Skypack][]:
-
-```ts
-import { Porridge, PorridgeDB } from 'https://cdn.skypack.dev/web-porridge';
 
 const localPorridge = new Porridge();
 const idb = new PorridgeDB();
