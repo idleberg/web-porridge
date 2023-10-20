@@ -68,6 +68,8 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async setItem(keyName: string, keyValue: unknown, options: WebPorridge.StorageOptions = {}): Promise<void> {
+		const oldValue = await this.getItem(keyName, options);
+
 		if (options?.prop?.length) {
 			const item = await this.getItem(keyName) || {};
 			setProperty(item, options.prop, keyValue);
@@ -90,7 +92,8 @@ export class PorridgeDB {
 	eventDispatcher(this.eventName, {
 			store: storageType,
 			key: keyName,
-			value: keyValue
+			oldValue: oldValue,
+			newValue: keyValue
 		});
 
 		return await setItemIdb(keyName, newValue, this.customStore);
@@ -137,6 +140,8 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async removeItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<void> {
+		const oldValue = await this.getItem(keyName, options);
+
 		if (options?.prop?.length) {
 			const item = await this.getItem(keyName) || {};
 			deleteProperty(item, options.prop);
@@ -147,7 +152,8 @@ export class PorridgeDB {
 	eventDispatcher(this.eventName, {
 			store: storageType,
 			key: keyName,
-			value: null
+			oldValue: oldValue,
+			newValue: null
 		});
 
 		return await removeItemIdb(keyName, this.customStore);
@@ -193,7 +199,8 @@ export class PorridgeDB {
 	public async clear(): Promise<void> {
 		eventDispatcher(this.eventName, {
 			store: storageType,
-			value: null
+			oldValue: null,
+			newValue: null
 		});
 
 		return await clear(this.customStore);

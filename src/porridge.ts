@@ -65,6 +65,8 @@ export class Porridge {
 	 * ```
 	 */
 	public setItem(keyName: string, keyValue: unknown, options?: WebPorridge.StorageOptions): void {
+		const oldValue = this.getItem(keyName, options);
+
 		if (options?.prop?.length) {
 			const item = this.getItem(keyName) || {};
 			setProperty(item, options.prop, keyValue);
@@ -87,7 +89,8 @@ export class Porridge {
 		eventDispatcher(this.eventName, {
 			store: this.store,
 			key: keyName,
-			value: keyValue
+			oldValue: oldValue,
+			newValue: keyValue
 		});
 
 		return (<any>globalThis)[this.store].setItem(keyName, JSON.stringify(newValue));
@@ -142,6 +145,8 @@ export class Porridge {
 	 * ```
 	 */
 	public removeItem(keyName: string, options?: WebPorridge.StorageOptions): void {
+		const oldValue = this.getItem(keyName, options);
+
 		if (options?.prop?.length) {
 			const item = this.getItem(keyName) || {};
 			deleteProperty(item, options.prop);
@@ -152,7 +157,8 @@ export class Porridge {
 		eventDispatcher(this.eventName, {
 			store: this.store,
 			key: keyName,
-			value: null
+			oldValue: oldValue,
+			newValue: null
 		});
 
 		return (<any>globalThis)[this.store].removeItem(keyName);
@@ -191,7 +197,8 @@ export class Porridge {
 	public clear(): void {
 		eventDispatcher(this.eventName, {
 			store: this.store,
-			value: null
+			oldValue: null,
+			newValue: null
 		});
 
 		return (<any>globalThis)[this.store].clear();
