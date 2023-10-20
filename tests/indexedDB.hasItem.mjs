@@ -19,7 +19,7 @@ test.before.each(async () => {
 });
 
 test('true', async () => {
-	Promise.all(values.map(async item => await db.setItem(`demo${item}`, item)));
+	await Promise.all(values.map(async item => await db.setItem(`demo${item}`, item)));
 
 	const actual = await db.hasItem('demo1');
 	const expected = true;
@@ -28,7 +28,7 @@ test('true', async () => {
 });
 
 test('false', async () => {
-	Promise.all(values.map(async item => await db.setItem(`demo${item}`, item)));
+	await Promise.all(values.map(async item => await db.setItem(`demo${item}`, item)));
 
 	await db.clear();
 	const actual = await db.hasItem('demo1');
