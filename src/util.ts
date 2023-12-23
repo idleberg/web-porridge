@@ -89,7 +89,7 @@ function getType(item: any): string {
 			return 'undefined';
 
 		default:
-			new Error(`Type '${type}' cannot be stringified`);
+			new TypeError(`Type '${type}' cannot be stringified`);
 	}
 }
 
