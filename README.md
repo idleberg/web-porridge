@@ -361,8 +361,8 @@ localPorridge.observe('demo', ({ key, newValue }) => {
 <summary><strong>IndexedDB</strong></summary>
 
 ```ts
-idb.observe('demo', ({ key, value }) => {
-	console.log(`${key} has changed to:`, value);
+idb.observe('demo', ({ key, newValue }) => {
+	console.log(`${key} has changed to:`, newValue);
 });
 ```
 
