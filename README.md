@@ -350,8 +350,8 @@ When passed a key name and callback function, it will listen to changes to the g
 <summary><strong>Storage</strong></summary>
 
 ```ts
-localPorridge.observe('demo', ({ key, value }) => {
-	console.log(`${key} has changed to:`, value);
+localPorridge.observe('demo', ({ key, newValue }) => {
+	console.log(`${key} has changed to:`, newValue);
 });
 ```
 
@@ -389,4 +389,3 @@ This work is licensed under [The MIT License](LICENSE)
 [dot notation]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors#Dot_notation
 [storage api]: https://developer.mozilla.org/en-US/docs/Web/API/Storage
 [indexeddb api]: https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
-[skypack]: https://www.skypack.dev/view/web-porridge
