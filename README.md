@@ -1,9 +1,8 @@
 # web-porridge
 
-[![npm](https://flat.badgen.net/npm/license/web-porridge)](https://www.npmjs.org/package/web-porridge)
-[![npm](https://flat.badgen.net/npm/v/web-porridge)](https://www.npmjs.org/package/web-porridge)
-[![CI](https://img.shields.io/github/workflow/status/idleberg/web-porridge/CI?style=flat-square)](https://github.com/idleberg/web-porridge/actions)
-[![Snyk](https://flat.badgen.net/snyk/idleberg/web-porridge)](https://snyk.io/vuln/npm:web-porridge)
+[![License](https://img.shields.io/github/license/idleberg/web-porridge?color=blue&style=for-the-badge)](https://github.com/idleberg/web-porridge/blob/main/LICENSE)
+[![Version](https://img.shields.io/npm/v/web-porridge?style=for-the-badge)](https://www.npmjs.org/package/web-porridge)
+[![Build](https://img.shields.io/github/actions/workflow/status/idleberg/web-porridge/default.yml?style=for-the-badge)](https://github.com/idleberg/web-porridge/actions)
 
 Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharing a common, familiar interface.
 
@@ -31,15 +30,6 @@ const localPorridge = new Porridge();
 const idb = new PorridgeDB();
 ```
 
-Alternatively, you can import the module from [Skypack][]:
-
-```ts
-import { Porridge, PorridgeDB } from 'https://cdn.skypack.dev/web-porridge';
-
-const localPorridge = new Porridge();
-const idb = new PorridgeDB();
-```
-
 ### Instance
 
 #### `Porridge`
@@ -62,18 +52,19 @@ The following methods are available for both, Storage and IndexedDB. However, th
 
 **Table of contents**
 
-- [`setItem()`](#setitem)
-- [`getItem()`](#getitem)
-- [`removeItem()`](#removeitem)
-- [`clear()`](#clear)
-- [`key()`](#key)
-- [`length`](#length)
-- [`hasItem()`](#hasitem)
-- [`keys()`](#keys)
-- [`values()`](#values)
-- [`entries()`](#entries)
-- [`didExpire()`](#didexpire)
-- [`observe()`](#observe)
+-   [Methods](#methods)
+    -   [`setItem()`](#setitem)
+    -   [`getItem()`](#getitem)
+    -   [`removeItem()`](#removeitem)
+    -   [`clear()`](#clear)
+    -   [`key()`](#key)
+    -   [`length`](#length)
+    -   [`hasItem()`](#hasitem)
+    -   [`keys()`](#keys)
+    -   [`values()`](#values)
+    -   [`entries()`](#entries)
+    -   [`didExpire()`](#didexpire)
+    -   [`observe()`](#observe)
 
 #### `setItem()`
 

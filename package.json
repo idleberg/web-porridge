@@ -1,11 +1,11 @@
 {
   "name": "web-porridge",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Feature-enhanced wrappers for the Storage and IndexedDB APIs",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf ./dist ./lib && cross-env NODE_ENV=production rollup -c",
-    "dev": "npm run start",
+    "build": "tsup",
+    "dev": "npm run build -- --watch",
     "fix": "eslint --fix ./src",
     "lint:json": "eslint ./*.json --ignore-path .gitignore",
     "lint:md": "remark . --quiet --frail --ignore-path .gitignore",
@@ -13,27 +13,20 @@
     "lint": "npm-run-all --parallel lint:*",
     "prepack": "npm run build",
     "prepare": "husky install",
-    "start": "rollup -c -w",
-    "test": "uvu tests"
+    "start": "npm run dev",
+    "test": "uvu -r tsm tests"
   },
   "type": "module",
-  "typings": "./types/index.d.ts",
+  "typings": "./lib",
   "exports": {
     ".": {
-      "import": "./lib/web-porridge.mjs",
-      "require": "./lib/web-porridge.cjs"
+      "import": "./lib/index.js"
     },
-    "./storage": {
-      "import": "./lib/storage/index.mjs",
-      "require": "./lib/storage/index.cjs"
-    },
-    "./db": {
-      "import": "./lib/db/index.mjs",
-      "require": "./lib/db/index.cjs"
+    "./types": {
+      "import": "./lib"
     }
   },
   "files": [
-    "dist/",
     "lib/",
     "types/",
     "LICENSE",
@@ -53,38 +46,36 @@
     "indexeddb"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
+	"engineStrict": true,
   "dependencies": {
-    "dot-prop": "^7.2.0",
-    "idb-keyval": "^6.2.0"
+    "dot-prop": "^8.0.2",
+    "idb-keyval": "^6.2.1"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^23.0.2",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-typescript": "^9.0.2",
-    "@types/node": "^18.11.9",
-    "@typescript-eslint/eslint-plugin": "^5.42.1",
-    "@typescript-eslint/parser": "^5.42.1",
+    "@types/node": "^18.13.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
     "browser-env": "^3.3.0",
     "cross-env": "^7.0.3",
-    "eslint": "^8.27.0",
+    "eslint": "^8.56.0",
     "eslint-plugin-json": "^3.1.0",
-    "fake-indexeddb": "^4.0.0",
-    "husky": "^8.0.2",
-    "lint-staged": "^13.0.3",
+    "fake-indexeddb": "^5.0.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
     "localstorage-polyfill": "^1.0.1",
     "node-navigator": "^1.0.1",
-    "npm-run-all2": "^6.0.4",
-    "prettier": "^2.7.1",
-    "remark-cli": "^11.0.0",
-    "remark-preset-lint-recommended": "^6.1.2",
+    "npm-run-all2": "^6.1.1",
+    "prettier": "^3.1.1",
+    "remark-cli": "^12.0.0",
+    "remark-preset-lint-recommended": "^6.1.3",
     "remark-preset-prettier": "^2.0.1",
-    "rimraf": "^3.0.2",
-    "rollup": "^3.2.5",
-    "rollup-plugin-filesize": "^9.1.2",
-    "tslib": "^2.4.1",
-    "typescript": "^4.8.4",
+    "rimraf": "^5.0.5",
+    "tslib": "^2.6.2",
+    "tsm": "^2.3.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
     "uvu": "^0.5.6"
   },
   "prettier": {

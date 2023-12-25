@@ -1,7 +1,2 @@
-import { Porridge } from './porridge';
-import { PorridgeDB } from './porridge-db';
-
-export {
-	Porridge,
-	PorridgeDB
-};
+export { Porridge } from './porridge.js';
+export { PorridgeDB } from './porridge-db.js';
