@@ -1,0 +1,13 @@
+{
+	"name": "@idleberg/web-porridge",
+	"version": "4.0.0",
+	"exports": "./src/index.ts",
+	"publish": {
+		"include": [
+			"src/**/*",
+			"jsr.json",
+			"LICENSE",
+			"README.md"
+		]
+	}
+}
