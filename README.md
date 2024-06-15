@@ -342,9 +342,9 @@ await idb.didExpire('firstItem');
 
 #### `observe()`
 
-Usage: `observe(key: string, callback: function, targetOrigins: string[] = [])`
+Usage: `observe(key: string, callback: function)`
 
-When passed a key name and callback function, it will listen to changes to the given Storage object's value. Optionally, changes can also be [broadcasted](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to specified cross-origin targets.
+When passed a key name and callback function, it will listen to changes to the given Storage object's value.
 
 <details>
 <summary><strong>Storage</strong></summary>
