@@ -9,7 +9,7 @@ import browserEnv from 'browser-env';
 const test = suite('indexedDB.getItem');
 
 browserEnv(['window']);
-global['navigator'] = new Navigator();
+globalThis['navigator'] = new Navigator();
 window.indexedDB = {}
 
 const db = new PorridgeDB();
