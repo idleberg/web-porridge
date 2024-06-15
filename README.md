@@ -383,7 +383,7 @@ Specifies an object property as a dot notation string. Allows granular reads and
 
 ## License
 
-This work is licensed under [The MIT License](LICENSE)
+This work is licensed under [The MIT License](LICENSE).
 
 [dot notation]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Property_accessors#Dot_notation
 [storage api]: https://developer.mozilla.org/en-US/docs/Web/API/Storage
