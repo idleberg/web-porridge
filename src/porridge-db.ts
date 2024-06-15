@@ -14,7 +14,6 @@ import {
 } from 'idb-keyval';
 
 import {
-	addCustomEventListener,
 	didExpire,
 	eventDispatcher,
 	getType,
@@ -269,10 +268,9 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Observes value changes of an IndexedDB item. Optionally sends messages to specified origins.
+	 * Observes value changes of an IndexedDB item
 	 * @param {String} keyName
 	 * @param {Function} callback
-	 * @param {Array} targetOrigins
 	 *
 	 * @example
 	 * ```js
@@ -281,12 +279,10 @@ export class PorridgeDB {
 	 * });
 	 * ```
 	 */
-	public observe(keyName: string, callback: (payload: WebPorridge.StorageEvent) => void, targetOrigins: string[] = []): void {
+	public observe(keyName: string, callback: (payload: WebPorridge.StorageEvent) => void): void {
 		if (typeof callback !== 'function') {
 			throw new TypeError('The callback argument is not a function');
 		}
-
-		addCustomEventListener(this.eventName, keyName, callback, targetOrigins);
 	}
 
 	/**

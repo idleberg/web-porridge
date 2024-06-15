@@ -4,7 +4,6 @@ import type { WebPorridge } from '../types';
 import { getProperty, setProperty, deleteProperty } from 'dot-prop';
 
 import {
-	addCustomEventListener,
 	deserialize,
 	didExpire,
 	eventDispatcher,
@@ -263,10 +262,9 @@ export class Porridge {
 	}
 
 	/**
-	 * Observes value changes of a Storage item. Optionally sends messages to specified origins.
+	 * Observes value changes of a Storage item.
 	 * @param {string} keyName
 	 * @param {Function} callback
-	 * @param {Array} targetOrigins
 	 *
 	 * @example
 	 * ```js
@@ -275,12 +273,10 @@ export class Porridge {
 	 * });
 	 * ```
 	 */
-	public observe(keyName: string, callback: (payload: WebPorridge.StorageEvent) => void, targetOrigins: string[] = []): void {
+	public observe(keyName: string, callback: (payload: WebPorridge.StorageEvent) => void): void {
 		if (typeof callback !== 'function') {
 			throw new TypeError('The callback argument is not a function');
 		}
-
-		addCustomEventListener(this.eventName, keyName, callback, targetOrigins);
 	}
 
 	/**
