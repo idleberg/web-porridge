@@ -52,19 +52,18 @@ The following methods are available for both, Storage and IndexedDB. However, th
 
 **Table of contents**
 
-- [Methods](#methods)
-  - [`setItem()`](#setitem)
-  - [`getItem()`](#getitem)
-  - [`removeItem()`](#removeitem)
-  - [`clear()`](#clear)
-  - [`key()`](#key)
-  - [`length`](#length)
-  - [`hasItem()`](#hasitem)
-  - [`keys()`](#keys)
-  - [`values()`](#values)
-  - [`entries()`](#entries)
-  - [`didExpire()`](#didexpire)
-  - [`observe()`](#observe)
+- [`setItem()`](#setitem)
+- [`getItem()`](#getitem)
+- [`removeItem()`](#removeitem)
+- [`clear()`](#clear)
+- [`key()`](#key)
+- [`length`](#length)
+- [`hasItem()`](#hasitem)
+- [`keys()`](#keys)
+- [`values()`](#values)
+- [`entries()`](#entries)
+- [`didExpire()`](#didexpire)
+- [`observe()`](#observe)
 
 #### `setItem()`
 
