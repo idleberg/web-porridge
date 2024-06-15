@@ -1,6 +1,6 @@
 import type { WebPorridge } from '../types';
 
-const storageKeys: WebPorridge.StorageKeys = {
+export const storageKeys: WebPorridge.StorageKeys = {
 	value: '@value',
 	type: '@type',
 	expires: '@expires'
@@ -11,7 +11,7 @@ const storageKeys: WebPorridge.StorageKeys = {
  * @param {*} item
  * @returns {String}
  */
-function serialize(item: unknown): unknown {
+export function serialize(item: unknown): unknown {
 	switch (true) {
 		case typeof item === 'bigint':
 			return item.toString().valueOf();
@@ -29,7 +29,7 @@ function serialize(item: unknown): unknown {
  * @param {String} item
  * @returns {*}
  */
-function deserialize(item): unknown {
+export function deserialize(item): unknown {
 	const decodedString = item[storageKeys.value];
 
 	switch(item[storageKeys.type]) {
@@ -59,7 +59,7 @@ function deserialize(item): unknown {
  * @param {*} item
  * @returns {String}
  */
-function getType(item: any): string {
+export function getType(item: any): string {
 	const type = Object.prototype.toString.call(item);
 
 	switch (type) {
@@ -98,11 +98,11 @@ function getType(item: any): string {
  * @param {String} expires
  * @returns {boolean}
  */
-function didExpire(expires: string): boolean {
+export function didExpire(expires: string): boolean {
 	return expires && new Date(expires) <= new Date();
 }
 
-function eventDispatcher(eventName: string, payload: WebPorridge.StorageEvent) {
+export function eventDispatcher(eventName: string, payload: WebPorridge.StorageEvent) {
 	try {
 		window.dispatchEvent(
 			new CustomEvent(eventName, {
@@ -113,45 +113,3 @@ function eventDispatcher(eventName: string, payload: WebPorridge.StorageEvent) {
 		// TODO: fix CustomEvent failing on NodeJS
 	}
 }
-
-function addCustomEventListener(eventName: string, keyName: string, callback: (payload: any) => void, targetOrigins = []): void {
-	window.addEventListener(eventName, (e: CustomEvent) => {
-		if (e.detail.key !== keyName && e.detail.key !== undefined) {
-			return;
-		}
-
-		if (typeof callback === 'function') {
-			callback({
-				key: keyName,
-				value: e.detail.value
-			});
-		}
-
-		if (targetOrigins?.length) {
-			return;
-		}
-
-		for (const targetOrigin of targetOrigins) {
-			try {
-				const url = new URL(targetOrigin);
-
-				window.postMessage({
-					key: keyName,
-					value: e.detail.value
-				}, url.origin);
-			} catch ({ message }) {
-				console.error(message);
-			}
-		}
-	});
-}
-
-export {
-	deserialize,
-	didExpire,
-	eventDispatcher,
-	addCustomEventListener,
-	getType,
-	serialize,
-	storageKeys
-};
