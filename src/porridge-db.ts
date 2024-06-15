@@ -252,7 +252,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Observes value changes on a IndexedDB item
+	 * Returns an array of IndexedDB's own enumerable string-keyed property `[key, value]` pairs
 	 * @param {String} keyName
 	 * @returns {boolean}
 	 *
@@ -281,7 +281,7 @@ export class PorridgeDB {
 	 * });
 	 * ```
 	 */
-	public observe(keyName: string, callback: (payload: any) => void, targetOrigins: string[] = []): void {
+	public observe(keyName: string, callback: (payload: WebPorridge.StorageEvent) => void, targetOrigins: string[] = []): void {
 		if (typeof callback !== 'function') {
 			throw new TypeError('The callback argument is not a function');
 		}

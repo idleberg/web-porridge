@@ -275,7 +275,7 @@ export class Porridge {
 	 * });
 	 * ```
 	 */
-	public observe(keyName: string, callback: (payload: any) => void, targetOrigins: string[] = []): void {
+	public observe(keyName: string, callback: (payload: WebPorridge.StorageEvent) => void, targetOrigins: string[] = []): void {
 		if (typeof callback !== 'function') {
 			throw new TypeError('The callback argument is not a function');
 		}

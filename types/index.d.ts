@@ -21,7 +21,7 @@ declare namespace WebPorridge {
 		type: '@type';
 	}
 
-	type CustomStorageEvent = {
+	type StorageEvent = {
 		key?: string;
 		newValue: unknown;
 		oldValue: unknown;
