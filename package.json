@@ -17,13 +17,13 @@
 		"test": "uvu -r tsm tests"
 	},
 	"type": "module",
-	"typings": "./lib",
+	"typings": "./lib/index.d.ts",
 	"exports": {
 		".": {
 			"import": "./lib/index.js"
 		},
 		"./types": {
-			"import": "./lib"
+			"import": "./lib/index.d.ts"
 		}
 	},
 	"files": [
