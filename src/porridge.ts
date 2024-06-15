@@ -10,13 +10,10 @@ import {
 	eventDispatcher,
 	getType,
 	serialize,
-	storageKeys
+	storageKeys,
 } from './util';
 
-const validStores = [
-	'localStorage',
-	'sessionStorage'
-];
+const validStores = ['localStorage', 'sessionStorage'];
 
 /**
  * Instantiates the class with provided options
@@ -39,7 +36,7 @@ export class Porridge {
 
 		this.eventName = eventName;
 
-		if (typeof<any>window !== 'undefined' && !(storageArea in <any>window)) {
+		if (typeof (<any>window) !== 'undefined' && !(storageArea in <any>window)) {
 			throw new Error(`Your browser does not support the ${storageArea} API`);
 		} else if (!validStores.includes(storageArea)) {
 			throw new TypeError(`Invalid storage type specified, try ${validStores.join('|')} instead`);
@@ -73,7 +70,7 @@ export class Porridge {
 
 			return this.setItem(keyName, item, {
 				...options,
-				prop: undefined
+				prop: undefined,
 			});
 		}
 
@@ -90,7 +87,7 @@ export class Porridge {
 			storageArea: this.storageArea,
 			key: keyName,
 			oldValue: oldValue,
-			newValue: keyValue
+			newValue: keyValue,
 		});
 
 		return (<any>globalThis)[this.storageArea].setItem(keyName, JSON.stringify(newValue));
@@ -116,7 +113,7 @@ export class Porridge {
 		try {
 			const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
-			if (!decodedItem || (didExpire(decodedItem[storageKeys.expires]))) {
+			if (!decodedItem || didExpire(decodedItem[storageKeys.expires])) {
 				return null;
 			}
 
@@ -158,7 +155,7 @@ export class Porridge {
 			storageArea: this.storageArea,
 			key: keyName,
 			oldValue: oldValue,
-			newValue: null
+			newValue: null,
 		});
 
 		return (<any>globalThis)[this.storageArea].removeItem(keyName);
@@ -198,7 +195,7 @@ export class Porridge {
 		eventDispatcher(this.eventName, {
 			storageArea: this.storageArea,
 			oldValue: null,
-			newValue: null
+			newValue: null,
 		});
 
 		return (<any>globalThis)[this.storageArea].clear();
@@ -243,8 +240,7 @@ export class Porridge {
 	 * ```
 	 */
 	public values(): unknown[] {
-		return Object.keys(globalThis[this.storageArea])
-			.map(item => this.getItem(item));
+		return Object.keys(globalThis[this.storageArea]).map((item) => this.getItem(item));
 	}
 
 	/**
@@ -258,8 +254,7 @@ export class Porridge {
 	 * ```
 	 */
 	public entries(): [string, unknown][] {
-		return Object.keys(globalThis[this.storageArea])
-			.map((item: string) => [item, this.getItem(item)]);
+		return Object.keys(globalThis[this.storageArea]).map((item: string) => [item, this.getItem(item)]);
 	}
 
 	/**

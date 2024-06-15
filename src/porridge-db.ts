@@ -10,16 +10,10 @@ import {
 	get as getItemIdb,
 	keys,
 	set as setItemIdb,
-	UseStore
+	UseStore,
 } from 'idb-keyval';
 
-import {
-	addCustomEventListener,
-	didExpire,
-	eventDispatcher,
-	getType,
-	storageKeys
-} from './util';
+import { addCustomEventListener, didExpire, eventDispatcher, getType, storageKeys } from './util';
 
 const storageArea = 'indexedDB';
 
@@ -37,7 +31,7 @@ export class PorridgeDB {
 	customStore: UseStore;
 
 	constructor(options?: WebPorridge.IndexeddbOptions) {
-		if (typeof <any>window !== 'undefined' && !('indexedDB' in <any>window)) {
+		if (typeof (<any>window) !== 'undefined' && !('indexedDB' in <any>window)) {
 			throw Error(`Your browser does not support the IndexedDB API`);
 		}
 
@@ -45,8 +39,8 @@ export class PorridgeDB {
 			db: 'web-porridge:db',
 			eventName: 'porridgeDB.didChange',
 			store: '(default store)',
-			...options
-		}
+			...options,
+		};
 
 		this.eventName = eventName;
 		this.customStore = createStore(db, store);
@@ -71,29 +65,29 @@ export class PorridgeDB {
 		const oldValue = await this.getItem(keyName, options);
 
 		if (options?.prop?.length) {
-			const item = await this.getItem(keyName) || {};
+			const item = (await this.getItem(keyName)) || {};
 			setProperty(item, options.prop, keyValue);
 
 			return await this.setItem(keyName, item, {
 				...options,
-				prop: undefined
+				prop: undefined,
 			});
 		}
 
 		const newValue = {
 			[storageKeys.value]: keyValue,
-			[storageKeys.type]: getType(keyValue)
+			[storageKeys.type]: getType(keyValue),
 		};
 
 		if (options?.expires && String(options.expires).length) {
 			newValue[storageKeys.expires] = new Date(options.expires);
 		}
 
-	eventDispatcher(this.eventName, {
+		eventDispatcher(this.eventName, {
 			storageArea: storageArea,
 			key: keyName,
 			oldValue: oldValue,
-			newValue: keyValue
+			newValue: keyValue,
 		});
 
 		return await setItemIdb(keyName, newValue, this.customStore);
@@ -143,17 +137,17 @@ export class PorridgeDB {
 		const oldValue = await this.getItem(keyName, options);
 
 		if (options?.prop?.length) {
-			const item = await this.getItem(keyName) || {};
+			const item = (await this.getItem(keyName)) || {};
 			deleteProperty(item, options.prop);
 
 			return await this.setItem(keyName, item);
 		}
 
-	eventDispatcher(this.eventName, {
+		eventDispatcher(this.eventName, {
 			storageArea: storageArea,
 			key: keyName,
 			oldValue: oldValue,
-			newValue: null
+			newValue: null,
 		});
 
 		return await removeItemIdb(keyName, this.customStore);
@@ -189,7 +183,7 @@ export class PorridgeDB {
 	}
 
 	/**
-   * Clears IndexedDB
+	 * Clears IndexedDB
 	 *
 	 * @example
 	 * ```js
@@ -200,7 +194,7 @@ export class PorridgeDB {
 		eventDispatcher(this.eventName, {
 			storageArea: storageArea,
 			oldValue: null,
-			newValue: null
+			newValue: null,
 		});
 
 		return await clear(this.customStore);
@@ -245,10 +239,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async values(): Promise<unknown[]> {
-		return Promise.all(
-			(await keys(this.customStore))
-				.map(async (item: string) => await this.getItem(item))
-		);
+		return Promise.all((await keys(this.customStore)).map(async (item: string) => await this.getItem(item)));
 	}
 
 	/**
@@ -262,10 +253,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async entries(): Promise<[IDBValidKey, unknown][]> {
-		return Promise.all(
-			(await keys(this.customStore))
-				.map(async (item: string) => [item, await this.getItem(item)])
-		);
+		return Promise.all((await keys(this.customStore)).map(async (item: string) => [item, await this.getItem(item)]));
 	}
 
 	/**

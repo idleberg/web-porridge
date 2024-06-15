@@ -3,7 +3,7 @@ import type { WebPorridge } from '../types';
 export const storageKeys: WebPorridge.StorageKeys = {
 	value: '@value',
 	type: '@type',
-	expires: '@expires'
+	expires: '@expires',
 };
 
 /**
@@ -32,7 +32,7 @@ export function serialize(item: unknown): unknown {
 export function deserialize(item): unknown {
 	const decodedString = item[storageKeys.value];
 
-	switch(item[storageKeys.type]) {
+	switch (item[storageKeys.type]) {
 		case 'boolean':
 		case 'null':
 		case 'number':
@@ -106,8 +106,8 @@ export function eventDispatcher(eventName: string, payload: WebPorridge.StorageE
 	try {
 		globalThis.dispatchEvent(
 			new CustomEvent(eventName, {
-				detail: payload
-			})
+				detail: payload,
+			}),
 		);
 	} catch (_error) {
 		// TODO: fix CustomEvent failing on NodeJS
@@ -123,7 +123,7 @@ export function addCustomEventListener(eventName: string, keyName: string, callb
 		if (typeof callback === 'function') {
 			callback({
 				key: keyName,
-				value: e.detail.value
+				value: e.detail.value,
 			});
 		}
 	});

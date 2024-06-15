@@ -77,11 +77,6 @@
     "typescript": "^5.4.5",
     "uvu": "^0.5.6"
   },
-  "prettier": {
-    "semi": true,
-    "singleQuote": true,
-    "tabWidth": 4
-  },
   "lint-staged": {
     "*.(json|ts)": "eslint --cache --fix",
     "*.md": "prettier --write"
