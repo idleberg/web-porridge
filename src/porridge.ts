@@ -16,7 +16,7 @@ import {
 const validStores = ['localStorage', 'sessionStorage'];
 
 /**
- * Instantiates the class with provided options
+ * Instantiates the class with provided options.
  * @param {'localStorage' | 'sessionStorage'} store
  * @param {string} [eventName]
  *
@@ -46,7 +46,7 @@ export class Porridge {
 	}
 
 	/**
-	 * Writes single data item to Storage type
+	 * Writes single data item to Storage type.
 	 * @param {string} keyName
 	 * @param {unknown} keyValue
 	 * @param {Object} [options]
@@ -94,7 +94,7 @@ export class Porridge {
 	}
 
 	/**
-	 * Reads single data item from Storage type
+	 * Reads single data item from Storage type.
 	 * @param {string} keyName
 	 * @param {WebPorridge.StorageOptions} [options]
 	 * @param {string} [options.expires]
@@ -130,7 +130,7 @@ export class Porridge {
 	}
 
 	/**
-	 * Removes single data item from Storage type
+	 * Removes single data item from Storage type.
 	 * @param {string} keyName
 	 * @param {Object} [options]
 	 * @param {string} [options.prop]
@@ -162,7 +162,7 @@ export class Porridge {
 	}
 
 	/**
-	 * Returns the length of Storage type
+	 * Returns the length of Storage type.
 	 * @param index
 	 * @returns {unknown}
 	 */
@@ -171,7 +171,7 @@ export class Porridge {
 	}
 
 	/**
-	 * Returns the length of Storage type
+	 * Returns the length of Storage type.
 	 * @returns {number}
 	 *
 	 * @example
@@ -202,7 +202,7 @@ export class Porridge {
 	}
 
 	/**
-	 * Returns whether Storage contains property
+	 * Returns whether Storage contains property.
 	 * @param {string} keyName
 	 * @returns {boolean}
 	 *
@@ -216,7 +216,7 @@ export class Porridge {
 	}
 
 	/**
-	 * Returns an array of Storage's enumerable property names
+	 * Returns an array of Storage's enumerable property names.
 	 * @param {string} keyName
 	 * @returns {string[]}
 	 *
@@ -230,7 +230,7 @@ export class Porridge {
 	}
 
 	/**
-	 * Returns an array of Storage's enumerable property values
+	 * Returns an array of Storage's enumerable property values.
 	 * @param {string} keyName
 	 * @returns {boolean}
 	 *
@@ -244,7 +244,7 @@ export class Porridge {
 	}
 
 	/**
-	 * Returns an array of Storage's own enumerable string-keyed property `[key, value]` pairs
+	 * Returns an array of Storage's own enumerable string-keyed property `[key, value]` pairs.
 	 * @param {string} keyName
 	 * @returns {boolean}
 	 *
@@ -264,7 +264,7 @@ export class Porridge {
 	 *
 	 * @example
 	 * ```js
-	 * localPorridge.observe('demo', ({ key, value }) => {
+	 * localPorridge.observe('demo', ({ key, newValue }) => {
 	 * 	console.log(`${key} has changed to:`, value);
 	 * });
 	 * ```
@@ -278,7 +278,7 @@ export class Porridge {
 	}
 
 	/**
-	 * Returns whether a single Storage item has expired
+	 * Returns whether a single Storage item has expired.
 	 * @param {string} keyName
 	 * @returns {boolean}
 	 *

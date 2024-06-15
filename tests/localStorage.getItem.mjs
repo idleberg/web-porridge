@@ -109,7 +109,7 @@ test('Object (key)', () => {
 
 test('Array', () => {
 	localStorage.setItem('demo', JSON.stringify({
-		[$type]: 'object',
+		[$type]: 'array',
 		[$value]: values.array
 	}));
 

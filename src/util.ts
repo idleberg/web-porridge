@@ -7,7 +7,7 @@ export const storageKeys: WebPorridge.StorageKeys = {
 };
 
 /**
- * Serializes a given type into a string
+ * Serializes a given type into a string.
  * @param {*} item
  * @returns {String}
  */
@@ -25,37 +25,48 @@ export function serialize(item: unknown): unknown {
 }
 
 /**
- * Deserializes string into given type
+ * Deserializes string into given type.
  * @param {String} item
  * @returns {*}
  */
-export function deserialize(item): unknown {
+export function deserialize(item) {
 	const decodedString = item[storageKeys.value];
 
 	switch (item[storageKeys.type]) {
-		case 'boolean':
-		case 'null':
-		case 'number':
-		case 'object':
-		case 'undefined':
-			return decodedString;
+		case 'array':
+			return decodedString as Array<unknown>;
 
 		case 'bigint':
 			return BigInt(decodedString);
 
+		case 'boolean':
+			return decodedString as boolean;
+
 		case 'date':
 			return new Date(decodedString);
+
+		case 'null':
+			return decodedString as null;
+
+		case 'number':
+			return decodedString as number;
+
+		case 'object':
+			return decodedString as Record<string, unknown>;
 
 		case 'string':
 			return decodedString.toString();
 
+		case 'undefined':
+			return decodedString as undefined;
+
 		default:
-			return item;
+			return item as unknown;
 	}
 }
 
 /**
- * Returns the type of a given item
+ * Returns the type of a given item.
  * @param {*} item
  * @returns {String}
  */
@@ -64,6 +75,8 @@ export function getType(item: any): string {
 
 	switch (type) {
 		case '[object Array]':
+			return 'array';
+
 		case '[object Object]':
 			return 'object';
 

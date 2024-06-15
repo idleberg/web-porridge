@@ -18,7 +18,7 @@ import { addCustomEventListener, didExpire, eventDispatcher, getType, storageKey
 const storageArea = 'indexedDB';
 
 /**
- * Instantiates the class with provided options
+ * Instantiates the class with provided options.
  * @param {WebPorridge.IndexeddbOptions} [options]
  *
  * @example
@@ -46,7 +46,7 @@ export class PorridgeDB {
 		this.customStore = createStore(db, store);
 	}
 	/**
-	 * Writes single data item to IndexedDB
+	 * Writes single data item to IndexedDB.
 	 * @param {String} keyName
 	 * @param {unknown} keyValue
 	 * @param {Object} [options]
@@ -94,7 +94,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Reads single data item from IndexedDB
+	 * Reads single data item from IndexedDB.
 	 * @param {String} keyName
 	 * @param {Object} [options]
 	 * @param {String} [options.expires]
@@ -122,7 +122,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Removes single data item from IndexedDB
+	 * Removes single data item from IndexedDB.
 	 * @param {String} keyName
 	 * @param {Object} [options]
 	 * @param {String} [options.prop]
@@ -154,7 +154,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Returns the length of IndexedDB
+	 * Returns the length of IndexedDB.
 	 * @param index
 	 * @returns {unknown}
 	 *
@@ -168,7 +168,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Returns the length of IndexedDB
+	 * Returns the length of IndexedDB.
 	 * @returns {number}
 	 *
 	 * @example
@@ -183,7 +183,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Clears IndexedDB
+	 * Clears IndexedDB.
 	 *
 	 * @example
 	 * ```js
@@ -201,7 +201,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Returns whether IndexedDB contains property
+	 * Returns whether IndexedDB contains property.
 	 * @param {String} keyName
 	 * @returns {boolean}
 	 *
@@ -215,7 +215,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Returns an array of IndexedDB's enumerable property names
+	 * Returns an array of IndexedDB's enumerable property names.
 	 * @param {String} keyName
 	 * @returns {boolean}
 	 *
@@ -229,7 +229,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Returns an array of IndexedDB's enumerable property values
+	 * Returns an array of IndexedDB's enumerable property values.
 	 * @param {String} keyName
 	 * @returns {boolean}
 	 *
@@ -243,7 +243,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Returns an array of IndexedDB's own enumerable string-keyed property `[key, value]` pairs
+	 * Returns an array of IndexedDB's own enumerable string-keyed property `[key, value]` pairs.
 	 * @param {String} keyName
 	 * @returns {boolean}
 	 *
@@ -263,7 +263,7 @@ export class PorridgeDB {
 	 *
 	 * @example
 	 * ```js
-	 * db.observe('demo', ({ key, value }) => {
+	 * db.observe('demo', ({ key, newValue }) => {
 	 * 	console.log(`${key} has changed to:`, value);
 	 * });
 	 * ```
@@ -277,7 +277,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Returns whether a single IndexedDB item has expired
+	 * Returns whether a single IndexedDB item has expired.
 	 * @param {String} keyName
 	 * @returns {boolean}
 	 *
