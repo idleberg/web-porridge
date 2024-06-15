@@ -102,7 +102,7 @@ function didExpire(expires: string): boolean {
 	return expires && new Date(expires) <= new Date();
 }
 
-function eventDispatcher(eventName, payload) {
+function eventDispatcher(eventName: string, payload: WebPorridge.CustomStorageEvent) {
 	try {
 		window.dispatchEvent(
 			new CustomEvent(eventName, {

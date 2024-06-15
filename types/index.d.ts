@@ -20,6 +20,13 @@ declare namespace WebPorridge {
 		value: '@value';
 		type: '@type';
 	}
+
+	type CustomStorageEvent = {
+		key?: string;
+		newValue: unknown;
+		oldValue: unknown;
+		storageArea: 'localStorage' | 'sessionStorage' | 'indexedDB';
+	}
 }
 
 export {

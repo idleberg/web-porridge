@@ -30,7 +30,7 @@ const validStores = [
  */
 export class Porridge {
 	eventName: string;
-	storageArea: string;
+	storageArea: 'localStorage' | 'sessionStorage';
 
 	constructor(storageArea: 'localStorage' | 'sessionStorage' = 'localStorage', eventName = 'porridge.didChange') {
 		if (typeof eventName !== 'string') {
