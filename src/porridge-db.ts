@@ -21,7 +21,7 @@ import {
 	storageKeys
 } from './util';
 
-const storageType = 'IndexedDB';
+const storageArea = 'indexedDB';
 
 /**
  * Instantiates the class with provided options
@@ -90,7 +90,7 @@ export class PorridgeDB {
 		}
 
 	eventDispatcher(this.eventName, {
-			store: storageType,
+			storageArea: storageArea,
 			key: keyName,
 			oldValue: oldValue,
 			newValue: keyValue
@@ -150,7 +150,7 @@ export class PorridgeDB {
 		}
 
 	eventDispatcher(this.eventName, {
-			store: storageType,
+			storageArea: storageArea,
 			key: keyName,
 			oldValue: oldValue,
 			newValue: null
@@ -198,7 +198,7 @@ export class PorridgeDB {
 	 */
 	public async clear(): Promise<void> {
 		eventDispatcher(this.eventName, {
-			store: storageType,
+			storageArea: storageArea,
 			oldValue: null,
 			newValue: null
 		});
