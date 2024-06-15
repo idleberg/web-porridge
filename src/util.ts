@@ -104,12 +104,27 @@ export function didExpire(expires: string): boolean {
 
 export function eventDispatcher(eventName: string, payload: WebPorridge.StorageEvent) {
 	try {
-		window.dispatchEvent(
+		globalThis.dispatchEvent(
 			new CustomEvent(eventName, {
 				detail: payload
 			})
 		);
-	} catch (err) {
+	} catch (_error) {
 		// TODO: fix CustomEvent failing on NodeJS
 	}
+}
+
+export function addCustomEventListener(eventName: string, keyName: string, callback: (payload: any) => void): void {
+	globalThis.addEventListener(eventName, (e: CustomEvent) => {
+		if (e.detail.key !== keyName && e.detail.key !== undefined) {
+			return;
+		}
+
+		if (typeof callback === 'function') {
+			callback({
+				key: keyName,
+				value: e.detail.value
+			});
+		}
+	});
 }

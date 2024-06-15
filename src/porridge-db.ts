@@ -14,6 +14,7 @@ import {
 } from 'idb-keyval';
 
 import {
+	addCustomEventListener,
 	didExpire,
 	eventDispatcher,
 	getType,
@@ -268,7 +269,7 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Observes value changes of an IndexedDB item
+	 * Observes value changes of an IndexedDB item.
 	 * @param {String} keyName
 	 * @param {Function} callback
 	 *
@@ -283,6 +284,8 @@ export class PorridgeDB {
 		if (typeof callback !== 'function') {
 			throw new TypeError('The callback argument is not a function');
 		}
+
+		addCustomEventListener(this.eventName, keyName, callback);
 	}
 
 	/**
