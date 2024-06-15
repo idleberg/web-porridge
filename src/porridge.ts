@@ -17,7 +17,7 @@ const validStores = ['localStorage', 'sessionStorage'];
 
 /**
  * Instantiates the class with provided options.
- * @param {'localStorage' | 'sessionStorage'} store
+ * @param {'localStorage' | 'sessionStorage'} storageArea
  * @param {string} [eventName]
  *
  * @example

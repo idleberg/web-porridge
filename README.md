@@ -8,12 +8,12 @@ Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharin
 
 **Features**
 
--   stores structured data
--   automatic (de)serialization
--   Object-level read & write access
--   data expiry
--   observability
--   convenience methods
+- stores structured data
+- automatic (de)serialization
+- Object-level read & write access
+- data expiry
+- observability
+- convenience methods
 
 ## Installation
 
@@ -35,7 +35,7 @@ const idb = new PorridgeDB();
 #### `Porridge`
 
 ```ts
-new Porridge(store: 'localStorage' | 'sessionStorage' = 'localStorage', eventName = 'porridge.didChange')
+new Porridge(storageArea: 'localStorage' | 'sessionStorage' = 'localStorage', eventName = 'porridge.didChange')
 ```
 
 #### `PorridgeDB`
@@ -52,19 +52,19 @@ The following methods are available for both, Storage and IndexedDB. However, th
 
 **Table of contents**
 
--   [Methods](#methods)
-    -   [`setItem()`](#setitem)
-    -   [`getItem()`](#getitem)
-    -   [`removeItem()`](#removeitem)
-    -   [`clear()`](#clear)
-    -   [`key()`](#key)
-    -   [`length`](#length)
-    -   [`hasItem()`](#hasitem)
-    -   [`keys()`](#keys)
-    -   [`values()`](#values)
-    -   [`entries()`](#entries)
-    -   [`didExpire()`](#didexpire)
-    -   [`observe()`](#observe)
+- [Methods](#methods)
+  - [`setItem()`](#setitem)
+  - [`getItem()`](#getitem)
+  - [`removeItem()`](#removeitem)
+  - [`clear()`](#clear)
+  - [`key()`](#key)
+  - [`length`](#length)
+  - [`hasItem()`](#hasitem)
+  - [`keys()`](#keys)
+  - [`values()`](#values)
+  - [`entries()`](#entries)
+  - [`didExpire()`](#didexpire)
+  - [`observe()`](#observe)
 
 #### `setItem()`
 
