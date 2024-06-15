@@ -19,7 +19,7 @@ import {
 	eventDispatcher,
 	getType,
 	storageKeys
-} from './util.js';
+} from './util';
 
 const storageType = 'IndexedDB';
 

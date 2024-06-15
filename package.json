@@ -28,7 +28,6 @@
   },
   "files": [
     "lib/",
-    "types/",
     "LICENSE",
     "README.md"
   ],
