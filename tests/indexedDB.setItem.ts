@@ -1,17 +1,10 @@
-import 'fake-indexeddb/auto';
-import { Navigator } from 'node-navigator';
+import './polyfills';
 import { PorridgeDB } from '../src/index';
 import { suite } from 'uvu';
-import { values } from './shared.mjs';
+import { values } from './shared';
 import * as assert from 'uvu/assert';
-import browserEnv from 'browser-env';
 
 const test = suite('indexedDB.setItem');
-
-browserEnv(['window']);
-globalThis['navigator'] = new Navigator();
-window.indexedDB = {}
-
 const db = new PorridgeDB();
 
 test.before.each(async () => {
@@ -39,7 +32,7 @@ test('BigInt', async () => {
 test('Date', async () => {
 	await db.setItem('demo', values.date);
 
-	const actual = await db.getItem('demo');
+	const actual = await db.getItem('demo') as Date;
 	const expected = values.date;
 
 	assert.is(actual instanceof Date, expected instanceof Date);

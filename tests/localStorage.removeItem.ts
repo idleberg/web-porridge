@@ -1,13 +1,10 @@
-import 'localstorage-polyfill';
+import './polyfills';
 import { Porridge } from '../src/index';
-import { storageKeys, values } from './shared.mjs';
+import { storageKeys, values } from './shared';
 import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
-import browserEnv from 'browser-env';
 
 const test = suite('localStorage.removeItem');
-
-browserEnv(['window']);
 const localPorridge = new Porridge('localStorage');
 
 test('String', () => {
@@ -31,7 +28,7 @@ test('Object key', () => {
 
 	localPorridge.removeItem('demo', { prop: 'deleteMe' });
 
-	const actual = JSON.parse(localStorage.getItem('demo'));
+	const actual = JSON.parse(localStorage.getItem('demo')!);
 	const expected = {
 		[storageKeys.value]: {
 			...values.object

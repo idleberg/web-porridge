@@ -1,13 +1,10 @@
-import 'localstorage-polyfill';
+import './polyfills';
 import { Porridge } from '../src/index';
-import { storageKeys, values } from './shared.mjs';
+import { storageKeys, values } from './shared';
 import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
-import browserEnv from 'browser-env';
 
 const test = suite('localStorage.getItem');
-
-browserEnv(['window']);
 const localPorridge = new Porridge('localStorage');
 
 const {
@@ -76,7 +73,7 @@ test('Date', () => {
 		[$value]: values.date.valueOf()
 	}));
 
-	const actual = localPorridge.getItem('demo');
+	const actual = localPorridge.getItem('demo') as Date;
 	const expected = values.date;
 
 	assert.is(actual instanceof Date, expected instanceof Date);
