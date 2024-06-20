@@ -1,6 +1,6 @@
 declare namespace WebPorridge {
 	type StorageOptions = {
-		expires?: string;
+		expires?: number;
 		prop?: string;
 	};
 
