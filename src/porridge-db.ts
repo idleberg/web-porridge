@@ -27,8 +27,8 @@ const storageArea = 'indexedDB';
  * ```
  */
 export class PorridgeDB {
-	eventName: string;
-	customStore: UseStore;
+	#eventName: string;
+	#customStore: UseStore;
 
 	constructor(options?: WebPorridge.IndexeddbOptions) {
 		if (typeof (<any>window) !== 'undefined' && !('indexedDB' in <any>window)) {
@@ -42,8 +42,8 @@ export class PorridgeDB {
 			...options,
 		};
 
-		this.eventName = eventName;
-		this.customStore = createStore(db, store);
+		this.#eventName = eventName;
+		this.#customStore = createStore(db, store);
 	}
 	/**
 	 * Writes single data item to IndexedDB.
@@ -85,14 +85,14 @@ export class PorridgeDB {
 				: new Date(options.expires);
 		}
 
-		eventDispatcher(this.eventName, {
+		eventDispatcher(this.#eventName, {
 			storageArea: storageArea,
 			key: keyName,
 			oldValue: oldValue,
 			newValue: keyValue,
 		});
 
-		return await setItemIdb(keyName, newValue, this.customStore);
+		return await setItemIdb(keyName, newValue, this.#customStore);
 	}
 
 	/**
@@ -110,7 +110,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async getItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<unknown> {
-		const item: WebPorridge.Payload = await getItemIdb(keyName, this.customStore);
+		const item: WebPorridge.Payload = await getItemIdb(keyName, this.#customStore);
 
 		if (!item || didExpire(item[storageKeys.expires])) {
 			return null;
@@ -145,14 +145,14 @@ export class PorridgeDB {
 			return await this.setItem(keyName, item);
 		}
 
-		eventDispatcher(this.eventName, {
+		eventDispatcher(this.#eventName, {
 			storageArea: storageArea,
 			key: keyName,
 			oldValue: oldValue,
 			newValue: null,
 		});
 
-		return await removeItemIdb(keyName, this.customStore);
+		return await removeItemIdb(keyName, this.#customStore);
 	}
 
 	/**
@@ -166,7 +166,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async key(index: number): Promise<unknown> {
-		return (await keys(this.customStore))[index];
+		return (await keys(this.#customStore))[index];
 	}
 
 	/**
@@ -180,7 +180,7 @@ export class PorridgeDB {
 	 */
 	public get length(): Promise<number> {
 		return (async () => {
-			return (await keys(this.customStore)).length;
+			return (await keys(this.#customStore)).length;
 		})();
 	}
 
@@ -193,13 +193,13 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async clear(): Promise<void> {
-		eventDispatcher(this.eventName, {
+		eventDispatcher(this.#eventName, {
 			storageArea: storageArea,
 			oldValue: null,
 			newValue: null,
 		});
 
-		return await clear(this.customStore);
+		return await clear(this.#customStore);
 	}
 
 	/**
@@ -213,7 +213,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async hasItem(keyName: string): Promise<boolean> {
-		return (await keys(this.customStore)).includes(keyName);
+		return (await keys(this.#customStore)).includes(keyName);
 	}
 
 	/**
@@ -227,7 +227,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async keys(): Promise<string[]> {
-		return await keys(this.customStore);
+		return await keys(this.#customStore);
 	}
 
 	/**
@@ -241,7 +241,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async values(): Promise<unknown[]> {
-		return Promise.all((await keys(this.customStore)).map(async (item: string) => await this.getItem(item)));
+		return Promise.all((await keys(this.#customStore)).map(async (item: string) => await this.getItem(item)));
 	}
 
 	/**
@@ -255,7 +255,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async entries(): Promise<[IDBValidKey, unknown][]> {
-		return Promise.all((await keys(this.customStore)).map(async (item: string) => [item, await this.getItem(item)]));
+		return Promise.all((await keys(this.#customStore)).map(async (item: string) => [item, await this.getItem(item)]));
 	}
 
 	/**
@@ -275,7 +275,7 @@ export class PorridgeDB {
 			throw new TypeError('The callback argument is not a function');
 		}
 
-		addCustomEventListener(this.eventName, keyName, callback);
+		addCustomEventListener(this.#eventName, keyName, callback);
 	}
 
 	/**
@@ -289,7 +289,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async didExpire(keyName: string): Promise<boolean> {
-		const item: WebPorridge.Payload = await getItemIdb(keyName, this.customStore);
+		const item: WebPorridge.Payload = await getItemIdb(keyName, this.#customStore);
 
 		return didExpire(item[storageKeys.expires]);
 	}

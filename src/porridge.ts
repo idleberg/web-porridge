@@ -26,15 +26,15 @@ const validStores = ['localStorage', 'sessionStorage'];
  * ```
  */
 export class Porridge {
-	eventName: string;
-	storageArea: 'localStorage' | 'sessionStorage';
+	#eventName: string;
+	#storageArea: 'localStorage' | 'sessionStorage';
 
 	constructor(storageArea: 'localStorage' | 'sessionStorage' = 'localStorage', eventName = 'porridge.didChange') {
 		if (typeof eventName !== 'string') {
 			throw new TypeError('Event name must be of type "string"');
 		}
 
-		this.eventName = eventName;
+		this.#eventName = eventName;
 
 		if (typeof (<any>window) !== 'undefined' && !(storageArea in <any>window)) {
 			throw new Error(`Your browser does not support the ${storageArea} API`);
@@ -42,7 +42,7 @@ export class Porridge {
 			throw new TypeError(`Invalid storage type specified, try ${validStores.join('|')} instead`);
 		}
 
-		this.storageArea = storageArea;
+		this.#storageArea = storageArea;
 	}
 
 	/**
@@ -85,14 +85,14 @@ export class Porridge {
 				: new Date(options.expires);
 		}
 
-		eventDispatcher(this.eventName, {
-			storageArea: this.storageArea,
+		eventDispatcher(this.#eventName, {
+			storageArea: this.#storageArea,
 			key: keyName,
 			oldValue: oldValue,
 			newValue: keyValue,
 		});
 
-		return (<any>globalThis)[this.storageArea].setItem(keyName, JSON.stringify(newValue));
+		return (<any>globalThis)[this.#storageArea].setItem(keyName, JSON.stringify(newValue));
 	}
 
 	/**
@@ -110,7 +110,7 @@ export class Porridge {
 	 * ```
 	 */
 	public getItem(keyName: string, options?: WebPorridge.StorageOptions): unknown {
-		const item = (<any>globalThis)[this.storageArea].getItem(keyName);
+		const item = (<any>globalThis)[this.#storageArea].getItem(keyName);
 
 		try {
 			const decodedItem: WebPorridge.Payload = JSON.parse(item);
@@ -153,14 +153,14 @@ export class Porridge {
 			return this.setItem(keyName, item);
 		}
 
-		eventDispatcher(this.eventName, {
-			storageArea: this.storageArea,
+		eventDispatcher(this.#eventName, {
+			storageArea: this.#storageArea,
 			key: keyName,
 			oldValue: oldValue,
 			newValue: null,
 		});
 
-		return (<any>globalThis)[this.storageArea].removeItem(keyName);
+		return (<any>globalThis)[this.#storageArea].removeItem(keyName);
 	}
 
 	/**
@@ -169,7 +169,7 @@ export class Porridge {
 	 * @returns {unknown}
 	 */
 	public key(index: number): unknown {
-		return (<any>globalThis)[this.storageArea].key(index);
+		return (<any>globalThis)[this.#storageArea].key(index);
 	}
 
 	/**
@@ -182,7 +182,7 @@ export class Porridge {
 	 * ```
 	 */
 	public get length(): number {
-		return (<any>globalThis)[this.storageArea].length;
+		return (<any>globalThis)[this.#storageArea].length;
 	}
 
 	/**
@@ -194,13 +194,13 @@ export class Porridge {
 	 * ```
 	 */
 	public clear(): void {
-		eventDispatcher(this.eventName, {
-			storageArea: this.storageArea,
+		eventDispatcher(this.#eventName, {
+			storageArea: this.#storageArea,
 			oldValue: null,
 			newValue: null,
 		});
 
-		return (<any>globalThis)[this.storageArea].clear();
+		return (<any>globalThis)[this.#storageArea].clear();
 	}
 
 	/**
@@ -214,7 +214,7 @@ export class Porridge {
 	 * ```
 	 */
 	public hasItem(keyName: string): boolean {
-		return Object.keys(globalThis[this.storageArea]).includes(keyName);
+		return Object.keys(globalThis[this.#storageArea]).includes(keyName);
 	}
 
 	/**
@@ -228,7 +228,7 @@ export class Porridge {
 	 * ```
 	 */
 	public keys(): string[] {
-		return Object.keys(globalThis[this.storageArea]);
+		return Object.keys(globalThis[this.#storageArea]);
 	}
 
 	/**
@@ -242,7 +242,7 @@ export class Porridge {
 	 * ```
 	 */
 	public values(): unknown[] {
-		return Object.keys(globalThis[this.storageArea]).map((item) => this.getItem(item));
+		return Object.keys(globalThis[this.#storageArea]).map((item) => this.getItem(item));
 	}
 
 	/**
@@ -256,7 +256,7 @@ export class Porridge {
 	 * ```
 	 */
 	public entries(): [string, unknown][] {
-		return Object.keys(globalThis[this.storageArea]).map((item: string) => [item, this.getItem(item)]);
+		return Object.keys(globalThis[this.#storageArea]).map((item: string) => [item, this.getItem(item)]);
 	}
 
 	/**
@@ -276,7 +276,7 @@ export class Porridge {
 			throw new TypeError('The callback argument is not a function');
 		}
 
-		addCustomEventListener(this.eventName, keyName, callback);
+		addCustomEventListener(this.#eventName, keyName, callback);
 	}
 
 	/**
@@ -290,7 +290,7 @@ export class Porridge {
 	 * ```
 	 */
 	public didExpire(keyName: string): boolean {
-		const item = (<any>globalThis)[this.storageArea].getItem(keyName);
+		const item = (<any>globalThis)[this.#storageArea].getItem(keyName);
 		const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
 		return didExpire(decodedItem[storageKeys.expires]);
