@@ -136,7 +136,8 @@ export function addCustomEventListener(eventName: string, keyName: string, callb
 		if (typeof callback === 'function') {
 			callback({
 				key: keyName,
-				value: e.detail.value,
+				newValue: e.detail.newValue,
+				oldValue: e.detail.oldValue,
 			});
 		}
 	});

@@ -80,7 +80,9 @@ export class Porridge {
 		};
 
 		if (options?.expires && String(options.expires).length) {
-			newValue[storageKeys.expires] = new Date(options.expires);
+			newValue[storageKeys.expires] = options.expires instanceof Date
+				? options.expires
+				: new Date(options.expires);
 		}
 
 		eventDispatcher(this.eventName, {
