@@ -171,6 +171,13 @@ const sessionPorridge = new Porridge('sessionStorage');
 		expect(actual).toStrictEqual(false);
 	});
 
+	test(`${type}.didExpire() - missing`, () => {
+		storage.clear();
+		const actual = storage.didExpire('demo');
+
+		expect(actual).toStrictEqual(false);
+	});
+
 	test(`${type}.hasItem() - true`, () => {
 		storage.setItem('demo', 'exists');
 		const actual = storage.hasItem('demo');
