@@ -8,5 +8,8 @@ export default defineConfig({
 			name: 'chromium',
 			provider: 'playwright',
 		},
+		coverage: {
+			include: ['src/**/*.ts'],
+		},
 	},
 });
