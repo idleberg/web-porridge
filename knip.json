@@ -1,5 +1,9 @@
 {
   "ignore": [
 		"tests/**"
-	]
+	],
+		"ignoreDependencies": [
+			"idb-keyval",
+			"nano-staged"
+		]
 }
