@@ -50,7 +50,8 @@
 	"engineStrict": true,
 	"dependencies": {
 		"dot-prop": "^9.0.0",
-		"idb-keyval": "^6.2.1"
+		"idb-keyval": "^6.2.1",
+		"nano-staged": "^0.8.0"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.6.1",
@@ -66,7 +67,6 @@
 		"eslint-plugin-unicorn": "^54.0.0",
 		"husky": "^9.0.11",
 		"knip": "^5.23.0",
-		"lint-staged": "^15.2.7",
 		"npm-run-all2": "^6.2.0",
 		"prettier": "^3.3.2",
 		"remark-cli": "^12.0.1",
@@ -80,7 +80,7 @@
 		"typescript-eslint": "^7.14.1",
 		"vitest": "^3.0.4"
 	},
-	"lint-staged": {
+	"nano-staged": {
 		"*.(json|ts)": "eslint --cache --fix",
 		"*.md": "prettier --write"
 	},
