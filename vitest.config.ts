@@ -9,6 +9,7 @@ export default defineConfig({
 			provider: 'playwright',
 		},
 		coverage: {
+			exclude: ['src/index.ts'],
 			include: ['src/**/*.ts'],
 		},
 	},
