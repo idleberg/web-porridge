@@ -12,7 +12,7 @@
 		"lint:md": "remark . --quiet --frail --ignore-path .gitignore",
 		"lint": "npm-run-all --parallel lint:*",
 		"prepack": "npm run build",
-		"prepare": "husky install",
+		"prepare": "husky",
 		"start": "npm run dev",
 		"test": "uvu -r tsm tests"
 	},
@@ -53,6 +53,8 @@
 		"idb-keyval": "^6.2.1"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^19.6.1",
+		"@commitlint/config-conventional": "^19.6.0",
 		"@playwright/test": "^1.50.1",
 		"@total-typescript/tsconfig": "^1.0.4",
 		"@types/node": "^18.13.0",
