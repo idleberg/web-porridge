@@ -152,4 +152,108 @@ const sessionPorridge = new Porridge('sessionStorage');
 
 		expect(actual).toStrictEqual(expected);
 	});
+
+	test(`${type}.didExpire() - true `, () => {
+		storage.setItem('demo', 'expired', {
+			expires: Date.now() - 1000,
+		});
+		const actual = storage.didExpire('demo');
+
+		expect(actual).toStrictEqual(true);
+	});
+
+	test(`${type}.didExpire() - false`, () => {
+		storage.setItem('demo', 'expired', {
+			expires: Date.now() + 1000,
+		});
+		const actual = storage.didExpire('demo');
+
+		expect(actual).toStrictEqual(false);
+	});
+
+	test(`${type}.hasItem() - true`, () => {
+		storage.setItem('demo', 'exists');
+		const actual = storage.hasItem('demo');
+
+		expect(actual).toStrictEqual(true);
+	});
+
+	test(`${type}.hasItem() - false`, () => {
+		storage.clear();
+		const actual = storage.hasItem('demo');
+
+		expect(actual).toStrictEqual(false);
+	});
+
+	test(`${type}.entries()`, () => {
+		const entries = [
+			self.crypto.randomUUID(),
+			self.crypto.randomUUID(),
+			self.crypto.randomUUID(),
+		];
+
+		storage.setItem('demo1', entries[0]);
+		storage.setItem('demo2', entries[1]);
+		storage.setItem('demo3', entries[2]);
+
+		const expected = [
+			['demo1', entries[0]],
+			['demo2', entries[1]],
+			['demo3', entries[2]],
+		];
+		const actual = storage.entries();
+
+		expect(actual).toStrictEqual(expected);
+	});
+
+	test(`${type}.entries() - empty`, () => {
+		storage.clear();
+		const actual = storage.entries();
+
+		expect(actual).toStrictEqual([]);
+	});
+
+	test(`${type}.keys()`, () => {
+		const keys = [
+			'demo1',
+			'demo2',
+			'demo3',
+		];
+
+		storage.setItem('demo1', self.crypto.randomUUID());
+		storage.setItem('demo2', self.crypto.randomUUID());
+		storage.setItem('demo3', self.crypto.randomUUID());
+		const actual = storage.keys();
+
+		expect(actual).toStrictEqual(keys);
+	});
+
+	test(`${type}.keys() - empty`, () => {
+		storage.clear();
+		const actual = storage.keys();
+
+		expect(actual).toStrictEqual([]);
+	});
+
+	test(`${type}.values()`, () => {
+		const entries = [
+			self.crypto.randomUUID(),
+			self.crypto.randomUUID(),
+			self.crypto.randomUUID(),
+		];
+
+		storage.setItem('demo1', entries[0]);
+		storage.setItem('demo2', entries[1]);
+		storage.setItem('demo3', entries[2]);
+		const actual = storage.values();
+
+		expect(actual).toStrictEqual(entries);
+	});
+
+	test(`${type}.values() - empty`, () => {
+		storage.clear();
+		const actual = storage.values();
+
+		expect(actual).toStrictEqual([]);
+	});
 });
