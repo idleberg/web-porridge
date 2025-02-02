@@ -349,9 +349,12 @@ When passed a key name and callback function, it will listen to changes to the g
 <summary><strong>Storage</strong></summary>
 
 ```ts
-localPorridge.observe('demo', ({ key, newValue }) => {
+const unobserve =localPorridge.observe('demo', ({ key, newValue }) => {
 	console.log(`${key} has changed to:`, newValue);
 });
+
+// Later, to stop observing
+unobserve();
 ```
 
 </details>
@@ -360,9 +363,12 @@ localPorridge.observe('demo', ({ key, newValue }) => {
 <summary><strong>IndexedDB</strong></summary>
 
 ```ts
-idb.observe('demo', ({ key, newValue }) => {
+const unobserve = idb.observe('demo', ({ key, newValue }) => {
 	console.log(`${key} has changed to:`, newValue);
 });
+
+// Later, to stop observing
+unobserve();
 ```
 
 </details>
