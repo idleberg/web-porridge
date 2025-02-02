@@ -1,21 +1,19 @@
 import { beforeEach, expect, test } from 'vitest';
 import { Porridge } from '../src/porridge.ts';
+import type { WebPorridge } from '../types/index';
 
 const localPorridge = new Porridge('localStorage');
-
-// localPorridge.clear();
+const sessionPorridge = new Porridge('sessionStorage');
 
 [
 	{
 		type: 'localStorage',
 		storage: localPorridge,
-		// emitter: eventEmitter,
 	},
-	// {
-	// 	type: 'sessionStorage',
-	// 	storage: sessionStorage,
-	// 	emitter: eventEmitter,
-	// },
+	{
+		type: 'sessionStorage',
+		storage: sessionPorridge,
+	},
 ].map(({ type, storage }) => {
 	beforeEach(() => {
 		storage.clear();
@@ -23,9 +21,11 @@ const localPorridge = new Porridge('localStorage');
 
 	test(`${type}.clear()`, async () => {
 		await new Promise<void>((resolve, reject) => {
-			window.addEventListener('porridge.didChange', (data: CustomEvent) => {
+			window.addEventListener('porridge.didChange', (event) => {
+				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+
 				try {
-					expect(data.detail).toEqual({
+					expect(customEvent.detail).toEqual({
 						key: null,
 						newValue: null,
 						oldValue: null,
@@ -46,13 +46,17 @@ const localPorridge = new Porridge('localStorage');
 		const key = self.crypto.randomUUID();
 
 		await new Promise<void>((resolve, reject) => {
-			window.addEventListener('porridge.didChange', (event: CustomEvent) => {
+			window.addEventListener('porridge.didChange', (event) => {
+				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+
 				try {
-					expect(event.detail).toEqual({
+					expect(customEvent.detail).toEqual({
 						key: 'demo',
 						newValue: key,
 						oldValue: null,
-						storageArea: storage,
+						storageArea: {
+							demo: key,
+						},
 						url: window.location.href,
 					});
 					resolve();
@@ -70,9 +74,11 @@ const localPorridge = new Porridge('localStorage');
 		storage.setItem('demo', key);
 
 		await new Promise<void>((resolve, reject) => {
-			window.addEventListener('porridge.didChange', (event: CustomEvent) => {
+			window.addEventListener('porridge.didChange', (event) => {
+				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+
 				try {
-					expect(event.detail).toEqual({
+					expect(customEvent.detail).toEqual({
 						key: 'demo',
 						newValue: null,
 						oldValue: key,
