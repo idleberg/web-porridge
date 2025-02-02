@@ -16,7 +16,7 @@
 		"start": "npm run dev",
 		"test": "vitest run",
 		"test:coverage": "vitest run --coverage",
-		"test:watch": "vitest run --watch"
+		"test:watch": "vitest"
 	},
 	"type": "module",
 	"typings": "./lib/index.d.ts",
