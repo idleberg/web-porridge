@@ -34,23 +34,6 @@ test(`db.key() - Invalid Index`, async () => {
 	expect(actual).toBe(null);
 });
 
-// test(`db.key() - Valid Fraction Index`, async () => {
-// 	const expected = 'demo';
-// 	await storage.setItem(expected, 'Hello, world');
-
-// 	const actual = await storage.key(0.1);
-
-// 	expect(actual).toBe(expected);
-// });
-
-// test(`db.key() - Invalid Fraction Index`, async () => {
-// 	await storage.setItem('demo', 'Hello, world');
-
-// 	const actual = await storage.key(1.1);
-
-// 	expect(actual).toBe(null);
-// });
-
 test(`db.length() - 0`, async () => {
 	await storage.setItem('demo', 'Hello, world!');
 	await storage.clear();
