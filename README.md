@@ -12,7 +12,7 @@ Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharin
 - automatic (de)serialization
 - Object-level read & write access
 - data expiry
-- observability
+- granular observability
 - convenience methods
 
 ## Installation
