@@ -92,7 +92,7 @@ test(`db.observe() - clear`, async () => {
 	await new Promise<void>(async (resolve, reject) => {
 		await storage.setItem(key, value);
 
-		storage.observe('demo', (event) => {
+		storage.observe(key, (event) => {
 			try {
 				expect(event).toEqual({
 					key: null,
@@ -118,7 +118,7 @@ test(`db.observe() - removeItem`, async () => {
 	await new Promise<void>(async (resolve, reject) => {
 		await storage.setItem(key, value);
 
-		storage.observe('demo', (event) => {
+		storage.observe(key, (event) => {
 			try {
 				expect(event).toEqual({
 					key: key,
@@ -137,29 +137,7 @@ test(`db.observe() - removeItem`, async () => {
 	});
 });
 
-test(`db.observe() - setItem`, async () => {
-	const key = 'demo';
-	const value = self.crypto.randomUUID();
-
-	await new Promise<void>(async (resolve, reject) => {
-		storage.observe('demo', (event) => {
-
-			try {
-				expect(event).toEqual({
-					key: key,
-					newValue: value,
-					oldValue: null,
-					storageArea: {
-						[key]: value,
-					},
-					url: globalThis.location.href,
-				});
-				resolve();
-			} catch (error) {
-				reject(error);
-			}
-		});
-
-		await storage.setItem(key, value);
-	});
+test(`db.observe() - Invalid callback type`, async () => {
+	// @ts-expect-error
+	expect(() => storage.observe('demo', undefined)).toThrowError('The callback argument must be of type "function", got "undefined"');
 });

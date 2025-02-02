@@ -103,7 +103,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 		await new Promise<void>((resolve, reject) => {
 			storage.setItem(key, value);
 
-			storage.observe('demo', (event) => {
+			storage.observe(key, (event) => {
 				try {
 					expect(event).toEqual({
 						key: null,
@@ -129,7 +129,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 		storage.setItem(key, value);
 
 		await new Promise<void>((resolve, reject) => {
-			storage.observe('demo', (event) => {
+			storage.observe(key, (event) => {
 
 				try {
 					expect(event).toEqual({
@@ -154,7 +154,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 		const value = self.crypto.randomUUID();
 
 		await new Promise<void>((resolve, reject) => {
-			storage.observe('demo', (event) => {
+			storage.observe(key, (event) => {
 
 				try {
 					expect(event).toEqual({
@@ -174,5 +174,10 @@ const sessionPorridge = new Porridge('sessionStorage');
 
 			storage.setItem(key, value);
 		});
+	});
+
+	test(`${type}.observe() - Invalid callback type`, async () => {
+		// @ts-expect-error
+		expect(() => storage.observe('demo', undefined)).toThrowError('The callback argument must be of type "function", got "undefined"');
 	});
 });
