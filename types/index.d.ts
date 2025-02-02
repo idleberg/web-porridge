@@ -11,7 +11,7 @@ declare namespace WebPorridge {
 
 	type Payload = {
 		'@expires'?: string;
-		'@type': 'boolean' | 'date' | 'null' | 'number' | 'object' | 'string' | 'undefined';
+		'@type': 'array' | 'bigint' | 'boolean' | 'date' | 'null' | 'number' | 'object' | 'string' | 'undefined';
 		'@value': string;
 	};
 
@@ -22,10 +22,11 @@ declare namespace WebPorridge {
 	};
 
 	type StorageEvent = {
-		key?: string;
+		key?: string | null;
 		newValue: unknown;
 		oldValue: unknown;
-		storageArea: 'localStorage' | 'sessionStorage' | 'indexedDB';
+		storageArea: Record<string, unknown>;
+		url: string;
 	};
 }
 
