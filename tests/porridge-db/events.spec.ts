@@ -115,7 +115,7 @@ test(`db.observe() - removeItem`, async () => {
 	const key = 'demo';
 	const value = self.crypto.randomUUID();
 
-	await new Promise<void>(async (resolve, reject) => {
+	new Promise<void>(async (resolve, reject) => {
 		await storage.setItem(key, value);
 
 		storage.observe(key, (event) => {
@@ -137,7 +137,7 @@ test(`db.observe() - removeItem`, async () => {
 	});
 });
 
-test(`db.observe() - Invalid callback type`, async () => {
-	// @ts-expect-error
+test(`db.observe() - Invalid callback type`, () => {
+	// @ts-expect-error Provide invalid callback function
 	expect(() => storage.observe('demo', undefined)).toThrowError('The callback argument must be of type "function", got "undefined"');
 });

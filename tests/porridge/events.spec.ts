@@ -176,8 +176,8 @@ const sessionPorridge = new Porridge('sessionStorage');
 		});
 	});
 
-	test(`${type}.observe() - Invalid callback type`, async () => {
-		// @ts-expect-error
+	test(`${type}.observe() - Invalid callback type`, () => {
+		// @ts-expect-error Provide invalid callback function
 		expect(() => storage.observe('demo', undefined)).toThrowError('The callback argument must be of type "function", got "undefined"');
 	});
 });

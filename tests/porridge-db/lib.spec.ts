@@ -8,7 +8,7 @@ test(`Invalid event type`, () => {
 	});
 
 	expect(() => new PorridgeDB({
-		// @ts-expect-error
+		// @ts-expect-error Provide invalid event name
 		eventName: 1
 	})).toThrowError(`Event name must be of type "string", got "number"`);
 });
