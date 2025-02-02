@@ -5,7 +5,7 @@ import { Porridge } from '../../src/porridge.ts';
 	'localStorage',
 	'sessionStorage'
 ].map((storage) => {
-	test(`${storage}.clear()`, () => {
+	test(`Invalid event type`, () => {
 		Object.defineProperty(globalThis, 'localStorage', {
 			value: undefined,
 			writable: true,

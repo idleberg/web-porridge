@@ -1,5 +1,5 @@
 import { beforeEach, expect, test } from 'vitest';
-import { Porridge } from '../../src/porridge.ts';
+import { Porridge } from '../../src/index.ts';
 
 const localPorridge = new Porridge('localStorage');
 const sessionPorridge = new Porridge('sessionStorage');

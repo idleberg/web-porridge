@@ -1,11 +1,11 @@
-import { beforeEach, expect, test } from 'vitest';;
+import { beforeEach, expect, test } from 'vitest';
 import { PorridgeDB } from '../../src/index.ts';
-import type { WebPorridge } from '../../types/index';
+import type { WebPorridge } from '../../types/index.d.ts';
 
 const storage = new PorridgeDB();
 
-beforeEach(() => {
-	storage.clear();
+beforeEach(async () => {
+	await storage.clear();
 });
 
 test(`db.clear()`, async () => {

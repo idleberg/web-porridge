@@ -3,8 +3,8 @@ import { PorridgeDB } from '../../src/index.ts';
 
 const storage = new PorridgeDB();
 
-beforeEach(() => {
-	storage.clear();
+beforeEach(async () => {
+	await storage.clear();
 });
 
 test(`db.clear()`, async () => {

@@ -1,6 +1,6 @@
 import { beforeEach, expect, test } from 'vitest';
-import { Porridge } from '../../src/porridge.ts';
-import type { WebPorridge } from '../../types/index';
+import { Porridge } from '../../src/index.ts';
+import type { WebPorridge } from '../../types/index.d.ts';
 
 const localPorridge = new Porridge('localStorage');
 const sessionPorridge = new Porridge('sessionStorage');
