@@ -15,7 +15,7 @@
 		"prepare": "husky",
 		"start": "npm run dev",
 		"test": "vitest run",
-		"test:coverage": "vitest run --coverage",
+		"test:watch:coverage": "vitest --coverage --ui",
 		"test:watch": "vitest"
 	},
 	"type": "module",
