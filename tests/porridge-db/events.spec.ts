@@ -9,7 +9,7 @@ beforeEach(async () => {
 });
 
 test(`db.clear()`, async () => {
-	await new Promise<void>(async (resolve, reject) => {
+	await new Promise<void>((resolve, reject) => {
 		globalThis.addEventListener('porridgeDB.didChange', (event) => {
 			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
 
@@ -27,14 +27,14 @@ test(`db.clear()`, async () => {
 			}
 		});
 
-		await storage.clear();
+		storage.clear();
 	});
 });
 
 test(`db.setItem()`, async () => {
 	const key = self.crypto.randomUUID();
 
-	await new Promise<void>(async (resolve, reject) => {
+	await new Promise<void>((resolve, reject) => {
 		globalThis.addEventListener('porridgeDB.didChange', (event) => {
 			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
 
@@ -54,16 +54,15 @@ test(`db.setItem()`, async () => {
 			}
 		});
 
-		await storage.setItem('demo', key);
+		storage.setItem('demo', key);
 	});
 });
 
 test(`db.removeItem()`, async () => {
 	const key = self.crypto.randomUUID();
+	await storage.setItem('demo', key);
 
-	await new Promise<void>(async (resolve, reject) => {
-		await storage.setItem('demo', key);
-
+	await new Promise<void>((resolve, reject) => {
 		globalThis.addEventListener('porridgeDB.didChange', (event) => {
 			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
 
@@ -81,7 +80,7 @@ test(`db.removeItem()`, async () => {
 			}
 		});
 
-		await storage.removeItem('demo');
+		storage.removeItem('demo');
 	});
 });
 
@@ -89,8 +88,9 @@ test(`db.observe() - clear`, async () => {
 	const key = 'demo';
 	const value = self.crypto.randomUUID();
 
-	await new Promise<void>(async (resolve, reject) => {
-		await storage.setItem(key, value);
+	await storage.setItem(key, value);
+
+	await new Promise<void>((resolve, reject) => {
 
 		storage.observe(key, (event) => {
 			try {
@@ -107,7 +107,7 @@ test(`db.observe() - clear`, async () => {
 			}
 		});
 
-		await storage.clear();
+		storage.clear();
 	});
 });
 
@@ -115,8 +115,9 @@ test(`db.observe() - removeItem`, async () => {
 	const key = 'demo';
 	const value = self.crypto.randomUUID();
 
-	new Promise<void>(async (resolve, reject) => {
-		await storage.setItem(key, value);
+	await storage.setItem(key, value);
+
+	new Promise<void>((resolve, reject) => {
 
 		storage.observe(key, (event) => {
 			try {
@@ -133,7 +134,7 @@ test(`db.observe() - removeItem`, async () => {
 			}
 		});
 
-		await storage.removeItem(key);
+		storage.removeItem(key);
 	});
 });
 
