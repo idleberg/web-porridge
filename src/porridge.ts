@@ -274,7 +274,7 @@ export class Porridge {
 	 */
 	public observe(keyName: string, callback: (data: WebPorridge.StorageEvent) => void): () => void {
 		if (typeof callback !== 'function') {
-			throw new TypeError('The callback argument is not a function');
+			throw new TypeError(`The callback argument must be of type "function", got "${typeof callback}"`);
 		}
 
 		function handler(event: Event): void {
