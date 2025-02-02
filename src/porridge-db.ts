@@ -279,6 +279,7 @@ export class PorridgeDB {
 		function handler(event: Event): void {
 			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
 
+			// We follow the same pattern as the StorageEvent interface, so we need to allow for a null key.
 			if (customEvent.detail.key !== keyName && customEvent.detail.key !== null) {
 				return;
 			}
