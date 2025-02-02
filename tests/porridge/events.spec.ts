@@ -1,0 +1,178 @@
+import { beforeEach, expect, test } from 'vitest';
+import { Porridge } from '../../src/porridge.ts';
+import type { WebPorridge } from '../../types/index';
+
+const localPorridge = new Porridge('localStorage');
+const sessionPorridge = new Porridge('sessionStorage');
+
+[
+	{
+		type: 'localStorage',
+		storage: localPorridge,
+	},
+	{
+		type: 'sessionStorage',
+		storage: sessionPorridge,
+	},
+].map(({ type, storage }) => {
+	beforeEach(() => {
+		storage.clear();
+	});
+
+	test(`${type}.clear()`, async () => {
+		await new Promise<void>((resolve, reject) => {
+			globalThis.addEventListener('porridge.didChange', (event) => {
+				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+
+				try {
+					expect(customEvent.detail).toEqual({
+						key: null,
+						newValue: null,
+						oldValue: null,
+						storageArea: {},
+						url: globalThis.location.href,
+					});
+					resolve();
+				} catch (error) {
+					reject(error);
+				}
+			});
+
+			storage.clear();
+		});
+	});
+
+	test(`${type}.setItem()`, async () => {
+		const key = self.crypto.randomUUID();
+
+		await new Promise<void>((resolve, reject) => {
+			globalThis.addEventListener('porridge.didChange', (event) => {
+				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+
+				try {
+					expect(customEvent.detail).toEqual({
+						key: 'demo',
+						newValue: key,
+						oldValue: null,
+						storageArea: {
+							demo: key,
+						},
+						url: globalThis.location.href,
+					});
+					resolve();
+				} catch (error) {
+					reject(error);
+				}
+			});
+
+			storage.setItem('demo', key);
+		});
+	});
+
+	test(`${type}.removeItem()`, async () => {
+		const key = self.crypto.randomUUID();
+
+		await new Promise<void>((resolve, reject) => {
+			storage.setItem('demo', key);
+
+			globalThis.addEventListener('porridge.didChange', (event) => {
+				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+
+				try {
+					expect(customEvent.detail).toEqual({
+						key: 'demo',
+						newValue: null,
+						oldValue: key,
+						storageArea: {},
+						url: globalThis.location.href,
+					});
+					resolve();
+				} catch (error) {
+					reject(error);
+				}
+			});
+
+			storage.removeItem('demo');
+		});
+	});
+
+	test(`${type}.observe() - clear`, async () => {
+		const key = 'demo';
+		const value = self.crypto.randomUUID();
+
+		await new Promise<void>((resolve, reject) => {
+			storage.setItem(key, value);
+
+			storage.observe('demo', (event) => {
+				try {
+					expect(event).toEqual({
+						key: null,
+						newValue: null,
+						oldValue: null,
+						storageArea: {},
+						url: globalThis.location.href,
+					});
+					resolve();
+				} catch (error) {
+					reject(error);
+				}
+			});
+
+			storage.clear();
+		});
+	});
+
+	test(`${type}.observe() - removeItem`, async () => {
+		const key = 'demo';
+		const value = self.crypto.randomUUID();
+
+		storage.setItem(key, value);
+
+		await new Promise<void>((resolve, reject) => {
+			storage.observe('demo', (event) => {
+
+				try {
+					expect(event).toEqual({
+						key: key,
+						newValue: null,
+						oldValue: value,
+						storageArea: {},
+						url: globalThis.location.href,
+					});
+					resolve();
+				} catch (error) {
+					reject(error);
+				}
+			});
+
+			storage.removeItem(key);
+		});
+	});
+
+	test(`${type}.observe() - setItem`, async () => {
+		const key = 'demo';
+		const value = self.crypto.randomUUID();
+
+		await new Promise<void>((resolve, reject) => {
+			storage.observe('demo', (event) => {
+
+				try {
+					expect(event).toEqual({
+						key: key,
+						newValue: value,
+						oldValue: null,
+						storageArea: {
+							[key]: value,
+						},
+						url: globalThis.location.href,
+					});
+					resolve();
+				} catch (error) {
+					reject(error);
+				}
+			});
+
+			storage.setItem(key, value);
+		});
+	});
+});

@@ -1,5 +1,5 @@
 import { beforeEach, expect, test } from 'vitest';
-import { Porridge } from '../src/porridge.ts';
+import { Porridge } from '../../src/porridge.ts';
 
 const localPorridge = new Porridge('localStorage');
 const sessionPorridge = new Porridge('sessionStorage');
@@ -89,6 +89,44 @@ const sessionPorridge = new Porridge('sessionStorage');
 		expect(actual).toBe(null);
 	});
 
+	test(`${type}.removeItem() - Object key, 1 level`, () => {
+		storage.setItem('demo', {
+			firstName: 'John',
+			lastName: 'Appleseed',
+		});
+
+		storage.removeItem('demo', {
+			prop: 'firstName',
+		});
+
+		const actual = storage.getItem('demo');
+
+		expect(actual).toStrictEqual({
+			lastName: 'Appleseed',
+		});
+	});
+
+	test(`${type}.removeItem() - Object key: 1 level, 2 levels`, () => {
+		storage.setItem('demo', {
+			name: {
+				first: 'John',
+				last: 'Appleseed',
+			}
+		});
+
+		storage.removeItem('demo', {
+			prop: 'name.first',
+		});
+
+		const actual = storage.getItem('demo');
+
+		expect(actual).toStrictEqual({
+			name: {
+				last: 'Appleseed',
+			},
+		});
+	});
+
 	test(`${type}.*etItem() - String`, () => {
 		const expected = 'Hello, world!';
 		storage.setItem('demo', expected);
@@ -143,6 +181,54 @@ const sessionPorridge = new Porridge('sessionStorage');
 		const actual = storage.getItem('demo');
 
 		expect(actual).toBe(expected);
+	});
+
+	test(`${type}.*etItem() - Object key: 1 level`, () => {
+		storage.setItem('demo', {
+			name: 'John Appleseed'
+		});
+		storage.setItem('demo', 'Ada Lovelace', {
+			prop: 'name'
+		});
+
+		const actual = storage.getItem('demo');
+
+		expect(actual).toStrictEqual({
+			name: 'Ada Lovelace'
+		});
+
+		const actualProp = storage.getItem('demo', {
+			prop: 'name'
+		});
+
+		expect(actualProp).toStrictEqual('Ada Lovelace');
+	});
+
+	test(`${type}.*etItem() - Object key: 2 levels`, () => {
+		storage.setItem('demo', {
+			name: {
+				first: 'John',
+				last: 'Appleseed'
+			}
+		});
+		storage.setItem('demo', 'Masamune', {
+			prop: 'name.first'
+		});
+
+		const actual = storage.getItem('demo');
+
+		expect(actual).toStrictEqual({
+			name: {
+				first: 'Masamune',
+				last: 'Appleseed',
+			}
+		});
+
+		const actualProp = storage.getItem('demo', {
+			prop: 'name.last'
+		});
+
+		expect(actualProp).toStrictEqual('Appleseed');
 	});
 
 	test(`${type}.*etItem() - Date`, () => {
