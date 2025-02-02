@@ -1,10 +1,9 @@
 /*! web-porridge | MIT License | https://github.com/idleberg/web-porridge */
 
-import type { WebPorridge } from '../types';
+import type { WebPorridge } from '../types/index.d.ts';
 import { getProperty, setProperty, deleteProperty } from 'dot-prop';
 
 import {
-	addCustomEventListener,
 	deserialize,
 	didExpire,
 	eventDispatcher,
@@ -17,8 +16,8 @@ const validStores = ['localStorage', 'sessionStorage'];
 
 /**
  * Instantiates the class with provided options.
- * @param {'localStorage' | 'sessionStorage'} storageArea
- * @param {string} [eventName]
+ * @param storageArea The storage area to use
+ * @param eventName The event name to use
  *
  * @example
  * ```js
@@ -30,28 +29,30 @@ export class Porridge {
 	#storageArea: 'localStorage' | 'sessionStorage';
 
 	constructor(storageArea: 'localStorage' | 'sessionStorage' = 'localStorage', eventName = 'porridge.didChange') {
-		if (typeof eventName !== 'string') {
-			throw new TypeError('Event name must be of type "string"');
+		if (!validStores.includes(storageArea)) {
+			throw new TypeError(`Invalid storage type specified, try ${validStores.join(' or ')} instead`);
 		}
 
-		this.#eventName = eventName;
-
-		if (typeof (<any>window) !== 'undefined' && !(storageArea in <any>window)) {
+		if (typeof (globalThis) !== 'undefined' && !(storageArea in globalThis)) {
 			throw new Error(`Your browser does not support the ${storageArea} API`);
-		} else if (!validStores.includes(storageArea)) {
-			throw new TypeError(`Invalid storage type specified, try ${validStores.join('|')} instead`);
 		}
 
 		this.#storageArea = storageArea;
+
+		if (typeof eventName !== 'string') {
+			throw new TypeError(`Event name must be of type "string", got "${typeof eventName}"`);
+		}
+
+		this.#eventName = eventName;
 	}
 
 	/**
 	 * Writes single data item to Storage type.
-	 * @param {string} keyName
-	 * @param {unknown} keyValue
-	 * @param {Object} [options]
-	 * @param {string} [options.expires]
-	 * @param {string} [options.prop]
+	 * @param keyName The key to write
+	 * @param keyValue The value to write
+	 * @param [options] Additional options
+	 * @param [options.expires] The expiry date
+	 * @param [options.prop] The object property to write
 	 *
 	 * @example
 	 * ```js
@@ -77,31 +78,26 @@ export class Porridge {
 		const newValue = {
 			[storageKeys.value]: serialize(keyValue),
 			[storageKeys.type]: getType(keyValue),
+			[storageKeys.expires]: options?.expires ?? undefined,
 		};
 
-		if (options?.expires && String(options.expires).length) {
-			newValue[storageKeys.expires] = options.expires instanceof Date
-				? options.expires
-				: new Date(options.expires);
-		}
+		globalThis[this.#storageArea].setItem(keyName, JSON.stringify(newValue));
 
 		eventDispatcher(this.#eventName, {
-			storageArea: this.#storageArea,
 			key: keyName,
 			oldValue: oldValue,
 			newValue: keyValue,
+			storageArea: Object.fromEntries(this.entries()),
 		});
-
-		return (<any>globalThis)[this.#storageArea].setItem(keyName, JSON.stringify(newValue));
 	}
 
 	/**
 	 * Reads single data item from Storage type.
-	 * @param {string} keyName
-	 * @param {WebPorridge.StorageOptions} [options]
-	 * @param {string} [options.expires]
-	 * @param {string} [options.prop]
-	 * @returns {unknown}
+	 * @param keyName The key to read
+	 * @param [options] Additional options
+	 * @param [options.expires] The expiry date
+	 * @param [options.prop] The object property to read
+	 * @returns
 	 *
 	 * @example
 	 * ```js
@@ -110,12 +106,12 @@ export class Porridge {
 	 * ```
 	 */
 	public getItem(keyName: string, options?: WebPorridge.StorageOptions): unknown {
-		const item = (<any>globalThis)[this.#storageArea].getItem(keyName);
+		const item = globalThis[this.#storageArea].getItem(keyName) || 'null';
 
 		try {
 			const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
-			if (!decodedItem || didExpire(decodedItem[storageKeys.expires])) {
+			if (!decodedItem || didExpire(decodedItem[storageKeys.expires] || '')) {
 				return null;
 			}
 
@@ -133,9 +129,9 @@ export class Porridge {
 
 	/**
 	 * Removes single data item from Storage type.
-	 * @param {string} keyName
-	 * @param {Object} [options]
-	 * @param {string} [options.prop]
+	 * @param keyName The key to remove
+	 * @param [options] Additional options
+	 * @param [options.prop] The object property to remove
 	 *
 	 * @example
 	 * ```js
@@ -153,28 +149,28 @@ export class Porridge {
 			return this.setItem(keyName, item);
 		}
 
+		globalThis[this.#storageArea].removeItem(keyName);
+
 		eventDispatcher(this.#eventName, {
-			storageArea: this.#storageArea,
 			key: keyName,
 			oldValue: oldValue,
 			newValue: null,
+			storageArea: Object.fromEntries(this.entries()),
 		});
-
-		return (<any>globalThis)[this.#storageArea].removeItem(keyName);
 	}
 
 	/**
 	 * Returns the length of Storage type.
-	 * @param index
-	 * @returns {unknown}
+	 * @param index The index to retrieve
+	 * @returns The key
 	 */
 	public key(index: number): unknown {
-		return (<any>globalThis)[this.#storageArea].key(index);
+		return globalThis[this.#storageArea].key(index);
 	}
 
 	/**
 	 * Returns the length of Storage type.
-	 * @returns {number}
+	 * @returns The number of Storage items
 	 *
 	 * @example
 	 * ```js
@@ -182,7 +178,7 @@ export class Porridge {
 	 * ```
 	 */
 	public get length(): number {
-		return (<any>globalThis)[this.#storageArea].length;
+		return globalThis[this.#storageArea].length;
 	}
 
 	/**
@@ -194,19 +190,20 @@ export class Porridge {
 	 * ```
 	 */
 	public clear(): void {
+		globalThis[this.#storageArea].clear();
+
 		eventDispatcher(this.#eventName, {
-			storageArea: this.#storageArea,
+			key: null,
 			oldValue: null,
 			newValue: null,
+			storageArea: {},
 		});
-
-		return (<any>globalThis)[this.#storageArea].clear();
 	}
 
 	/**
 	 * Returns whether Storage contains property.
-	 * @param {string} keyName
-	 * @returns {boolean}
+	 * @param keyName The key to check
+	 * @returns Whether the key exists
 	 *
 	 * @example
 	 * ```js
@@ -219,8 +216,8 @@ export class Porridge {
 
 	/**
 	 * Returns an array of Storage's enumerable property names.
-	 * @param {string} keyName
-	 * @returns {string[]}
+	 * @param keyName The key to check
+	 * @returns An array of keys
 	 *
 	 * @example
 	 * ```js
@@ -233,8 +230,8 @@ export class Porridge {
 
 	/**
 	 * Returns an array of Storage's enumerable property values.
-	 * @param {string} keyName
-	 * @returns {boolean}
+	 * @param keyName The key to check
+	 * @returns An array of values
 	 *
 	 * @example
 	 * ```js
@@ -247,8 +244,8 @@ export class Porridge {
 
 	/**
 	 * Returns an array of Storage's own enumerable string-keyed property `[key, value]` pairs.
-	 * @param {string} keyName
-	 * @returns {boolean}
+	 * @param keyName The key to check
+	 * @returns	An array of key-value pairs
 	 *
 	 * @example
 	 * ```js
@@ -261,28 +258,44 @@ export class Porridge {
 
 	/**
 	 * Observes value changes of a Storage item.
-	 * @param {string} keyName
-	 * @param {Function} callback
+	 * @param keyName The key to observe
+	 * @param callback The function to be called when the event is triggered
+	 * @returns A function to stop observing
 	 *
 	 * @example
 	 * ```js
-	 * localPorridge.observe('demo', ({ key, newValue }) => {
+	 * const unobserve = localPorridge.observe('demo', ({ key, newValue }) => {
 	 * 	console.log(`${key} has changed to:`, value);
 	 * });
+	 *
+	 * // Later, to stop observing
+	 * unobserve();
 	 * ```
 	 */
-	public observe(keyName: string, callback: (payload: WebPorridge.StorageEvent) => void): void {
+	public observe(keyName: string, callback: (data: WebPorridge.StorageEvent) => void): () => void {
 		if (typeof callback !== 'function') {
 			throw new TypeError('The callback argument is not a function');
 		}
 
-		addCustomEventListener(this.#eventName, keyName, callback);
+		function handler(event: Event): void {
+			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+
+			if (customEvent.detail.key !== keyName && customEvent.detail.key !== null) {
+				return;
+			}
+
+			callback(customEvent.detail);
+		}
+
+		globalThis.addEventListener(this.#eventName, handler);
+
+		return () => globalThis.removeEventListener(this.#eventName, handler);
 	}
 
 	/**
 	 * Returns whether a single Storage item has expired.
-	 * @param {string} keyName
-	 * @returns {boolean}
+	 * @param keyName The key to check
+	 * @returns Whether the item has expired
 	 *
 	 * @example
 	 * ```js
@@ -290,9 +303,14 @@ export class Porridge {
 	 * ```
 	 */
 	public didExpire(keyName: string): boolean {
-		const item = (<any>globalThis)[this.#storageArea].getItem(keyName);
+		const item = globalThis[this.#storageArea].getItem(keyName);
+
+		if (!item) {
+			return false;
+		}
+
 		const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
-		return didExpire(decodedItem[storageKeys.expires]);
+		return didExpire(decodedItem[storageKeys.expires] || '-1');
 	}
 }

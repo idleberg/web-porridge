@@ -1,6 +1,6 @@
 /*! web-porridge | MIT License | https://github.com/idleberg/web-porridge */
 
-import type { WebPorridge } from '../types';
+import type { WebPorridge } from '../types/index.d.ts';
 import { getProperty, setProperty, deleteProperty } from 'dot-prop';
 
 import {
@@ -10,16 +10,14 @@ import {
 	get as getItemIdb,
 	keys,
 	set as setItemIdb,
-	UseStore,
+	type UseStore
 } from 'idb-keyval';
 
-import { addCustomEventListener, didExpire, eventDispatcher, getType, storageKeys } from './util';
-
-const storageArea = 'indexedDB';
+import { didExpire, eventDispatcher, getType, storageKeys } from './util';
 
 /**
  * Instantiates the class with provided options.
- * @param {WebPorridge.IndexeddbOptions} [options]
+ * @param [options]
  *
  * @example
  * ```js
@@ -27,11 +25,11 @@ const storageArea = 'indexedDB';
  * ```
  */
 export class PorridgeDB {
-	#eventName: string;
 	#customStore: UseStore;
+	#eventName: string;
 
 	constructor(options?: WebPorridge.IndexeddbOptions) {
-		if (typeof (<any>window) !== 'undefined' && !('indexedDB' in <any>window)) {
+		if (typeof globalThis !== 'undefined' && !('indexedDB' in globalThis)) {
 			throw new Error(`Your browser does not support the IndexedDB API`);
 		}
 
@@ -42,16 +40,20 @@ export class PorridgeDB {
 			...options,
 		};
 
+		if (typeof eventName !== 'string') {
+			throw new TypeError(`Event name must be of type "string", got "${typeof eventName}"`);
+		}
+
 		this.#eventName = eventName;
 		this.#customStore = createStore(db, store);
 	}
 	/**
 	 * Writes single data item to IndexedDB.
-	 * @param {String} keyName
-	 * @param {unknown} keyValue
-	 * @param {Object} [options]
-	 * @param {String} [options.expires]
-	 * @param {String} [options.prop]
+	 * @param keyName
+	 * @param keyValue
+	 * @param [options]
+	 * @param [options.expires]
+	 * @param [options.prop]
 	 *
 	 * @example
 	 * ```js
@@ -77,31 +79,26 @@ export class PorridgeDB {
 		const newValue = {
 			[storageKeys.value]: keyValue,
 			[storageKeys.type]: getType(keyValue),
+			[storageKeys.expires]: options?.expires ?? undefined,
 		};
 
-		if (options?.expires && String(options.expires).length) {
-			newValue[storageKeys.expires] = options.expires instanceof Date
-				? options.expires
-				: new Date(options.expires);
-		}
+		await setItemIdb(keyName, newValue, this.#customStore);
 
 		eventDispatcher(this.#eventName, {
-			storageArea: storageArea,
 			key: keyName,
 			oldValue: oldValue,
 			newValue: keyValue,
+			storageArea: Object.fromEntries(await this.entries()),
 		});
-
-		return await setItemIdb(keyName, newValue, this.#customStore);
 	}
 
 	/**
 	 * Reads single data item from IndexedDB.
-	 * @param {String} keyName
-	 * @param {Object} [options]
-	 * @param {String} [options.expires]
-	 * @param {String} [options.prop]
-	 * @returns {unknown}
+	 * @param keyName
+	 * @param [options]
+	 * @param [options.expires]
+	 * @param [options.prop]
+	 * @returns
 	 *
 	 * @example
 	 * ```js
@@ -110,9 +107,9 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async getItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<unknown> {
-		const item: WebPorridge.Payload = await getItemIdb(keyName, this.#customStore);
+		const item: WebPorridge.Payload | null = await getItemIdb(keyName, this.#customStore) || null;
 
-		if (!item || didExpire(item[storageKeys.expires])) {
+		if (!item || didExpire(item[storageKeys.expires] || '')) {
 			return null;
 		}
 
@@ -125,9 +122,9 @@ export class PorridgeDB {
 
 	/**
 	 * Removes single data item from IndexedDB.
-	 * @param {String} keyName
-	 * @param {Object} [options]
-	 * @param {String} [options.prop]
+	 * @param keyName
+	 * @param [options]
+	 * @param [options.prop]
 	 *
 	 * @example
 	 * ```js
@@ -145,20 +142,20 @@ export class PorridgeDB {
 			return await this.setItem(keyName, item);
 		}
 
+		await removeItemIdb(keyName, this.#customStore);
+
 		eventDispatcher(this.#eventName, {
-			storageArea: storageArea,
 			key: keyName,
 			oldValue: oldValue,
 			newValue: null,
+			storageArea: Object.fromEntries(await this.entries()),
 		});
-
-		return await removeItemIdb(keyName, this.#customStore);
 	}
 
 	/**
 	 * Returns the length of IndexedDB.
 	 * @param index
-	 * @returns {unknown}
+	 * @returns
 	 *
 	 * @example
 	 * ```js
@@ -166,12 +163,12 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async key(index: number): Promise<unknown> {
-		return (await keys(this.#customStore))[index];
+		return (await keys(this.#customStore))[index] || null;
 	}
 
 	/**
 	 * Returns the length of IndexedDB.
-	 * @returns {number}
+	 * @returns
 	 *
 	 * @example
 	 * ```js
@@ -193,19 +190,20 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async clear(): Promise<void> {
+		await clear(this.#customStore);
+
 		eventDispatcher(this.#eventName, {
-			storageArea: storageArea,
+			key: null,
 			oldValue: null,
 			newValue: null,
+			storageArea: {},
 		});
-
-		return await clear(this.#customStore);
 	}
 
 	/**
 	 * Returns whether IndexedDB contains property.
-	 * @param {String} keyName
-	 * @returns {boolean}
+	 * @param keyName
+	 * @returns
 	 *
 	 * @example
 	 * ```js
@@ -218,8 +216,8 @@ export class PorridgeDB {
 
 	/**
 	 * Returns an array of IndexedDB's enumerable property names.
-	 * @param {String} keyName
-	 * @returns {boolean}
+	 * @param keyName
+	 * @returns
 	 *
 	 * @example
 	 * ```js
@@ -232,8 +230,8 @@ export class PorridgeDB {
 
 	/**
 	 * Returns an array of IndexedDB's enumerable property values.
-	 * @param {String} keyName
-	 * @returns {boolean}
+	 * @param keyName
+	 * @returns
 	 *
 	 * @example
 	 * ```js
@@ -241,13 +239,13 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async values(): Promise<unknown[]> {
-		return Promise.all((await keys(this.#customStore)).map(async (item: string) => await this.getItem(item)));
+		return Promise.all((await keys(this.#customStore)).map(async (item) => await this.getItem(item as string)));
 	}
 
 	/**
 	 * Returns an array of IndexedDB's own enumerable string-keyed property `[key, value]` pairs.
-	 * @param {String} keyName
-	 * @returns {boolean}
+	 * @param keyName
+	 * @returns
 	 *
 	 * @example
 	 * ```js
@@ -255,33 +253,48 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async entries(): Promise<[IDBValidKey, unknown][]> {
-		return Promise.all((await keys(this.#customStore)).map(async (item: string) => [item, await this.getItem(item)]));
+		return Promise.all((await keys(this.#customStore)).map(async (item) => [item, await this.getItem(item as string)]));
 	}
 
 	/**
 	 * Observes value changes of an IndexedDB item.
-	 * @param {String} keyName
-	 * @param {Function} callback
+	 * @param keyName
+	 * @param callback
 	 *
 	 * @example
 	 * ```js
-	 * db.observe('demo', ({ key, newValue }) => {
+	 * const unobserve = db.observe('demo', ({ key, newValue }) => {
 	 * 	console.log(`${key} has changed to:`, value);
 	 * });
+	 *
+	 * // Later, to stop observing
+	 * unobserve();
 	 * ```
 	 */
-	public observe(keyName: string, callback: (payload: WebPorridge.StorageEvent) => void): void {
+	public observe(keyName: string, callback: (data: WebPorridge.StorageEvent) => void): () => void {
 		if (typeof callback !== 'function') {
 			throw new TypeError('The callback argument is not a function');
 		}
 
-		addCustomEventListener(this.#eventName, keyName, callback);
+		function handler(event: Event): void {
+			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+
+			if (customEvent.detail.key !== keyName && customEvent.detail.key !== null) {
+				return;
+			}
+
+			callback(customEvent.detail);
+		}
+
+		globalThis.addEventListener(this.#eventName, handler);
+
+		return () => globalThis.removeEventListener(this.#eventName, handler);
 	}
 
 	/**
 	 * Returns whether a single IndexedDB item has expired.
-	 * @param {String} keyName
-	 * @returns {boolean}
+	 * @param keyName
+	 * @returns
 	 *
 	 * @example
 	 * ```js
@@ -289,8 +302,12 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async didExpire(keyName: string): Promise<boolean> {
-		const item: WebPorridge.Payload = await getItemIdb(keyName, this.#customStore);
+		const item: WebPorridge.Payload | null = await getItemIdb(keyName, this.#customStore) || null;
 
-		return didExpire(item[storageKeys.expires]);
+		if (!item) {
+			return false;
+		}
+
+		return didExpire(item[storageKeys.expires] || '-1');
 	}
 }

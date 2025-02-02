@@ -1,4 +1,4 @@
-import type { WebPorridge } from '../types';
+import type { WebPorridge } from '../types/index.d.ts';
 
 export const storageKeys: WebPorridge.StorageKeys = {
 	value: '@value',
@@ -8,16 +8,46 @@ export const storageKeys: WebPorridge.StorageKeys = {
 
 /**
  * Serializes a given type into a string.
- * @param {*} item
- * @returns {String}
+ * @param item
+ * @returns
  */
 export function serialize(item: unknown): unknown {
-	switch (true) {
-		case typeof item === 'bigint':
-			return item.toString().valueOf();
+	if (typeof item === 'bigint') {
+		return item.toString().valueOf();
+	}
 
-		case item instanceof Date:
-			return new Date(item as Date).valueOf();
+	if (item instanceof Date) {
+		return new Date(item as Date).valueOf();
+	}
+
+	return item;
+}
+
+/**
+ * Deserializes string into given type.
+ * @param item
+ * @returns
+ */
+export function deserialize(item: WebPorridge.Payload): unknown {
+	const decodedString = item[storageKeys.value];
+
+	switch (item[storageKeys.type]) {
+		case 'array':
+		case 'boolean':
+		case 'null':
+		case 'number':
+		case 'object':
+		case 'undefined':
+			return decodedString;
+
+		case 'bigint':
+			return BigInt(decodedString);
+
+		case 'date':
+			return new Date(decodedString);
+
+		case 'string':
+			return decodedString.toString();
 
 		default:
 			return item;
@@ -25,52 +55,11 @@ export function serialize(item: unknown): unknown {
 }
 
 /**
- * Deserializes string into given type.
- * @param {String} item
- * @returns {*}
- */
-export function deserialize(item) {
-	const decodedString = item[storageKeys.value];
-
-	switch (item[storageKeys.type]) {
-		case 'array':
-			return decodedString as Array<unknown>;
-
-		case 'bigint':
-			return BigInt(decodedString);
-
-		case 'boolean':
-			return decodedString as boolean;
-
-		case 'date':
-			return new Date(decodedString);
-
-		case 'null':
-			return decodedString as null;
-
-		case 'number':
-			return decodedString as number;
-
-		case 'object':
-			return decodedString as Record<string, unknown>;
-
-		case 'string':
-			return decodedString.toString();
-
-		case 'undefined':
-			return decodedString as undefined;
-
-		default:
-			return item as unknown;
-	}
-}
-
-/**
  * Returns the type of a given item.
- * @param {*} item
- * @returns {String}
+ * @param item
+ * @returns
  */
-export function getType(item: any): string {
+export function getType(item: unknown): string | undefined {
 	const type = Object.prototype.toString.call(item);
 
 	switch (type) {
@@ -102,43 +91,26 @@ export function getType(item: any): string {
 			return 'undefined';
 
 		default:
-			new TypeError(`Type '${type}' cannot be stringified`);
+			throw new TypeError(`Type '${type}' cannot be stringified`);
 	}
 }
 
 /**
  * Runs a check whether a storage item has expired
- * @param {String} expires
- * @returns {boolean}
+ * @param expires
+ * @returns
  */
 export function didExpire(expires: string): boolean {
-	return expires && new Date(expires) <= new Date();
+	return new Date(expires) <= new Date();
 }
 
-export function eventDispatcher(eventName: string, payload: WebPorridge.StorageEvent) {
-	try {
-		globalThis.dispatchEvent(
-			new CustomEvent(eventName, {
-				detail: payload,
-			}),
-		);
-	} catch (_error) {
-		// TODO: fix CustomEvent failing on NodeJS
-	}
-}
-
-export function addCustomEventListener(eventName: string, keyName: string, callback: (payload: any) => void): void {
-	globalThis.addEventListener(eventName, (e: CustomEvent) => {
-		if (e.detail.key !== keyName && e.detail.key !== undefined) {
-			return;
-		}
-
-		if (typeof callback === 'function') {
-			callback({
-				key: keyName,
-				newValue: e.detail.newValue,
-				oldValue: e.detail.oldValue,
-			});
-		}
+export function eventDispatcher(eventName: string, payload: Omit<WebPorridge.StorageEvent, 'url'>) {
+	const storageEvent = new CustomEvent(eventName, {
+		detail: {
+			...payload,
+			url: globalThis.location.href
+		},
 	});
+
+	globalThis.dispatchEvent(storageEvent);
 }
