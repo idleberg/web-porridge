@@ -4,6 +4,8 @@ node_modules/
 vendor/
 
 # package manager files
+bun.lockb
+deno.lock
 npm-debug.log*
 package-lock.json
 yarn-error.log
