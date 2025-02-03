@@ -117,7 +117,7 @@ test(`db.observe() - removeItem`, async () => {
 
 	await storage.setItem(key, value);
 
-	new Promise<void>((resolve, reject) => {
+	await new Promise<void>((resolve, reject) => {
 
 		storage.observe(key, (event) => {
 			try {
