@@ -87,6 +87,5 @@
 			"eslint --cache --fix",
 			"prettier --cache --write"
 		]
-	},
-	"packageManager": "pnpm@9.15.0"
+	}
 }
