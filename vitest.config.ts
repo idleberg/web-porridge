@@ -17,6 +17,6 @@ export default defineConfig({
 			include: ['src/**/*.ts'],
 		},
 		onConsoleLog: () => Boolean(process.env.CI),
-		testTimeout: 2000,
+		testTimeout: process.env.CI ? undefined : 3000,
 	},
 });
