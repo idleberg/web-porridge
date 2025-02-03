@@ -7,6 +7,7 @@ import {
 	deserialize,
 	didExpire,
 	eventDispatcher,
+	getSortedStorageObject,
 	getType,
 	serialize,
 	storageKeys,
@@ -225,7 +226,9 @@ export class Porridge {
 	 * ```
 	 */
 	public keys(): string[] {
-		return Object.keys(globalThis[this.#storageArea]);
+		const sortedStorage = getSortedStorageObject(globalThis[this.#storageArea]);
+
+		return Object.keys(sortedStorage);
 	}
 
 	/**
@@ -239,7 +242,9 @@ export class Porridge {
 	 * ```
 	 */
 	public values(): unknown[] {
-		return Object.keys(globalThis[this.#storageArea]).map((item) => this.getItem(item));
+		const sortedStorage = getSortedStorageObject(globalThis[this.#storageArea]);
+
+		return Object.keys(sortedStorage).map((item) => this.getItem(item));
 	}
 
 	/**
@@ -253,7 +258,9 @@ export class Porridge {
 	 * ```
 	 */
 	public entries(): [string, unknown][] {
-		return Object.keys(globalThis[this.#storageArea]).map((item: string) => [item, this.getItem(item)]);
+		const sortedStorage = getSortedStorageObject(globalThis[this.#storageArea]);
+
+		return Object.keys(sortedStorage).map((item: string) => [item, this.getItem(item)]);
 	}
 
 	/**

@@ -114,3 +114,14 @@ export function eventDispatcher(eventName: string, payload: Omit<WebPorridge.Sto
 
 	globalThis.dispatchEvent(storageEvent);
 }
+
+/**
+ * Sorts the storage object keys, as they are not guaranteed to be in a specific order.
+ * @param inputObject The object to sort
+ * @returns The sorted object
+ */
+export function getSortedStorageObject(inputObject: Record<string, unknown>): Record<string, unknown> {
+	return Object.keys(inputObject)
+		.sort()
+		.reduce((acc, key) => ({ ...acc, [key]: inputObject[key] }), {});
+}
