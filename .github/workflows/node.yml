@@ -9,6 +9,7 @@ on:
     - 'types/**'
     - 'package.json'
     - 'pnpm-lock.yaml'
+    - 'vitest.config.ts'
   pull_request:
     paths:
     - '.github/workflows/node.yml'
@@ -17,6 +18,7 @@ on:
     - 'types/**'
     - 'package.json'
     - 'pnpm-lock.yaml'
+    - 'vitest.config.ts'
   workflow_dispatch:
 
 jobs:
