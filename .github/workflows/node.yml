@@ -54,15 +54,16 @@ jobs:
           ${{ runner.os }}-pnpm-store-
 
     - name: Install dependencies
-      run: |
-        pnpm install --frozen-lockfile --strict-peer-dependencies
-        pnpm dlx playwright install --with-deps
+      run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-    - name: Lint Source
+    - name: Install Playwright
+      run: pnpm dlx playwright install --with-deps
+
+    - name: Lint source
       run: pnpm run --if-present lint
 
-    - name: Build Source
+    - name: Build source
       run: pnpm run --if-present build
 
-    - name: Run Tests
+    - name: Run tests
       run: pnpm run --if-present test
