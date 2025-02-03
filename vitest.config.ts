@@ -12,6 +12,7 @@ export default defineConfig({
 			exclude: ['src/index.ts'],
 			include: ['src/**/*.ts'],
 		},
+		onConsoleLog: () => Boolean(process.env.CI),
 		testTimeout: 2000,
 	},
 });
