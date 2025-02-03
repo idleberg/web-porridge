@@ -35,7 +35,7 @@ jobs:
       run: bun install --frozen-lockfile --strict-peer-dependencies
 
     - name: Install Playwright
-      run: bunx run playwright install --with-deps
+      run: bun run playwright install --with-deps
 
     - name: Lint source
       run: bun run --if-present lint
