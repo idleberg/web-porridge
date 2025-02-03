@@ -14,9 +14,6 @@ importers:
       idb-keyval:
         specifier: ^6.2.1
         version: 6.2.1
-      nano-staged:
-        specifier: ^0.8.0
-        version: 0.8.0
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.7.1
@@ -63,6 +60,9 @@ importers:
       knip:
         specifier: ^5.43.6
         version: 5.43.6(@types/node@22.13.0)(typescript@5.7.3)
+      nano-staged:
+        specifier: ^0.8.0
+        version: 0.8.0
       prettier:
         specifier: ^3.4.2
         version: 3.4.2

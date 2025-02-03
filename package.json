@@ -52,8 +52,7 @@
 	"engineStrict": true,
 	"dependencies": {
 		"dot-prop": "^9.0.0",
-		"idb-keyval": "^6.2.1",
-		"nano-staged": "^0.8.0"
+		"idb-keyval": "^6.2.1"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^19.7.1",
@@ -66,11 +65,12 @@
 		"@vitest/coverage-v8": "^3.0.4",
 		"@vitest/ui": "3.0.4",
 		"concurrently": "^9.1.2",
-		"eslint": "^9.19.0",
 		"eslint-plugin-jsonc": "^2.19.1",
 		"eslint-plugin-unicorn": "^56.0.1",
+		"eslint": "^9.19.0",
 		"husky": "^9.1.7",
 		"knip": "^5.43.6",
+		"nano-staged": "^0.8.0",
 		"prettier": "^3.4.2",
 		"remark-cli": "^12.0.1",
 		"remark-preset-lint-recommended": "^7.0.1",
