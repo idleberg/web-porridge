@@ -32,9 +32,9 @@ jobs:
       with:
         fetch-depth: 8
 
-    - uses: denoland/setup-deno@041b854f97b325bd60e53e9dc2de9cb9f9ac0cba # v1.1.4
+    - uses: denoland/setup-deno@909cc5acb0fdd60627fb858598759246509fa755 # v2.0.2
       with:
-        deno-version: v1.x
+        deno-version: v2.1
 
     - uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
       name: Set up dependency cache
@@ -55,6 +55,9 @@ jobs:
         key: ${{ runner.os }}-deno-store-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
             ${{ runner.os }}-deno-store-
+
+    - name: Install npm dependencies
+      run: deno install --allow-scripts=npm:msw@2.7.0,npm:esbuild@0.15.18
 
     - name: Lint Source
       run: deno lint --rules-exclude=no-explicit-any --ignore=node_modules **/*.ts
