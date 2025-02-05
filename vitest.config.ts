@@ -1,4 +1,5 @@
-import { defineConfig } from 'vitest/config'
+import { defineConfig } from 'vitest/config';
+import process from 'node:process';
 
 export default defineConfig({
 	test: {
