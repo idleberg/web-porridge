@@ -36,14 +36,6 @@ jobs:
       with:
         deno-version: v2.1
 
-    - uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
-      name: Set up dependency cache
-      with:
-        path: |
-          ~/.deno
-          ~/.cache/deno
-        key: ${{ runner.os }}-deno-${{ hashFiles('**/pnpm-lock.yaml') }}
-
     - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
       name: Set up dependency cache
       with:
@@ -60,7 +52,7 @@ jobs:
       run: deno install --allow-scripts=npm:msw@2.7.0,npm:esbuild@0.15.18
 
     - name: Install Playwright
-      run: deno run --allow-all npm playwright install --with-deps
+      run: deno run --allow-all npm:playwright install --with-deps
 
     - name: Lint Source
       run: deno lint --rules-exclude=no-explicit-any --ignore=node_modules **/*.ts
