@@ -2,7 +2,8 @@
 
 [![License](https://img.shields.io/github/license/idleberg/web-porridge?color=blue&style=for-the-badge)](https://github.com/idleberg/web-porridge/blob/main/LICENSE)
 [![Version](https://img.shields.io/npm/v/web-porridge?style=for-the-badge)](https://www.npmjs.org/package/web-porridge)
-[![Build](https://img.shields.io/github/actions/workflow/status/idleberg/web-porridge/node.yml?style=for-the-badge)](https://github.com/idleberg/web-porridge/actions)
+[![CI: Node](https://img.shields.io/github/actions/workflow/status/idleberg/web-porridge/node.yml?logo=nodedotjs&logoColor=white&style=for-the-badge)](https://github.com/idleberg/web-porridge/actions/workflows/node.yml)
+[![CI: Deno](https://img.shields.io/github/actions/workflow/status/idleberg/web-porridge/deno.yml?logo=deno&logoColor=white&style=for-the-badge)](https://github.com/idleberg/web-porridge/actions/workflows/deno.yml)
 
 Feature-enhanced wrapper for both, [Storage API][] and [IndexedDB API][], sharing a common, familiar interface.
 
