@@ -1,2 +1,2 @@
-export { Porridge } from './porridge';
-export { PorridgeDB } from './porridge-db';
+export { Porridge } from './porridge.ts';
+export { PorridgeDB } from './porridge-db.ts';

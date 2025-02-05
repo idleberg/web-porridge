@@ -13,7 +13,7 @@ import {
 	type UseStore
 } from 'idb-keyval';
 
-import { didExpire, eventDispatcher, getType, storageKeys } from './util';
+import { didExpire, eventDispatcher, getType, storageKeys } from './util.ts';
 
 /**
  * Instantiates the class with provided options.

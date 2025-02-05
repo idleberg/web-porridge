@@ -1,0 +1,13 @@
+{
+	"name": "@idleberg/porridge",
+	"version": "0.9.3",
+	"exports": "./src/index.ts",
+	"publish": {
+		"include": [
+			"src/",
+			"jsr.json",
+			"LICENSE",
+			"README.md"
+		]
+	}
+}
