@@ -3,7 +3,7 @@ name: 'Run tests on Deno'
 on:
   push:
     paths:
-    - '.github/workflows/node.yml'
+    - '.github/workflows/deno.yml'
     - 'src/**'
     - 'tests/**'
     - 'types/**'
@@ -12,7 +12,7 @@ on:
     - 'vitest.config.ts'
   pull_request:
     paths:
-    - '.github/workflows/node.yml'
+    - '.github/workflows/deno.yml'
     - 'src/**'
     - 'tests/**'
     - 'types/**'
