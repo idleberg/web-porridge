@@ -5,6 +5,7 @@
 	"publish": {
 		"include": [
 			"src/",
+			"types/",
 			"jsr.json",
 			"LICENSE",
 			"README.md"

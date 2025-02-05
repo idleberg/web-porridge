@@ -1,6 +1,6 @@
 /*! web-porridge | MIT License | https://github.com/idleberg/web-porridge */
 
-import type { WebPorridge } from '../types/index.d.ts';
+import type { IDBValidKey, WebPorridge } from '../types/index.d.ts';
 import { getProperty, setProperty, deleteProperty } from 'dot-prop';
 
 import {

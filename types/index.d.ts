@@ -30,4 +30,6 @@ declare namespace WebPorridge {
 	};
 }
 
+export type IDBValidKey = number | string | Date | BufferSource | IDBValidKey[];
+
 export { WebPorridge };
