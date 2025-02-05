@@ -1,0 +1,63 @@
+name: 'Run tests on Deno'
+
+on:
+  push:
+    paths:
+    - '.github/workflows/node.yml'
+    - 'src/**'
+    - 'tests/**'
+    - 'types/**'
+    - 'package.json'
+    - 'pnpm-lock.yaml'
+    - 'vitest.config.ts'
+  pull_request:
+    paths:
+    - '.github/workflows/node.yml'
+    - 'src/**'
+    - 'tests/**'
+    - 'types/**'
+    - 'package.json'
+    - 'pnpm-lock.yaml'
+    - 'vitest.config.ts'
+  workflow_dispatch:
+
+jobs:
+  default:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      with:
+        fetch-depth: 8
+
+    - uses: denoland/setup-deno@041b854f97b325bd60e53e9dc2de9cb9f9ac0cba # v1.1.4
+      with:
+        deno-version: v1.x
+
+    - uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
+      name: Set up dependency cache
+      with:
+        path: |
+          ~/.deno
+          ~/.cache/deno
+        key: ${{ runner.os }}-deno-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+    - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+      name: Set up dependency cache
+      with:
+        path: |
+          ~/.cache/deno
+          ~/.deno/bin
+          ~/.deno/gen
+          ~/.deno/deps
+        key: ${{ runner.os }}-deno-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+            ${{ runner.os }}-deno-store-
+
+    - name: Lint Source
+      run: deno lint --rules-exclude=no-explicit-any --ignore=node_modules **/*.ts
+
+    - name: Run Tests
+      run: deno run --allow-all npm:vitest run
