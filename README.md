@@ -1,7 +1,8 @@
 # web-porridge
 
 [![License](https://img.shields.io/github/license/idleberg/web-porridge?color=blue&style=for-the-badge)](https://github.com/idleberg/web-porridge/blob/main/LICENSE)
-[![Version](https://img.shields.io/npm/v/web-porridge?style=for-the-badge)](https://www.npmjs.org/package/web-porridge)
+[![Version: npm](https://img.shields.io/npm/v/web-porridge?style=for-the-badge)](https://www.npmjs.org/package/web-porridge)
+[![Version: jsr](https://img.shields.io/jsr/v/@idleberg/porridge?style=for-the-badge)](https://jsr.io/@idleberg/porridge)
 [![CI: Node](https://img.shields.io/github/actions/workflow/status/idleberg/web-porridge/node.yml?logo=nodedotjs&logoColor=white&style=for-the-badge)](https://github.com/idleberg/web-porridge/actions/workflows/node.yml)
 [![CI: Deno](https://img.shields.io/github/actions/workflow/status/idleberg/web-porridge/deno.yml?logo=deno&logoColor=white&style=for-the-badge)](https://github.com/idleberg/web-porridge/actions/workflows/deno.yml)
 
