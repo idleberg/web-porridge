@@ -351,7 +351,7 @@ When passed a key name and callback function, it will listen to changes to the g
 <summary><strong>Storage</strong></summary>
 
 ```ts
-const unobserve =localPorridge.observe('demo', ({ key, newValue }) => {
+const unobserve = localPorridge.observe('demo', ({ key, newValue }) => {
 	console.log(`${key} has changed to:`, newValue);
 });
 
