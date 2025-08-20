@@ -1,9 +1,9 @@
-import type { WebPorridge } from '../types/index.d.ts';
+import type { WebPorridge } from "../types/index.d.ts";
 
 export const storageKeys: WebPorridge.StorageKeys = {
-	value: '@value',
-	type: '@type',
-	expires: '@expires',
+	value: "@value",
+	type: "@type",
+	expires: "@expires",
 };
 
 /**
@@ -12,7 +12,7 @@ export const storageKeys: WebPorridge.StorageKeys = {
  * @returns
  */
 export function serialize(item: unknown): unknown {
-	if (typeof item === 'bigint') {
+	if (typeof item === "bigint") {
 		return item.toString().valueOf();
 	}
 
@@ -32,21 +32,21 @@ export function deserialize(item: WebPorridge.Payload): unknown {
 	const decodedString = item[storageKeys.value];
 
 	switch (item[storageKeys.type]) {
-		case 'array':
-		case 'boolean':
-		case 'null':
-		case 'number':
-		case 'object':
-		case 'undefined':
+		case "array":
+		case "boolean":
+		case "null":
+		case "number":
+		case "object":
+		case "undefined":
 			return decodedString;
 
-		case 'bigint':
+		case "bigint":
 			return BigInt(decodedString);
 
-		case 'date':
+		case "date":
 			return new Date(decodedString);
 
-		case 'string':
+		case "string":
 			return decodedString.toString();
 
 		default:
@@ -63,32 +63,32 @@ export function getType(item: unknown): string | undefined {
 	const type = Object.prototype.toString.call(item);
 
 	switch (type) {
-		case '[object Array]':
-			return 'array';
+		case "[object Array]":
+			return "array";
 
-		case '[object Object]':
-			return 'object';
+		case "[object Object]":
+			return "object";
 
-		case '[object BigInt]':
-			return 'bigint';
+		case "[object BigInt]":
+			return "bigint";
 
-		case '[object Boolean]':
-			return 'boolean';
+		case "[object Boolean]":
+			return "boolean";
 
-		case '[object Date]':
-			return 'date';
+		case "[object Date]":
+			return "date";
 
-		case '[object Null]':
-			return 'null';
+		case "[object Null]":
+			return "null";
 
-		case '[object Number]':
-			return 'number';
+		case "[object Number]":
+			return "number";
 
-		case '[object String]':
-			return 'string';
+		case "[object String]":
+			return "string";
 
-		case '[object Undefined]':
-			return 'undefined';
+		case "[object Undefined]":
+			return "undefined";
 
 		default:
 			throw new TypeError(`Type '${type}' cannot be stringified`);
@@ -104,11 +104,16 @@ export function didExpire(expires: string): boolean {
 	return new Date(expires) <= new Date();
 }
 
-export function eventDispatcher(eventName: string, payload: Omit<WebPorridge.StorageEvent, 'url'>) {
+export function eventDispatcher(
+	eventName: string,
+	payload: Omit<WebPorridge.StorageEvent, "url">,
+) {
 	const storageEvent = new CustomEvent(eventName, {
 		detail: {
 			...payload,
-			url: globalThis.location.href
+			url: globalThis.location
+				? globalThis.location.href
+				: pathToFileURL(process.cwd()),
 		},
 	});
 
@@ -120,8 +125,24 @@ export function eventDispatcher(eventName: string, payload: Omit<WebPorridge.Sto
  * @param inputObject The object to sort
  * @returns The sorted object
  */
-export function getSortedStorageObject(inputObject: Record<string, unknown>): Record<string, unknown> {
+export function getSortedStorageObject(
+	inputObject: Record<string, unknown>,
+): Record<string, unknown> {
 	return Object.keys(inputObject)
 		.sort()
 		.reduce((acc, key) => ({ ...acc, [key]: inputObject[key] }), {});
+}
+
+/**
+ * Creates a File URL from a local path, supports both Browser and NodeJS.
+ * @param pathName a local path
+ * @returns a file url
+ */
+function pathToFileURL(pathName: string): string {
+	const normalizedPath = pathName.replace(/\\/g, "/");
+	const prefixedPath =
+		normalizedPath.at(0) !== "/" ? `/${normalizedPath}` : normalizedPath;
+	const fileUrl = `file://${prefixedPath}`;
+
+	return encodeURI(fileUrl).replace(/[?#]/g, encodeURIComponent);
 }
