@@ -111,9 +111,7 @@ export function eventDispatcher(
 	const storageEvent = new CustomEvent(eventName, {
 		detail: {
 			...payload,
-			url: globalThis.location
-				? globalThis.location.href
-				: pathToFileURL(process.cwd()),
+			url: globalThis.location ? globalThis.location.href : undefined,
 		},
 	});
 
@@ -131,18 +129,4 @@ export function getSortedStorageObject(
 	return Object.keys(inputObject)
 		.sort()
 		.reduce((acc, key) => ({ ...acc, [key]: inputObject[key] }), {});
-}
-
-/**
- * Creates a File URL from a local path, supports both Browser and NodeJS.
- * @param pathName a local path
- * @returns a file url
- */
-function pathToFileURL(pathName: string): string {
-	const normalizedPath = pathName.replace(/\\/g, "/");
-	const prefixedPath =
-		normalizedPath.at(0) !== "/" ? `/${normalizedPath}` : normalizedPath;
-	const fileUrl = `file://${prefixedPath}`;
-
-	return encodeURI(fileUrl).replace(/[?#]/g, encodeURIComponent);
 }
