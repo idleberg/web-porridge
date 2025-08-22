@@ -3,7 +3,8 @@
 	"compilerOptions": {
 		"allowImportingTsExtensions": true,
 		"lib": [
-			"DOM"
+			"DOM",
+			"ES2020"
 		],
 		"noEmit": true,
 		"outDir": "lib",
