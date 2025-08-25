@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ["lts/*", "*"]
+        node-version: ["lts/*", "latest"]
 
     steps:
       - uses: actions/checkout@v4
