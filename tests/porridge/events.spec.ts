@@ -1,17 +1,17 @@
-import { beforeEach, expect, test } from "vitest";
-import { Porridge } from "../../src/index.ts";
-import type { WebPorridge } from "../../types/index.d.ts";
+import { beforeEach, expect, test } from 'vitest';
+import { Porridge } from '../../src/index.ts';
+import type { WebPorridge } from '../../types/index.d.ts';
 
-const localPorridge = new Porridge("localStorage");
-const sessionPorridge = new Porridge("sessionStorage");
+const localPorridge = new Porridge('localStorage');
+const sessionPorridge = new Porridge('sessionStorage');
 
 [
 	{
-		type: "localStorage",
+		type: 'localStorage',
 		storage: localPorridge,
 	},
 	{
-		type: "sessionStorage",
+		type: 'sessionStorage',
 		storage: sessionPorridge,
 	},
 ].forEach(({ type, storage }) => {
@@ -21,7 +21,7 @@ const sessionPorridge = new Porridge("sessionStorage");
 
 	test(`${type}.clear()`, async () => {
 		await new Promise<void>((resolve, reject) => {
-			globalThis.addEventListener("porridge.didChange", (event) => {
+			globalThis.addEventListener('porridge.didChange', (event) => {
 				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
 
 				try {
@@ -46,12 +46,12 @@ const sessionPorridge = new Porridge("sessionStorage");
 		const key = self.crypto.randomUUID();
 
 		await new Promise<void>((resolve, reject) => {
-			globalThis.addEventListener("porridge.didChange", (event) => {
+			globalThis.addEventListener('porridge.didChange', (event) => {
 				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
 
 				try {
 					expect(customEvent.detail).toEqual({
-						key: "demo",
+						key: 'demo',
 						newValue: key,
 						oldValue: null,
 						storageArea: {
@@ -65,7 +65,7 @@ const sessionPorridge = new Porridge("sessionStorage");
 				}
 			});
 
-			storage.setItem("demo", key);
+			storage.setItem('demo', key);
 		});
 	});
 
@@ -73,14 +73,14 @@ const sessionPorridge = new Porridge("sessionStorage");
 		const key = self.crypto.randomUUID();
 
 		await new Promise<void>((resolve, reject) => {
-			storage.setItem("demo", key);
+			storage.setItem('demo', key);
 
-			globalThis.addEventListener("porridge.didChange", (event) => {
+			globalThis.addEventListener('porridge.didChange', (event) => {
 				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
 
 				try {
 					expect(customEvent.detail).toEqual({
-						key: "demo",
+						key: 'demo',
 						newValue: null,
 						oldValue: key,
 						storageArea: {},
@@ -92,12 +92,12 @@ const sessionPorridge = new Porridge("sessionStorage");
 				}
 			});
 
-			storage.removeItem("demo");
+			storage.removeItem('demo');
 		});
 	});
 
 	test(`${type}.observe() - clear`, async () => {
-		const key = "demo";
+		const key = 'demo';
 		const value = self.crypto.randomUUID();
 
 		await new Promise<void>((resolve, reject) => {
@@ -123,7 +123,7 @@ const sessionPorridge = new Porridge("sessionStorage");
 	});
 
 	test(`${type}.observe() - removeItem`, async () => {
-		const key = "demo";
+		const key = 'demo';
 		const value = self.crypto.randomUUID();
 
 		storage.setItem(key, value);
@@ -149,7 +149,7 @@ const sessionPorridge = new Porridge("sessionStorage");
 	});
 
 	test(`${type}.observe() - setItem`, async () => {
-		const key = "demo";
+		const key = 'demo';
 		const value = self.crypto.randomUUID();
 
 		await new Promise<void>((resolve, reject) => {
@@ -176,8 +176,8 @@ const sessionPorridge = new Porridge("sessionStorage");
 
 	test(`${type}.observe() - Invalid callback type`, () => {
 		// @ts-expect-error Provide invalid callback function
-		expect(() => storage.observe("demo", undefined)).toThrowError(
-			'The callback argument must be of type "function", got "undefined"'
+		expect(() => storage.observe('demo', undefined)).toThrowError(
+			'The callback argument must be of type "function", got "undefined"',
 		);
 	});
 });
