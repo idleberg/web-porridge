@@ -62,7 +62,7 @@ jobs:
         run: pnpm dlx playwright install --with-deps
 
       - name: Lint source
-        run: pnpm run --if-present lint
+        run: pnpm exec biome ci
 
       - name: Build source
         run: pnpm run --if-present build

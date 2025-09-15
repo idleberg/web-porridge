@@ -57,7 +57,7 @@ jobs:
         run: deno run --allow-all npm:playwright install --with-deps
 
       - name: Lint Source
-        run: deno lint --rules-exclude=no-explicit-any --ignore=node_modules **/*.ts
+        run: deno run --allow-all npm:biome ci
 
       - name: Run Tests
         run: deno run --allow-all npm:vitest run

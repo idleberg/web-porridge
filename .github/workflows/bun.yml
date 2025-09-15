@@ -40,7 +40,7 @@ jobs:
         run: bun run playwright install --with-deps
 
       - name: Lint source
-        run: bun run --if-present lint
+        run: bunx biome ci
 
       - name: Build source
         run: bun run --if-present build
