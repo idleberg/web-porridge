@@ -1,7 +1,7 @@
 /*! web-porridge | MIT License | https://github.com/idleberg/web-porridge */
 
-import { deleteProperty, getProperty, setProperty } from 'dot-prop';
-import type { WebPorridge } from '../types/index.d.ts';
+import { deleteProperty, getProperty, setProperty } from "dot-prop";
+import type { WebPorridge } from "../types/index.d.ts";
 
 import {
 	deserialize,
@@ -11,9 +11,9 @@ import {
 	getType,
 	serialize,
 	storageKeys,
-} from './util.ts';
+} from "./util.ts";
 
-const validStores = ['localStorage', 'sessionStorage'];
+const validStores = ["localStorage", "sessionStorage"];
 
 /**
  * Instantiates the class with provided options.
@@ -27,21 +27,30 @@ const validStores = ['localStorage', 'sessionStorage'];
  */
 export class Porridge {
 	#eventName: string;
-	#storageArea: 'localStorage' | 'sessionStorage';
+	#storageArea: "localStorage" | "sessionStorage";
 
-	constructor(storageArea: 'localStorage' | 'sessionStorage' = 'localStorage', eventName = 'porridge.didChange') {
+	constructor(
+		storageArea: "localStorage" | "sessionStorage" = "localStorage",
+		eventName = "porridge.didChange"
+	) {
 		if (!validStores.includes(storageArea)) {
-			throw new TypeError(`Invalid storage type specified, try ${validStores.join(' or ')} instead`);
+			throw new TypeError(
+				`Invalid storage type specified, try ${validStores.join(
+					" or "
+				)} instead`
+			);
 		}
 
-		if (typeof globalThis !== 'undefined' && !(storageArea in globalThis)) {
+		if (typeof globalThis !== "undefined" && !(storageArea in globalThis)) {
 			throw new Error(`Your browser does not support the ${storageArea} API`);
 		}
 
 		this.#storageArea = storageArea;
 
-		if (typeof eventName !== 'string') {
-			throw new TypeError(`Event name must be of type "string", got "${typeof eventName}"`);
+		if (typeof eventName !== "string") {
+			throw new TypeError(
+				`Event name must be of type "string", got "${typeof eventName}"`
+			);
 		}
 
 		this.#eventName = eventName;
@@ -63,17 +72,23 @@ export class Porridge {
 	 * localPorridge.setItem('secondItem', 'Ada Lovelace', { prop: 'name' });
 	 * ```
 	 */
-	public setItem(keyName: string, keyValue: unknown, options?: WebPorridge.StorageOptions): void {
+	public setItem(
+		keyName: string,
+		keyValue: unknown,
+		options?: WebPorridge.StorageOptions
+	): void {
 		const oldValue = this.getItem(keyName, options);
 
 		if (options?.prop?.length) {
 			const item = this.getItem(keyName) || {};
 			setProperty(item, options.prop, keyValue);
 
-			return this.setItem(keyName, item, {
+			this.setItem(keyName, item, {
 				...options,
 				prop: undefined,
 			});
+
+			return;
 		}
 
 		const newValue = {
@@ -106,19 +121,22 @@ export class Porridge {
 	 * localPorridge.getItem('secondItem', { prop: 'dot.notation.property' });
 	 * ```
 	 */
-	public getItem(keyName: string, options?: WebPorridge.StorageOptions): unknown {
-		const item = globalThis[this.#storageArea].getItem(keyName) || 'null';
+	public getItem(
+		keyName: string,
+		options?: WebPorridge.StorageOptions
+	): unknown {
+		const item = globalThis[this.#storageArea].getItem(keyName) || "null";
 
 		try {
 			const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
-			if (!decodedItem || didExpire(decodedItem[storageKeys.expires] || '')) {
+			if (!decodedItem || didExpire(decodedItem[storageKeys.expires] || "")) {
 				return null;
 			}
 
 			const deserializedItem = deserialize(decodedItem);
 
-			if (decodedItem[storageKeys.type] === 'object' && options?.prop?.length) {
+			if (decodedItem[storageKeys.type] === "object" && options?.prop?.length) {
 				return getProperty(deserializedItem, options.prop);
 			}
 
@@ -140,14 +158,19 @@ export class Porridge {
 	 * localPorridge.removeItem('secondItem', { prop: 'dot.notation.property' });
 	 * ```
 	 */
-	public removeItem(keyName: string, options?: WebPorridge.StorageOptions): void {
+	public removeItem(
+		keyName: string,
+		options?: WebPorridge.StorageOptions
+	): void {
 		const oldValue = this.getItem(keyName, options);
 
 		if (options?.prop?.length) {
 			const item = this.getItem(keyName) || {};
 			deleteProperty(item, options.prop);
 
-			return this.setItem(keyName, item);
+			this.setItem(keyName, item);
+
+			return;
 		}
 
 		globalThis[this.#storageArea].removeItem(keyName);
@@ -260,7 +283,10 @@ export class Porridge {
 	public entries(): [string, unknown][] {
 		const sortedStorage = getSortedStorageObject(globalThis[this.#storageArea]);
 
-		return Object.keys(sortedStorage).map((item: string) => [item, this.getItem(item)]);
+		return Object.keys(sortedStorage).map((item: string) => [
+			item,
+			this.getItem(item),
+		]);
 	}
 
 	/**
@@ -279,16 +305,24 @@ export class Porridge {
 	 * unobserve();
 	 * ```
 	 */
-	public observe(keyName: string, callback: (data: WebPorridge.StorageEvent) => void): () => void {
-		if (typeof callback !== 'function') {
-			throw new TypeError(`The callback argument must be of type "function", got "${typeof callback}"`);
+	public observe(
+		keyName: string,
+		callback: (data: WebPorridge.StorageEvent) => void
+	): () => void {
+		if (typeof callback !== "function") {
+			throw new TypeError(
+				`The callback argument must be of type "function", got "${typeof callback}"`
+			);
 		}
 
 		function handler(event: Event): void {
 			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
 
 			// We follow the same pattern as the StorageEvent interface, so we need to allow for a null key.
-			if (customEvent.detail.key !== keyName && customEvent.detail.key !== null) {
+			if (
+				customEvent.detail.key !== keyName &&
+				customEvent.detail.key !== null
+			) {
 				return;
 			}
 
@@ -319,6 +353,6 @@ export class Porridge {
 
 		const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
-		return didExpire(decodedItem[storageKeys.expires] || '-1');
+		return didExpire(decodedItem[storageKeys.expires] || "-1");
 	}
 }

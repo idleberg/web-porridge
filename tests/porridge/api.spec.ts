@@ -1,36 +1,36 @@
-import { beforeEach, expect, test } from 'vitest';
-import { Porridge } from '../../src/index.ts';
+import { beforeEach, expect, test } from "vitest";
+import { Porridge } from "../../src/index.ts";
 
-const localPorridge = new Porridge('localStorage');
-const sessionPorridge = new Porridge('sessionStorage');
+const localPorridge = new Porridge("localStorage");
+const sessionPorridge = new Porridge("sessionStorage");
 
 [
 	{
-		type: 'localStorage',
+		type: "localStorage",
 		storage: localPorridge,
 	},
 	{
-		type: 'sessionStorage',
+		type: "sessionStorage",
 		storage: sessionPorridge,
 	},
-].map(({ type, storage }) => {
+].forEach(({ type, storage }) => {
 	beforeEach(() => {
 		storage.clear();
 	});
 
 	test(`${type}.clear()`, () => {
-		storage.setItem('demo', 'Hello, world!');
+		storage.setItem("demo", "Hello, world!");
 		storage.clear();
 
-		const actual = storage.getItem('demo');
+		const actual = storage.getItem("demo");
 		const expected = null;
 
 		expect(actual).toBe(expected);
 	});
 
 	test(`${type}.key() - Valid Index`, () => {
-		const expected = 'demo';
-		storage.setItem(expected, 'Hello, world!');
+		const expected = "demo";
+		storage.setItem(expected, "Hello, world!");
 
 		const actual = storage.key(0);
 
@@ -38,7 +38,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 	});
 
 	test(`${type}.key() - Invalid Index`, () => {
-		storage.setItem('demo', 'Hello, world');
+		storage.setItem("demo", "Hello, world");
 
 		const actual = storage.key(1);
 
@@ -46,7 +46,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 	});
 
 	test(`${type}.length() - 0`, () => {
-		storage.setItem('demo', 'Hello, world!');
+		storage.setItem("demo", "Hello, world!");
 		storage.clear();
 
 		const actual = storage.length;
@@ -56,7 +56,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 	});
 
 	test(`${type}.length() - 1`, () => {
-		storage.setItem('demo', 'Hello, world!');
+		storage.setItem("demo", "Hello, world!");
 
 		const actual = storage.length;
 		const expected = 1;
@@ -65,213 +65,217 @@ const sessionPorridge = new Porridge('sessionStorage');
 	});
 
 	test(`${type}.removeItem()`, () => {
-		storage.setItem('demo', 'Hello, world!');
-		storage.removeItem('demo');
-		const actual = storage.getItem('demo');
+		storage.setItem("demo", "Hello, world!");
+		storage.removeItem("demo");
+		const actual = storage.getItem("demo");
 
 		expect(actual).toBe(null);
 	});
 
 	test(`${type}.removeItem() - Object key, 1 level`, () => {
-		storage.setItem('demo', {
-			firstName: 'John',
-			lastName: 'Appleseed',
+		storage.setItem("demo", {
+			firstName: "John",
+			lastName: "Appleseed",
 		});
 
-		storage.removeItem('demo', {
-			prop: 'firstName',
+		storage.removeItem("demo", {
+			prop: "firstName",
 		});
 
-		const actual = storage.getItem('demo');
+		const actual = storage.getItem("demo");
 
 		expect(actual).toStrictEqual({
-			lastName: 'Appleseed',
+			lastName: "Appleseed",
 		});
 	});
 
 	test(`${type}.removeItem() - Object key: 1 level, 2 levels`, () => {
-		storage.setItem('demo', {
+		storage.setItem("demo", {
 			name: {
-				first: 'John',
-				last: 'Appleseed',
+				first: "John",
+				last: "Appleseed",
 			},
 		});
 
-		storage.removeItem('demo', {
-			prop: 'name.first',
+		storage.removeItem("demo", {
+			prop: "name.first",
 		});
 
-		const actual = storage.getItem('demo');
+		const actual = storage.getItem("demo");
 
 		expect(actual).toStrictEqual({
 			name: {
-				last: 'Appleseed',
+				last: "Appleseed",
 			},
 		});
 	});
 
 	test(`${type}.*etItem() - String`, () => {
-		const expected = 'Hello, world!';
-		storage.setItem('demo', expected);
-		const actual = storage.getItem('demo');
+		const expected = "Hello, world!";
+		storage.setItem("demo", expected);
+		const actual = storage.getItem("demo");
 
 		expect(actual).toBe(expected);
 	});
 
 	test(`${type}.*etItem() - Number`, () => {
 		const expected = 1;
-		storage.setItem('demo', expected);
-		const actual = storage.getItem('demo');
+		storage.setItem("demo", expected);
+		const actual = storage.getItem("demo");
 
 		expect(actual).toBe(expected);
 	});
 
 	test(`${type}.*etItem() - Boolean`, () => {
 		const expected = true;
-		storage.setItem('demo', expected);
-		const actual = storage.getItem('demo');
+		storage.setItem("demo", expected);
+		const actual = storage.getItem("demo");
 
 		expect(actual).toBe(expected);
 	});
 
 	test(`${type}.*etItem() - Null`, () => {
 		const expected = null;
-		storage.setItem('demo', expected);
-		const actual = storage.getItem('demo');
+		storage.setItem("demo", expected);
+		const actual = storage.getItem("demo");
 
 		expect(actual).toBe(expected);
 	});
 
 	test(`${type}.*etItem() - Object`, () => {
 		const expected = {};
-		storage.setItem('demo', expected);
-		const actual = storage.getItem('demo');
+		storage.setItem("demo", expected);
+		const actual = storage.getItem("demo");
 
 		expect(actual).toStrictEqual(expected);
 	});
 
 	test(`${type}.*etItem() - Undefined`, () => {
 		const expected = undefined;
-		storage.setItem('demo', expected);
-		const actual = storage.getItem('demo');
+		storage.setItem("demo", expected);
+		const actual = storage.getItem("demo");
 
 		expect(actual).toBe(expected);
 	});
 
 	test(`${type}.*etItem() - BigInt`, () => {
-		const expected = BigInt('1');
-		storage.setItem('demo', expected);
-		const actual = storage.getItem('demo');
+		const expected = BigInt("1");
+		storage.setItem("demo", expected);
+		const actual = storage.getItem("demo");
 
 		expect(actual).toBe(expected);
 	});
 
 	test(`${type}.*etItem() - Object key: 1 level`, () => {
-		storage.setItem('demo', {
-			name: 'John Appleseed',
+		storage.setItem("demo", {
+			name: "John Appleseed",
 		});
-		storage.setItem('demo', 'Ada Lovelace', {
-			prop: 'name',
+		storage.setItem("demo", "Ada Lovelace", {
+			prop: "name",
 		});
 
-		const actual = storage.getItem('demo');
+		const actual = storage.getItem("demo");
 
 		expect(actual).toStrictEqual({
-			name: 'Ada Lovelace',
+			name: "Ada Lovelace",
 		});
 
-		const actualProp = storage.getItem('demo', {
-			prop: 'name',
+		const actualProp = storage.getItem("demo", {
+			prop: "name",
 		});
 
-		expect(actualProp).toStrictEqual('Ada Lovelace');
+		expect(actualProp).toStrictEqual("Ada Lovelace");
 	});
 
 	test(`${type}.*etItem() - Object key: 2 levels`, () => {
-		storage.setItem('demo', {
+		storage.setItem("demo", {
 			name: {
-				first: 'John',
-				last: 'Appleseed',
+				first: "John",
+				last: "Appleseed",
 			},
 		});
-		storage.setItem('demo', 'Masamune', {
-			prop: 'name.first',
+		storage.setItem("demo", "Masamune", {
+			prop: "name.first",
 		});
 
-		const actual = storage.getItem('demo');
+		const actual = storage.getItem("demo");
 
 		expect(actual).toStrictEqual({
 			name: {
-				first: 'Masamune',
-				last: 'Appleseed',
+				first: "Masamune",
+				last: "Appleseed",
 			},
 		});
 
-		const actualProp = storage.getItem('demo', {
-			prop: 'name.last',
+		const actualProp = storage.getItem("demo", {
+			prop: "name.last",
 		});
 
-		expect(actualProp).toStrictEqual('Appleseed');
+		expect(actualProp).toStrictEqual("Appleseed");
 	});
 
 	test(`${type}.*etItem() - Date`, () => {
-		const expected = new Date('1999-12-31');
-		storage.setItem('demo', expected);
-		const actual = storage.getItem('demo');
+		const expected = new Date("1999-12-31");
+		storage.setItem("demo", expected);
+		const actual = storage.getItem("demo");
 
 		expect(actual).toStrictEqual(expected);
 	});
 
 	test(`${type}.didExpire() - true `, () => {
-		storage.setItem('demo', 'expired', {
+		storage.setItem("demo", "expired", {
 			expires: Date.now() - 1000,
 		});
-		const actual = storage.didExpire('demo');
+		const actual = storage.didExpire("demo");
 
 		expect(actual).toStrictEqual(true);
 	});
 
 	test(`${type}.didExpire() - false`, () => {
-		storage.setItem('demo', 'expired', {
+		storage.setItem("demo", "expired", {
 			expires: Date.now() + 1000,
 		});
-		const actual = storage.didExpire('demo');
+		const actual = storage.didExpire("demo");
 
 		expect(actual).toStrictEqual(false);
 	});
 
 	test(`${type}.didExpire() - missing`, () => {
 		storage.clear();
-		const actual = storage.didExpire('demo');
+		const actual = storage.didExpire("demo");
 
 		expect(actual).toStrictEqual(false);
 	});
 
 	test(`${type}.hasItem() - true`, () => {
-		storage.setItem('demo', 'exists');
-		const actual = storage.hasItem('demo');
+		storage.setItem("demo", "exists");
+		const actual = storage.hasItem("demo");
 
 		expect(actual).toStrictEqual(true);
 	});
 
 	test(`${type}.hasItem() - false`, () => {
 		storage.clear();
-		const actual = storage.hasItem('demo');
+		const actual = storage.hasItem("demo");
 
 		expect(actual).toStrictEqual(false);
 	});
 
 	test(`${type}.entries()`, () => {
-		const entries = [self.crypto.randomUUID(), self.crypto.randomUUID(), self.crypto.randomUUID()];
+		const entries = [
+			self.crypto.randomUUID(),
+			self.crypto.randomUUID(),
+			self.crypto.randomUUID(),
+		];
 
-		storage.setItem('demo1', entries[0]);
-		storage.setItem('demo2', entries[1]);
-		storage.setItem('demo3', entries[2]);
+		storage.setItem("demo1", entries[0]);
+		storage.setItem("demo2", entries[1]);
+		storage.setItem("demo3", entries[2]);
 
 		const expected = [
-			['demo1', entries[0]],
-			['demo2', entries[1]],
-			['demo3', entries[2]],
+			["demo1", entries[0]],
+			["demo2", entries[1]],
+			["demo3", entries[2]],
 		];
 		const actual = storage.entries();
 
@@ -286,11 +290,11 @@ const sessionPorridge = new Porridge('sessionStorage');
 	});
 
 	test(`${type}.keys()`, () => {
-		const keys = ['demo1', 'demo2', 'demo3'];
+		const keys = ["demo1", "demo2", "demo3"];
 
-		storage.setItem('demo1', self.crypto.randomUUID());
-		storage.setItem('demo2', self.crypto.randomUUID());
-		storage.setItem('demo3', self.crypto.randomUUID());
+		storage.setItem("demo1", self.crypto.randomUUID());
+		storage.setItem("demo2", self.crypto.randomUUID());
+		storage.setItem("demo3", self.crypto.randomUUID());
 		const actual = storage.keys();
 
 		expect(actual).toStrictEqual(keys);
@@ -304,11 +308,15 @@ const sessionPorridge = new Porridge('sessionStorage');
 	});
 
 	test(`${type}.values()`, () => {
-		const entries = [self.crypto.randomUUID(), self.crypto.randomUUID(), self.crypto.randomUUID()];
+		const entries = [
+			self.crypto.randomUUID(),
+			self.crypto.randomUUID(),
+			self.crypto.randomUUID(),
+		];
 
-		storage.setItem('demo1', entries[0]);
-		storage.setItem('demo2', entries[1]);
-		storage.setItem('demo3', entries[2]);
+		storage.setItem("demo1", entries[0]);
+		storage.setItem("demo2", entries[1]);
+		storage.setItem("demo3", entries[2]);
 		const actual = storage.values();
 
 		expect(actual).toStrictEqual(entries);
