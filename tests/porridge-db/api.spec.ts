@@ -7,7 +7,7 @@ beforeEach(async () => {
 	await storage.clear();
 });
 
-test(`db.clear()`, async () => {
+test('db.clear()', async () => {
 	await storage.setItem('demo', 'Hello, world!');
 	await storage.clear();
 
@@ -17,7 +17,7 @@ test(`db.clear()`, async () => {
 	expect(actual).toBe(expected);
 });
 
-test(`db.key() - Valid Index`, async () => {
+test('db.key() - Valid Index', async () => {
 	const expected = 'demo';
 	await storage.setItem(expected, 'Hello, world!');
 
@@ -26,7 +26,7 @@ test(`db.key() - Valid Index`, async () => {
 	expect(actual).toBe(expected);
 });
 
-test(`db.key() - Invalid Index`, async () => {
+test('db.key() - Invalid Index', async () => {
 	await storage.setItem('demo', 'Hello, world');
 
 	const actual = await storage.key(1);
@@ -34,7 +34,7 @@ test(`db.key() - Invalid Index`, async () => {
 	expect(actual).toBe(null);
 });
 
-test(`db.length() - 0`, async () => {
+test('db.length() - 0', async () => {
 	await storage.setItem('demo', 'Hello, world!');
 	await storage.clear();
 
@@ -44,7 +44,7 @@ test(`db.length() - 0`, async () => {
 	expect(actual).toBe(expected);
 });
 
-test(`db.length() - 1`, async () => {
+test('db.length() - 1', async () => {
 	await storage.setItem('demo', 'Hello, world!');
 
 	const actual = await storage.length;
@@ -53,7 +53,7 @@ test(`db.length() - 1`, async () => {
 	expect(actual).toBe(expected);
 });
 
-test(`db.removeItem()`, async () => {
+test('db.removeItem()', async () => {
 	await storage.setItem('demo', 'Hello, world!');
 	await storage.removeItem('demo');
 	const actual = await storage.getItem('demo');
@@ -61,7 +61,7 @@ test(`db.removeItem()`, async () => {
 	expect(actual).toBe(null);
 });
 
-test(`db.removeItem() - Object key, 1 level`, async () => {
+test('db.removeItem() - Object key, 1 level', async () => {
 	await storage.setItem('demo', {
 		firstName: 'John',
 		lastName: 'Appleseed',
@@ -78,12 +78,12 @@ test(`db.removeItem() - Object key, 1 level`, async () => {
 	});
 });
 
-test(`db.removeItem() - Object key: 1 level, 2 levels`, async () => {
+test('db.removeItem() - Object key: 1 level, 2 levels', async () => {
 	await storage.setItem('demo', {
 		name: {
 			first: 'John',
 			last: 'Appleseed',
-		}
+		},
 	});
 
 	await storage.removeItem('demo', {
@@ -99,7 +99,7 @@ test(`db.removeItem() - Object key: 1 level, 2 levels`, async () => {
 	});
 });
 
-test(`db.*etItem() - String`, async () => {
+test('db.*etItem() - String', async () => {
 	const expected = 'Hello, world!';
 	await storage.setItem('demo', expected);
 	const actual = await storage.getItem('demo');
@@ -107,7 +107,7 @@ test(`db.*etItem() - String`, async () => {
 	expect(actual).toBe(expected);
 });
 
-test(`db.*etItem() - Number`, async () => {
+test('db.*etItem() - Number', async () => {
 	const expected = 1;
 	await storage.setItem('demo', expected);
 	const actual = await storage.getItem('demo');
@@ -115,7 +115,7 @@ test(`db.*etItem() - Number`, async () => {
 	expect(actual).toBe(expected);
 });
 
-test(`db.*etItem() - Boolean`, async () => {
+test('db.*etItem() - Boolean', async () => {
 	const expected = true;
 	await storage.setItem('demo', expected);
 	const actual = await storage.getItem('demo');
@@ -123,7 +123,7 @@ test(`db.*etItem() - Boolean`, async () => {
 	expect(actual).toBe(expected);
 });
 
-test(`db.*etItem() - Null`, async () => {
+test('db.*etItem() - Null', async () => {
 	const expected = null;
 	await storage.setItem('demo', expected);
 	const actual = await storage.getItem('demo');
@@ -131,7 +131,7 @@ test(`db.*etItem() - Null`, async () => {
 	expect(actual).toBe(expected);
 });
 
-test(`db.*etItem() - Object`, async () => {
+test('db.*etItem() - Object', async () => {
 	const expected = {};
 	await storage.setItem('demo', expected);
 	const actual = await storage.getItem('demo');
@@ -139,7 +139,7 @@ test(`db.*etItem() - Object`, async () => {
 	expect(actual).toStrictEqual(expected);
 });
 
-test(`db.*etItem() - Undefined`, async () => {
+test('db.*etItem() - Undefined', async () => {
 	const expected = undefined;
 	await storage.setItem('demo', expected);
 	const actual = await storage.getItem('demo');
@@ -147,7 +147,7 @@ test(`db.*etItem() - Undefined`, async () => {
 	expect(actual).toBe(expected);
 });
 
-test(`db.*etItem() - BigInt`, async () => {
+test('db.*etItem() - BigInt', async () => {
 	const expected = BigInt('1');
 	await storage.setItem('demo', expected);
 	const actual = await storage.getItem('demo');
@@ -155,36 +155,36 @@ test(`db.*etItem() - BigInt`, async () => {
 	expect(actual).toBe(expected);
 });
 
-test(`db.*etItem() - Object key: 1 level`, async () => {
+test('db.*etItem() - Object key: 1 level', async () => {
 	await storage.setItem('demo', {
-		name: 'John Appleseed'
+		name: 'John Appleseed',
 	});
 	await storage.setItem('demo', 'Ada Lovelace', {
-		prop: 'name'
+		prop: 'name',
 	});
 
 	const actual = await storage.getItem('demo');
 
 	expect(actual).toStrictEqual({
-		name: 'Ada Lovelace'
+		name: 'Ada Lovelace',
 	});
 
 	const actualProp = await storage.getItem('demo', {
-		prop: 'name'
+		prop: 'name',
 	});
 
 	expect(actualProp).toStrictEqual('Ada Lovelace');
 });
 
-test(`db.*etItem() - Object key: 2 levels`, async () => {
+test('db.*etItem() - Object key: 2 levels', async () => {
 	await storage.setItem('demo', {
 		name: {
 			first: 'John',
-			last: 'Appleseed'
-		}
+			last: 'Appleseed',
+		},
 	});
 	await storage.setItem('demo', 'Masamune', {
-		prop: 'name.first'
+		prop: 'name.first',
 	});
 
 	const actual = await storage.getItem('demo');
@@ -193,17 +193,17 @@ test(`db.*etItem() - Object key: 2 levels`, async () => {
 		name: {
 			first: 'Masamune',
 			last: 'Appleseed',
-		}
+		},
 	});
 
 	const actualProp = await storage.getItem('demo', {
-		prop: 'name.last'
+		prop: 'name.last',
 	});
 
 	expect(actualProp).toStrictEqual('Appleseed');
 });
 
-test(`db.*etItem() - Date`, async () => {
+test('db.*etItem() - Date', async () => {
 	const expected = new Date('1999-12-31');
 	await storage.setItem('demo', expected);
 	const actual = await storage.getItem('demo');
@@ -211,7 +211,7 @@ test(`db.*etItem() - Date`, async () => {
 	expect(actual).toStrictEqual(expected);
 });
 
-test(`db.didExpire() - true `, async () => {
+test('db.didExpire() - true ', async () => {
 	await storage.setItem('demo', 'expired', {
 		expires: Date.now() - 1000,
 	});
@@ -220,7 +220,7 @@ test(`db.didExpire() - true `, async () => {
 	expect(actual).toStrictEqual(true);
 });
 
-test(`db.didExpire() - false`, async () => {
+test('db.didExpire() - false', async () => {
 	await storage.setItem('demo', 'expired', {
 		expires: Date.now() + 1000,
 	});
@@ -229,33 +229,29 @@ test(`db.didExpire() - false`, async () => {
 	expect(actual).toStrictEqual(false);
 });
 
-test(`db.didExpire() - missing`, async () => {
+test('db.didExpire() - missing', async () => {
 	await storage.clear();
 	const actual = await storage.didExpire('demo');
 
 	expect(actual).toStrictEqual(false);
 });
 
-test(`db.hasItem() - true`, async () => {
+test('db.hasItem() - true', async () => {
 	await storage.setItem('demo', 'exists');
 	const actual = await storage.hasItem('demo');
 
 	expect(actual).toStrictEqual(true);
 });
 
-test(`db.hasItem() - false`, async () => {
+test('db.hasItem() - false', async () => {
 	await storage.clear();
 	const actual = await storage.hasItem('demo');
 
 	expect(actual).toStrictEqual(false);
 });
 
-test(`db.entries()`, async () => {
-	const entries = [
-		self.crypto.randomUUID(),
-		self.crypto.randomUUID(),
-		self.crypto.randomUUID(),
-	];
+test('db.entries()', async () => {
+	const entries = [self.crypto.randomUUID(), self.crypto.randomUUID(), self.crypto.randomUUID()];
 
 	await storage.setItem('demo1', entries[0]);
 	await storage.setItem('demo2', entries[1]);
@@ -271,19 +267,15 @@ test(`db.entries()`, async () => {
 	expect(actual).toStrictEqual(expected);
 });
 
-test(`db.entries() - empty`, async () => {
+test('db.entries() - empty', async () => {
 	await storage.clear();
 	const actual = await storage.entries();
 
 	expect(actual).toStrictEqual([]);
 });
 
-test(`db.keys()`, async () => {
-	const keys = [
-		'demo1',
-		'demo2',
-		'demo3',
-	];
+test('db.keys()', async () => {
+	const keys = ['demo1', 'demo2', 'demo3'];
 
 	await storage.setItem('demo1', self.crypto.randomUUID());
 	await storage.setItem('demo2', self.crypto.randomUUID());
@@ -293,19 +285,15 @@ test(`db.keys()`, async () => {
 	expect(actual).toStrictEqual(keys);
 });
 
-test(`db.keys() - empty`, async () => {
+test('db.keys() - empty', async () => {
 	await storage.clear();
 	const actual = await storage.keys();
 
 	expect(actual).toStrictEqual([]);
 });
 
-test(`db.values()`, async () => {
-	const entries = [
-		self.crypto.randomUUID(),
-		self.crypto.randomUUID(),
-		self.crypto.randomUUID(),
-	];
+test('db.values()', async () => {
+	const entries = [self.crypto.randomUUID(), self.crypto.randomUUID(), self.crypto.randomUUID()];
 
 	await storage.setItem('demo1', entries[0]);
 	await storage.setItem('demo2', entries[1]);
@@ -315,7 +303,7 @@ test(`db.values()`, async () => {
 	expect(actual).toStrictEqual(entries);
 });
 
-test(`db.values() - empty`, async () => {
+test('db.values() - empty', async () => {
 	await storage.clear();
 	const actual = await storage.values();
 

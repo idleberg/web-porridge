@@ -8,7 +8,7 @@ beforeEach(async () => {
 	await storage.clear();
 });
 
-test(`db.clear()`, async () => {
+test('db.clear()', async () => {
 	await new Promise<void>((resolve, reject) => {
 		globalThis.addEventListener('porridgeDB.didChange', (event) => {
 			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
@@ -31,7 +31,7 @@ test(`db.clear()`, async () => {
 	});
 });
 
-test(`db.setItem()`, async () => {
+test('db.setItem()', async () => {
 	const key = self.crypto.randomUUID();
 
 	await new Promise<void>((resolve, reject) => {
@@ -58,7 +58,7 @@ test(`db.setItem()`, async () => {
 	});
 });
 
-test(`db.removeItem()`, async () => {
+test('db.removeItem()', async () => {
 	const key = self.crypto.randomUUID();
 	await storage.setItem('demo', key);
 
@@ -84,14 +84,13 @@ test(`db.removeItem()`, async () => {
 	});
 });
 
-test(`db.observe() - clear`, async () => {
+test('db.observe() - clear', async () => {
 	const key = 'demo';
 	const value = self.crypto.randomUUID();
 
 	await storage.setItem(key, value);
 
 	await new Promise<void>((resolve, reject) => {
-
 		storage.observe(key, (event) => {
 			try {
 				expect(event).toEqual({
@@ -111,14 +110,13 @@ test(`db.observe() - clear`, async () => {
 	});
 });
 
-test(`db.observe() - removeItem`, async () => {
+test('db.observe() - removeItem', async () => {
 	const key = 'demo';
 	const value = self.crypto.randomUUID();
 
 	await storage.setItem(key, value);
 
 	await new Promise<void>((resolve, reject) => {
-
 		storage.observe(key, (event) => {
 			try {
 				expect(event).toEqual({
@@ -138,7 +136,9 @@ test(`db.observe() - removeItem`, async () => {
 	});
 });
 
-test(`db.observe() - Invalid callback type`, () => {
+test('db.observe() - Invalid callback type', () => {
 	// @ts-expect-error Provide invalid callback function
-	expect(() => storage.observe('demo', undefined)).toThrowError('The callback argument must be of type "function", got "undefined"');
+	expect(() => storage.observe('demo', undefined)).toThrowError(
+		'The callback argument must be of type "function", got "undefined"',
+	);
 });

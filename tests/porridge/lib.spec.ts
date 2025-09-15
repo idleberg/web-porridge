@@ -1,11 +1,8 @@
 import { expect, test } from 'vitest';
 import { Porridge } from '../../src/porridge.ts';
 
-[
-	'localStorage',
-	'sessionStorage'
-].map((storage) => {
-	test(`Invalid event type`, () => {
+['localStorage', 'sessionStorage'].map((storage) => {
+	test('Invalid event type', () => {
 		Object.defineProperty(globalThis, 'localStorage', {
 			value: undefined,
 			writable: true,
@@ -18,5 +15,7 @@ import { Porridge } from '../../src/porridge.ts';
 
 test('Invalid storage type', () => {
 	// @ts-expect-error Provide invalid storage type
-	expect(() => new Porridge('console')).toThrowError('Invalid storage type specified, try localStorage or sessionStorage instead');
+	expect(() => new Porridge('console')).toThrowError(
+		'Invalid storage type specified, try localStorage or sessionStorage instead',
+	);
 });

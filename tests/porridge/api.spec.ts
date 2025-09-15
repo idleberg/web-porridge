@@ -94,7 +94,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 			name: {
 				first: 'John',
 				last: 'Appleseed',
-			}
+			},
 		});
 
 		storage.removeItem('demo', {
@@ -168,20 +168,20 @@ const sessionPorridge = new Porridge('sessionStorage');
 
 	test(`${type}.*etItem() - Object key: 1 level`, () => {
 		storage.setItem('demo', {
-			name: 'John Appleseed'
+			name: 'John Appleseed',
 		});
 		storage.setItem('demo', 'Ada Lovelace', {
-			prop: 'name'
+			prop: 'name',
 		});
 
 		const actual = storage.getItem('demo');
 
 		expect(actual).toStrictEqual({
-			name: 'Ada Lovelace'
+			name: 'Ada Lovelace',
 		});
 
 		const actualProp = storage.getItem('demo', {
-			prop: 'name'
+			prop: 'name',
 		});
 
 		expect(actualProp).toStrictEqual('Ada Lovelace');
@@ -191,11 +191,11 @@ const sessionPorridge = new Porridge('sessionStorage');
 		storage.setItem('demo', {
 			name: {
 				first: 'John',
-				last: 'Appleseed'
-			}
+				last: 'Appleseed',
+			},
 		});
 		storage.setItem('demo', 'Masamune', {
-			prop: 'name.first'
+			prop: 'name.first',
 		});
 
 		const actual = storage.getItem('demo');
@@ -204,11 +204,11 @@ const sessionPorridge = new Porridge('sessionStorage');
 			name: {
 				first: 'Masamune',
 				last: 'Appleseed',
-			}
+			},
 		});
 
 		const actualProp = storage.getItem('demo', {
-			prop: 'name.last'
+			prop: 'name.last',
 		});
 
 		expect(actualProp).toStrictEqual('Appleseed');
@@ -262,11 +262,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 	});
 
 	test(`${type}.entries()`, () => {
-		const entries = [
-			self.crypto.randomUUID(),
-			self.crypto.randomUUID(),
-			self.crypto.randomUUID(),
-		];
+		const entries = [self.crypto.randomUUID(), self.crypto.randomUUID(), self.crypto.randomUUID()];
 
 		storage.setItem('demo1', entries[0]);
 		storage.setItem('demo2', entries[1]);
@@ -290,11 +286,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 	});
 
 	test(`${type}.keys()`, () => {
-		const keys = [
-			'demo1',
-			'demo2',
-			'demo3',
-		];
+		const keys = ['demo1', 'demo2', 'demo3'];
 
 		storage.setItem('demo1', self.crypto.randomUUID());
 		storage.setItem('demo2', self.crypto.randomUUID());
@@ -312,11 +304,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 	});
 
 	test(`${type}.values()`, () => {
-		const entries = [
-			self.crypto.randomUUID(),
-			self.crypto.randomUUID(),
-			self.crypto.randomUUID(),
-		];
+		const entries = [self.crypto.randomUUID(), self.crypto.randomUUID(), self.crypto.randomUUID()];
 
 		storage.setItem('demo1', entries[0]);
 		storage.setItem('demo2', entries[1]);

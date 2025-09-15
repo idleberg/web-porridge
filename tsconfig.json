@@ -2,10 +2,7 @@
 	"extends": "@total-typescript/tsconfig/bundler/dom/library",
 	"compilerOptions": {
 		"allowImportingTsExtensions": true,
-		"lib": [
-			"DOM",
-			"ES2020"
-		],
+		"lib": ["DOM", "ES2020"],
 		"noEmit": true,
 		"outDir": "lib",
 		"rootDir": "src"

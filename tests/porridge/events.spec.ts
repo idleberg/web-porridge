@@ -130,7 +130,6 @@ const sessionPorridge = new Porridge('sessionStorage');
 
 		await new Promise<void>((resolve, reject) => {
 			storage.observe(key, (event) => {
-
 				try {
 					expect(event).toEqual({
 						key: key,
@@ -155,7 +154,6 @@ const sessionPorridge = new Porridge('sessionStorage');
 
 		await new Promise<void>((resolve, reject) => {
 			storage.observe(key, (event) => {
-
 				try {
 					expect(event).toEqual({
 						key: key,
@@ -178,6 +176,8 @@ const sessionPorridge = new Porridge('sessionStorage');
 
 	test(`${type}.observe() - Invalid callback type`, () => {
 		// @ts-expect-error Provide invalid callback function
-		expect(() => storage.observe('demo', undefined)).toThrowError('The callback argument must be of type "function", got "undefined"');
+		expect(() => storage.observe('demo', undefined)).toThrowError(
+			'The callback argument must be of type "function", got "undefined"',
+		);
 	});
 });

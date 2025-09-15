@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitest/config';
 import process from 'node:process';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
 	test: {
@@ -7,9 +7,7 @@ export default defineConfig({
 			enabled: true,
 			headless: true,
 			provider: 'playwright',
-			instances: [
-				{ browser: 'chromium' },
-			],
+			instances: [{ browser: 'chromium' }],
 		},
 		coverage: {
 			exclude: ['src/index.ts'],

@@ -1,17 +1,16 @@
 /*! web-porridge | MIT License | https://github.com/idleberg/web-porridge */
 
-import type { IDBValidKey, WebPorridge } from '../types/index.d.ts';
-import { getProperty, setProperty, deleteProperty } from 'dot-prop';
-
+import { deleteProperty, getProperty, setProperty } from 'dot-prop';
 import {
 	clear,
 	createStore,
-	del as removeItemIdb,
 	get as getItemIdb,
 	keys,
+	del as removeItemIdb,
 	set as setItemIdb,
-	type UseStore
+	type UseStore,
 } from 'idb-keyval';
+import type { IDBValidKey, WebPorridge } from '../types/index.d.ts';
 
 import { didExpire, eventDispatcher, getType, storageKeys } from './util.ts';
 
@@ -30,7 +29,7 @@ export class PorridgeDB {
 
 	constructor(options?: WebPorridge.IndexeddbOptions) {
 		if (typeof globalThis !== 'undefined' && !('indexedDB' in globalThis)) {
-			throw new Error(`Your browser does not support the IndexedDB API`);
+			throw new Error('Your browser does not support the IndexedDB API');
 		}
 
 		const { db, eventName, store } = {
@@ -107,7 +106,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async getItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<unknown> {
-		const item: WebPorridge.Payload | null = await getItemIdb(keyName, this.#customStore) || null;
+		const item: WebPorridge.Payload | null = (await getItemIdb(keyName, this.#customStore)) || null;
 
 		if (!item || didExpire(item[storageKeys.expires] || '')) {
 			return null;
@@ -303,7 +302,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async didExpire(keyName: string): Promise<boolean> {
-		const item: WebPorridge.Payload | null = await getItemIdb(keyName, this.#customStore) || null;
+		const item: WebPorridge.Payload | null = (await getItemIdb(keyName, this.#customStore)) || null;
 
 		if (!item) {
 			return false;

@@ -1,7 +1,7 @@
 /*! web-porridge | MIT License | https://github.com/idleberg/web-porridge */
 
+import { deleteProperty, getProperty, setProperty } from 'dot-prop';
 import type { WebPorridge } from '../types/index.d.ts';
-import { getProperty, setProperty, deleteProperty } from 'dot-prop';
 
 import {
 	deserialize,
@@ -34,7 +34,7 @@ export class Porridge {
 			throw new TypeError(`Invalid storage type specified, try ${validStores.join(' or ')} instead`);
 		}
 
-		if (typeof (globalThis) !== 'undefined' && !(storageArea in globalThis)) {
+		if (typeof globalThis !== 'undefined' && !(storageArea in globalThis)) {
 			throw new Error(`Your browser does not support the ${storageArea} API`);
 		}
 
