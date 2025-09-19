@@ -1,10 +1,7 @@
 {
-	"extends": "@total-typescript/tsconfig/bundler/dom/library",
+	"extends": "@idleberg/configs/tsc",
 	"compilerOptions": {
-		"allowImportingTsExtensions": true,
 		"lib": ["DOM", "ES2020"],
-		"noEmit": true,
-		"outDir": "lib",
-		"rootDir": "src"
+		"outDir": "lib"
 	}
 }
