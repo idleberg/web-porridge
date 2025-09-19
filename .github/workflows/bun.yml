@@ -36,14 +36,14 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile --strict-peer-dependencies
 
-      - name: Install Playwright
-        run: bun run playwright install --with-deps
-
       - name: Lint source
         run: bunx biome ci
 
       - name: Build source
         run: bun run --if-present build
+
+      - name: Install Playwright
+        run: bun run playwright install --with-deps
 
       - name: Run tests
         run: bun run --if-present test

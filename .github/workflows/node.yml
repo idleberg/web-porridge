@@ -56,14 +56,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: Install Playwright
-        run: pnpm dlx playwright install --with-deps
-
       - name: Lint source
         run: pnpm exec biome ci
 
       - name: Build source
         run: pnpm run --if-present build
+
+      - name: Install Playwright
+        run: pnpm dlx playwright install --with-deps
 
       - name: Run tests
         run: pnpm run --if-present test
