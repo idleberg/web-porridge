@@ -20,11 +20,11 @@
 		"test:watch": "vitest"
 	},
 	"type": "module",
-	"typings": "./lib/index.d.ts",
+	"typings": "./lib/index.d.mts",
 	"exports": {
 		".": {
-			"types": "./lib/index.d.ts",
-			"import": "./lib/index.js"
+			"types": "./lib/index.d.mts",
+			"import": "./lib/index.mjs"
 		}
 	},
 	"files": [
