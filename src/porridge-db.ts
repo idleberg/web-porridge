@@ -124,7 +124,6 @@ export class PorridgeDB {
 	 * Reads single data item from IndexedDB.
 	 * @param keyName
 	 * @param [options]
-	 * @param [options.expires]
 	 * @param [options.prop]
 	 * @returns
 	 *
@@ -178,13 +177,13 @@ export class PorridgeDB {
 	}
 
 	/**
-	 * Returns the length of IndexedDB.
+	 * Returns the name of the nth key in IndexedDB.
 	 * @param index
-	 * @returns
+	 * @returns The key, or null if the index is out of range
 	 *
 	 * @example
 	 * ```js
-	 * await idb.key(0);
+	 * await db.key(0);
 	 * ```
 	 */
 	public async key(index: number): Promise<unknown> {

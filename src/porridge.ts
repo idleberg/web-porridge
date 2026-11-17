@@ -140,7 +140,6 @@ export class Porridge {
 	 * Reads single data item from Storage type.
 	 * @param keyName The key to read
 	 * @param [options] Additional options
-	 * @param [options.expires] The expiry date
 	 * @param [options.prop] The object property to read
 	 * @returns
 	 *
@@ -196,9 +195,14 @@ export class Porridge {
 	}
 
 	/**
-	 * Returns the length of Storage type.
+	 * Returns the name of the nth key in Storage type.
 	 * @param index The index to retrieve
-	 * @returns The key
+	 * @returns The key, or null if the index is out of range
+	 *
+	 * @example
+	 * ```js
+	 * localPorridge.key(0);
+	 * ```
 	 */
 	public key(index: number): unknown {
 		return globalThis[this.#storageArea].key(index);
