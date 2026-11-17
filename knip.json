@@ -1,4 +1,0 @@
-{
-	"ignore": [".husky/**", "tests/**"],
-	"ignoreDependencies": ["idb-keyval", "nano-staged"]
-}
