@@ -1,8 +1,0 @@
-{
-	"name": "@idleberg/porridge",
-	"version": "4.0.2",
-	"exports": "./src/index.ts",
-	"publish": {
-		"include": ["src/", "types/", "jsr.json", "LICENSE", "README.md"]
-	}
-}
