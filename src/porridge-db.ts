@@ -4,15 +4,25 @@ import { deleteProperty, getProperty, setProperty } from 'dot-prop';
 import {
 	clear,
 	createStore,
+	entries as entriesIdb,
 	get as getItemIdb,
 	keys,
 	del as removeItemIdb,
 	set as setItemIdb,
 	type UseStore,
+	values as valuesIdb,
 } from 'idb-keyval';
 import type { IDBValidKey, WebPorridge } from '../types/index.d.ts';
 
-import { assertHasProperties, didExpire, eventDispatcher, eventTarget, getType, storageKeys } from './util.ts';
+import {
+	assertHasProperties,
+	didExpire,
+	eventDispatcher,
+	eventTarget,
+	getActiveExpiry,
+	getType,
+	storageKeys,
+} from './util.ts';
 
 /**
  * Instantiates the class with provided options.
@@ -46,14 +56,20 @@ export class PorridgeDB {
 		this.#eventName = eventName;
 		this.#customStore = createStore(db, store);
 	}
-	/**
-	 * Returns the expiry date of a stored item, if it has one and it hasn't passed yet.
-	 */
-	async #getExpires(keyName: string): Promise<Date | undefined> {
-		const item: WebPorridge.Payload | undefined = await getItemIdb(keyName, this.#customStore);
-		const expires = item?.[storageKeys.expires];
 
-		return expires && !didExpire(expires) ? new Date(expires) : undefined;
+	/**
+	 * Returns the value of a stored item, or null if it's missing or has expired.
+	 */
+	#resolve(item: WebPorridge.Payload | undefined, options?: WebPorridge.StorageOptions): unknown {
+		if (!item || didExpire(item[storageKeys.expires])) {
+			return null;
+		}
+
+		if (item[storageKeys.type] === 'object' && options?.prop?.length) {
+			return getProperty(item[storageKeys.value], options.prop);
+		}
+
+		return item[storageKeys.value];
 	}
 
 	/**
@@ -73,19 +89,20 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async setItem(keyName: string, keyValue: unknown, options: WebPorridge.StorageOptions = {}): Promise<void> {
-		const oldValue = await this.getItem(keyName, options);
-
 		if (options?.prop?.length) {
-			const item = (await this.getItem(keyName)) ?? {};
+			const stored = await getItemIdb<WebPorridge.Payload>(keyName, this.#customStore);
+			const item = this.#resolve(stored) ?? {};
 			assertHasProperties(item, options.prop);
 			setProperty(item, options.prop, keyValue);
 
 			return await this.setItem(keyName, item, {
 				...options,
-				expires: options.expires ?? (await this.#getExpires(keyName)),
+				expires: options.expires ?? getActiveExpiry(stored?.[storageKeys.expires]),
 				prop: undefined,
 			});
 		}
+
+		const oldValue = await this.getItem(keyName);
 
 		const newValue = {
 			[storageKeys.value]: keyValue,
@@ -118,17 +135,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async getItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<unknown> {
-		const item: WebPorridge.Payload | null = (await getItemIdb(keyName, this.#customStore)) || null;
-
-		if (!item || didExpire(item[storageKeys.expires])) {
-			return null;
-		}
-
-		if (item[storageKeys.type] === 'object' && options?.prop?.length) {
-			return getProperty(item[storageKeys.value], options.prop);
-		}
-
-		return item[storageKeys.value];
+		return this.#resolve(await getItemIdb<WebPorridge.Payload>(keyName, this.#customStore), options);
 	}
 
 	/**
@@ -144,10 +151,9 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async removeItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<void> {
-		const oldValue = await this.getItem(keyName, options);
-
 		if (options?.prop?.length) {
-			const item = await this.getItem(keyName);
+			const stored = await getItemIdb<WebPorridge.Payload>(keyName, this.#customStore);
+			const item = this.#resolve(stored);
 
 			if (item === null) {
 				return;
@@ -156,8 +162,10 @@ export class PorridgeDB {
 			assertHasProperties(item, options.prop);
 			deleteProperty(item, options.prop);
 
-			return await this.setItem(keyName, item, { expires: await this.#getExpires(keyName) });
+			return await this.setItem(keyName, item, { expires: getActiveExpiry(stored?.[storageKeys.expires]) });
 		}
+
+		const oldValue = await this.getItem(keyName);
 
 		await removeItemIdb(keyName, this.#customStore);
 
@@ -256,7 +264,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async values(): Promise<unknown[]> {
-		return Promise.all((await keys(this.#customStore)).map(async (item) => await this.getItem(item as string)));
+		return (await valuesIdb<WebPorridge.Payload>(this.#customStore)).map((item) => this.#resolve(item));
 	}
 
 	/**
@@ -270,7 +278,10 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async entries(): Promise<[IDBValidKey, unknown][]> {
-		return Promise.all((await keys(this.#customStore)).map(async (item) => [item, await this.getItem(item as string)]));
+		return (await entriesIdb<IDBValidKey, WebPorridge.Payload>(this.#customStore)).map(([key, item]) => [
+			key,
+			this.#resolve(item),
+		]);
 	}
 
 	/**

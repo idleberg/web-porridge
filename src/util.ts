@@ -120,6 +120,15 @@ export function didExpire(expires?: string | number | Date | null): boolean {
 /**
  * Target for change events: the global object in browsers, a private EventTarget in runtimes where the global object isn't one (e.g. Node.js).
  */
+/**
+ * Returns the expiry date as a Date, unless it's missing or has already passed.
+ * @param expires
+ * @returns
+ */
+export function getActiveExpiry(expires?: string | number | Date | null): Date | undefined {
+	return expires != null && !didExpire(expires) ? new Date(expires) : undefined;
+}
+
 export const eventTarget: EventTarget =
 	typeof globalThis.dispatchEvent === 'function' ? (globalThis as unknown as EventTarget) : new EventTarget();
 

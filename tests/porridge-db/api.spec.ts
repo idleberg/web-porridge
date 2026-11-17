@@ -291,6 +291,17 @@ test('db.key() - empty string key', async () => {
 	expect(await storage.key(0)).toBe('');
 });
 
+test('db.entries() - expired items are null', async () => {
+	await storage.setItem('expired', 'gone', { expires: Date.now() - 1000 });
+	await storage.setItem('valid', 'here');
+
+	expect(await storage.entries()).toEqual([
+		['expired', null],
+		['valid', 'here'],
+	]);
+	expect(await storage.values()).toEqual([null, 'here']);
+});
+
 test('db.didExpire() - no expiry', async () => {
 	await storage.setItem('demo', 'forever');
 	const actual = await storage.didExpire('demo');

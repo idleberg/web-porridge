@@ -9,6 +9,7 @@ import {
 	didExpire,
 	eventDispatcher,
 	eventTarget,
+	getActiveExpiry,
 	getSortedStorageObject,
 	getType,
 	serialize,
@@ -50,15 +51,38 @@ export class Porridge {
 	}
 
 	/**
-	 * Returns the expiry date of a stored item, if it has one and it hasn't passed yet.
+	 * Returns the expiry date of a raw stored item, unless it's missing or has already passed.
 	 */
-	#getExpires(keyName: string): Date | undefined {
+	#getExpires(raw: string | null): Date | undefined {
 		try {
-			const expires = JSON.parse(globalThis[this.#storageArea].getItem(keyName) || 'null')?.[storageKeys.expires];
-
-			return expires && !didExpire(expires) ? new Date(expires) : undefined;
+			return getActiveExpiry(JSON.parse(raw ?? 'null')?.[storageKeys.expires]);
 		} catch (_error) {
 			return undefined;
+		}
+	}
+
+	/**
+	 * Decodes a raw stored item into its value, or null if it's missing or has expired.
+	 */
+	#decode(raw: string | null, options?: WebPorridge.StorageOptions): unknown {
+		const item = raw ?? 'null';
+
+		try {
+			const decodedItem: WebPorridge.Payload = JSON.parse(item);
+
+			if (decodedItem === null || didExpire(decodedItem[storageKeys.expires])) {
+				return null;
+			}
+
+			const deserializedItem = deserialize(decodedItem);
+
+			if (decodedItem[storageKeys.type] === 'object' && options?.prop?.length) {
+				return getProperty(deserializedItem, options.prop);
+			}
+
+			return deserializedItem;
+		} catch (_error) {
+			return item;
 		}
 	}
 
@@ -79,21 +103,22 @@ export class Porridge {
 	 * ```
 	 */
 	public setItem(keyName: string, keyValue: unknown, options?: WebPorridge.StorageOptions): void {
-		const oldValue = this.getItem(keyName, options);
-
 		if (options?.prop?.length) {
-			const item = this.getItem(keyName) ?? {};
+			const raw = globalThis[this.#storageArea].getItem(keyName);
+			const item = this.#decode(raw) ?? {};
 			assertHasProperties(item, options.prop);
 			setProperty(item, options.prop, keyValue);
 
 			this.setItem(keyName, item, {
 				...options,
-				expires: options.expires ?? this.#getExpires(keyName),
+				expires: options.expires ?? this.#getExpires(raw),
 				prop: undefined,
 			});
 
 			return;
 		}
+
+		const oldValue = this.getItem(keyName);
 
 		const newValue = {
 			[storageKeys.value]: serialize(keyValue),
@@ -126,25 +151,7 @@ export class Porridge {
 	 * ```
 	 */
 	public getItem(keyName: string, options?: WebPorridge.StorageOptions): unknown {
-		const item = globalThis[this.#storageArea].getItem(keyName) ?? 'null';
-
-		try {
-			const decodedItem: WebPorridge.Payload = JSON.parse(item);
-
-			if (decodedItem === null || didExpire(decodedItem[storageKeys.expires])) {
-				return null;
-			}
-
-			const deserializedItem = deserialize(decodedItem);
-
-			if (decodedItem[storageKeys.type] === 'object' && options?.prop?.length) {
-				return getProperty(deserializedItem, options.prop);
-			}
-
-			return deserializedItem;
-		} catch (_error) {
-			return item;
-		}
+		return this.#decode(globalThis[this.#storageArea].getItem(keyName), options);
 	}
 
 	/**
@@ -160,10 +167,9 @@ export class Porridge {
 	 * ```
 	 */
 	public removeItem(keyName: string, options?: WebPorridge.StorageOptions): void {
-		const oldValue = this.getItem(keyName, options);
-
 		if (options?.prop?.length) {
-			const item = this.getItem(keyName);
+			const raw = globalThis[this.#storageArea].getItem(keyName);
+			const item = this.#decode(raw);
 
 			if (item === null) {
 				return;
@@ -172,10 +178,12 @@ export class Porridge {
 			assertHasProperties(item, options.prop);
 			deleteProperty(item, options.prop);
 
-			this.setItem(keyName, item, { expires: this.#getExpires(keyName) });
+			this.setItem(keyName, item, { expires: this.#getExpires(raw) });
 
 			return;
 		}
+
+		const oldValue = this.getItem(keyName);
 
 		globalThis[this.#storageArea].removeItem(keyName);
 
