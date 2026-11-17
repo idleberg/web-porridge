@@ -4,6 +4,7 @@ import { deleteProperty, getProperty, setProperty } from 'dot-prop';
 import type { WebPorridge } from '../types/index.d.ts';
 
 import {
+	assertHasProperties,
 	deserialize,
 	didExpire,
 	eventDispatcher,
@@ -80,7 +81,8 @@ export class Porridge {
 		const oldValue = this.getItem(keyName, options);
 
 		if (options?.prop?.length) {
-			const item = this.getItem(keyName) || {};
+			const item = this.getItem(keyName) ?? {};
+			assertHasProperties(item, options.prop);
 			setProperty(item, options.prop, keyValue);
 
 			this.setItem(keyName, item, {
@@ -160,7 +162,13 @@ export class Porridge {
 		const oldValue = this.getItem(keyName, options);
 
 		if (options?.prop?.length) {
-			const item = this.getItem(keyName) || {};
+			const item = this.getItem(keyName);
+
+			if (item === null) {
+				return;
+			}
+
+			assertHasProperties(item, options.prop);
 			deleteProperty(item, options.prop);
 
 			this.setItem(keyName, item, { expires: this.#getExpires(keyName) });

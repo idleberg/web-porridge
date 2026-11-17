@@ -12,7 +12,7 @@ import {
 } from 'idb-keyval';
 import type { IDBValidKey, WebPorridge } from '../types/index.d.ts';
 
-import { didExpire, eventDispatcher, getType, storageKeys } from './util.ts';
+import { assertHasProperties, didExpire, eventDispatcher, getType, storageKeys } from './util.ts';
 
 /**
  * Instantiates the class with provided options.
@@ -76,7 +76,8 @@ export class PorridgeDB {
 		const oldValue = await this.getItem(keyName, options);
 
 		if (options?.prop?.length) {
-			const item = (await this.getItem(keyName)) || {};
+			const item = (await this.getItem(keyName)) ?? {};
+			assertHasProperties(item, options.prop);
 			setProperty(item, options.prop, keyValue);
 
 			return await this.setItem(keyName, item, {
@@ -146,7 +147,13 @@ export class PorridgeDB {
 		const oldValue = await this.getItem(keyName, options);
 
 		if (options?.prop?.length) {
-			const item = (await this.getItem(keyName)) || {};
+			const item = await this.getItem(keyName);
+
+			if (item === null) {
+				return;
+			}
+
+			assertHasProperties(item, options.prop);
 			deleteProperty(item, options.prop);
 
 			return await this.setItem(keyName, item, { expires: await this.#getExpires(keyName) });

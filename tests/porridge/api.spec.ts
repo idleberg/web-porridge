@@ -256,6 +256,33 @@ const sessionPorridge = new Porridge('sessionStorage');
 		expect(storage.getItem('demo')).toBe(null);
 	});
 
+	test(`${type}.setItem() - prop on non-object throws`, () => {
+		storage.setItem('demo', 'Hello');
+
+		expect(() => storage.setItem('demo', 'Ada', { prop: 'name' })).toThrow(TypeError);
+		expect(storage.getItem('demo')).toBe('Hello');
+	});
+
+	test(`${type}.setItem() - prop on falsy value throws`, () => {
+		storage.setItem('demo', 0);
+
+		expect(() => storage.setItem('demo', 'Ada', { prop: 'name' })).toThrow(TypeError);
+		expect(storage.getItem('demo')).toBe(0);
+	});
+
+	test(`${type}.removeItem() - prop on non-object throws`, () => {
+		storage.setItem('demo', 'Hello');
+
+		expect(() => storage.removeItem('demo', { prop: 'name' })).toThrow(TypeError);
+		expect(storage.getItem('demo')).toBe('Hello');
+	});
+
+	test(`${type}.removeItem() - prop on missing key is a no-op`, () => {
+		storage.removeItem('demo', { prop: 'name' });
+
+		expect(storage.hasItem('demo')).toBe(false);
+	});
+
 	test(`${type}.didExpire() - no expiry`, () => {
 		storage.setItem('demo', 'forever');
 		const actual = storage.didExpire('demo');

@@ -96,6 +96,19 @@ export function getType(item: unknown): string | undefined {
 }
 
 /**
+ * Throws if a property can't be accessed on a stored value.
+ * @param item The stored value
+ * @param prop The property path
+ */
+export function assertHasProperties(item: unknown, prop: string): asserts item is Record<string, unknown> | unknown[] {
+	const type = getType(item);
+
+	if (type !== 'object' && type !== 'array') {
+		throw new TypeError(`Cannot access property "${prop}" on a value of type "${type}"`);
+	}
+}
+
+/**
  * Runs a check whether a storage item has expired
  * @param expires
  * @returns

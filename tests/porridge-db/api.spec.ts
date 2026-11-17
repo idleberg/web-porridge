@@ -245,6 +245,33 @@ test('db.removeItem() - prop keeps expiry', async () => {
 	expect(await storage.getItem('demo')).toBe(null);
 });
 
+test('db.setItem() - prop on non-object throws', async () => {
+	await storage.setItem('demo', 'Hello');
+
+	await expect(storage.setItem('demo', 'Ada', { prop: 'name' })).rejects.toThrow(TypeError);
+	expect(await storage.getItem('demo')).toBe('Hello');
+});
+
+test('db.setItem() - prop on falsy value throws', async () => {
+	await storage.setItem('demo', 0);
+
+	await expect(storage.setItem('demo', 'Ada', { prop: 'name' })).rejects.toThrow(TypeError);
+	expect(await storage.getItem('demo')).toBe(0);
+});
+
+test('db.removeItem() - prop on non-object throws', async () => {
+	await storage.setItem('demo', 'Hello');
+
+	await expect(storage.removeItem('demo', { prop: 'name' })).rejects.toThrow(TypeError);
+	expect(await storage.getItem('demo')).toBe('Hello');
+});
+
+test('db.removeItem() - prop on missing key is a no-op', async () => {
+	await storage.removeItem('demo', { prop: 'name' });
+
+	expect(await storage.hasItem('demo')).toBe(false);
+});
+
 test('db.didExpire() - no expiry', async () => {
 	await storage.setItem('demo', 'forever');
 	const actual = await storage.didExpire('demo');
