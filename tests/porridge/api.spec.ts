@@ -283,6 +283,19 @@ const sessionPorridge = new Porridge('sessionStorage');
 		expect(storage.hasItem('demo')).toBe(false);
 	});
 
+	test(`${type}.getItem() - foreign falsy values`, () => {
+		const raw = globalThis[type as 'localStorage' | 'sessionStorage'];
+
+		raw.setItem('demo', '0');
+		expect(storage.getItem('demo')).toBe(0);
+
+		raw.setItem('demo', 'false');
+		expect(storage.getItem('demo')).toBe(false);
+
+		raw.setItem('demo', '');
+		expect(storage.getItem('demo')).toBe('');
+	});
+
 	test(`${type}.didExpire() - foreign value`, () => {
 		globalThis[type as 'localStorage' | 'sessionStorage'].setItem('demo', 'not json');
 

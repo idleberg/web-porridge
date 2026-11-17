@@ -126,12 +126,12 @@ export class Porridge {
 	 * ```
 	 */
 	public getItem(keyName: string, options?: WebPorridge.StorageOptions): unknown {
-		const item = globalThis[this.#storageArea].getItem(keyName) || 'null';
+		const item = globalThis[this.#storageArea].getItem(keyName) ?? 'null';
 
 		try {
 			const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
-			if (!decodedItem || didExpire(decodedItem[storageKeys.expires])) {
+			if (decodedItem === null || didExpire(decodedItem[storageKeys.expires])) {
 				return null;
 			}
 
