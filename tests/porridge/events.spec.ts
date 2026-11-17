@@ -1,6 +1,6 @@
 import { beforeEach, expect, test } from 'vitest';
 import { Porridge } from '../../src/index.ts';
-import type { WebPorridge } from '../../types/index.d.ts';
+import type { PorridgeStorageEvent } from '../../src/types.ts';
 
 const localPorridge = new Porridge('localStorage');
 const sessionPorridge = new Porridge('sessionStorage');
@@ -22,7 +22,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 	test(`${type}.clear()`, async () => {
 		await new Promise<void>((resolve, reject) => {
 			globalThis.addEventListener('porridge.didChange', (event) => {
-				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+				const customEvent = event as CustomEvent<PorridgeStorageEvent>;
 
 				try {
 					expect(customEvent.detail).toEqual({
@@ -47,7 +47,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 
 		await new Promise<void>((resolve, reject) => {
 			globalThis.addEventListener('porridge.didChange', (event) => {
-				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+				const customEvent = event as CustomEvent<PorridgeStorageEvent>;
 
 				try {
 					expect(customEvent.detail).toEqual({
@@ -76,7 +76,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 			storage.setItem('demo', key);
 
 			globalThis.addEventListener('porridge.didChange', (event) => {
-				const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+				const customEvent = event as CustomEvent<PorridgeStorageEvent>;
 
 				try {
 					expect(customEvent.detail).toEqual({
@@ -177,7 +177,7 @@ const sessionPorridge = new Porridge('sessionStorage');
 	test(`${type}.observe() - change from another tab`, () => {
 		const area = globalThis[type as 'localStorage' | 'sessionStorage'];
 		const otherArea = type === 'localStorage' ? sessionStorage : localStorage;
-		const events: WebPorridge.StorageEvent[] = [];
+		const events: PorridgeStorageEvent[] = [];
 		const unobserve = storage.observe('demo', (event) => events.push(event));
 		const fire = (init: StorageEventInit) =>
 			globalThis.dispatchEvent(new StorageEvent('storage', { url: 'https://example.com/', ...init }));

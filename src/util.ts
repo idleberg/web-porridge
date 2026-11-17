@@ -1,6 +1,6 @@
-import type { WebPorridge } from '../types/index.d.ts';
+import type { Payload, PorridgeStorageEvent, StorageKeys } from './types.ts';
 
-export const storageKeys: WebPorridge.StorageKeys = {
+export const storageKeys: StorageKeys = {
 	value: '@value',
 	type: '@type',
 	expires: '@expires',
@@ -28,7 +28,7 @@ export function serialize(item: unknown): unknown {
  * @param item
  * @returns
  */
-export function deserialize(item: WebPorridge.Payload): unknown {
+export function deserialize(item: Payload): unknown {
 	const decodedString = item[storageKeys.value];
 
 	switch (item[storageKeys.type]) {
@@ -132,7 +132,7 @@ export function getActiveExpiry(expires?: string | number | Date | null): Date |
 export const eventTarget: EventTarget =
 	typeof globalThis.dispatchEvent === 'function' ? (globalThis as unknown as EventTarget) : new EventTarget();
 
-export function eventDispatcher(eventName: string, payload: Omit<WebPorridge.StorageEvent, 'url'>) {
+export function eventDispatcher(eventName: string, payload: Omit<PorridgeStorageEvent, 'url'>) {
 	const storageEvent = new CustomEvent(eventName, {
 		detail: {
 			...payload,

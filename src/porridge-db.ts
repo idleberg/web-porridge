@@ -12,7 +12,7 @@ import {
 	type UseStore,
 	values as valuesIdb,
 } from 'idb-keyval';
-import type { IDBValidKey, WebPorridge } from '../types/index.d.ts';
+import type { IDBValidKey, IndexeddbOptions, Payload, PorridgeStorageEvent, StorageOptions } from './types.ts';
 
 import {
 	assertHasProperties,
@@ -37,7 +37,7 @@ export class PorridgeDB {
 	#customStore: UseStore;
 	#eventName: string;
 
-	constructor(options?: WebPorridge.IndexeddbOptions) {
+	constructor(options?: IndexeddbOptions) {
 		if (typeof globalThis !== 'undefined' && !('indexedDB' in globalThis)) {
 			throw new Error('Your browser does not support the IndexedDB API');
 		}
@@ -60,7 +60,7 @@ export class PorridgeDB {
 	/**
 	 * Returns the value of a stored item, or null if it's missing or has expired.
 	 */
-	#resolve(item: WebPorridge.Payload | undefined, options?: WebPorridge.StorageOptions): unknown {
+	#resolve(item: Payload | undefined, options?: StorageOptions): unknown {
 		if (!item || didExpire(item[storageKeys.expires])) {
 			return null;
 		}
@@ -88,9 +88,9 @@ export class PorridgeDB {
 	 * await db.setItem('secondItem', 'Ada Lovelace', { prop: 'name' });
 	 * ```
 	 */
-	public async setItem(keyName: string, keyValue: unknown, options: WebPorridge.StorageOptions = {}): Promise<void> {
+	public async setItem(keyName: string, keyValue: unknown, options: StorageOptions = {}): Promise<void> {
 		if (options?.prop?.length) {
-			const stored = await getItemIdb<WebPorridge.Payload>(keyName, this.#customStore);
+			const stored = await getItemIdb<Payload>(keyName, this.#customStore);
 			const item = this.#resolve(stored) ?? {};
 			assertHasProperties(item, options.prop);
 			setProperty(item, options.prop, keyValue);
@@ -133,8 +133,8 @@ export class PorridgeDB {
 	 * await db.getItem('secondItem', { prop: 'dot.notation.property' });
 	 * ```
 	 */
-	public async getItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<unknown> {
-		return this.#resolve(await getItemIdb<WebPorridge.Payload>(keyName, this.#customStore), options);
+	public async getItem(keyName: string, options?: StorageOptions): Promise<unknown> {
+		return this.#resolve(await getItemIdb<Payload>(keyName, this.#customStore), options);
 	}
 
 	/**
@@ -149,9 +149,9 @@ export class PorridgeDB {
 	 * await db.removeItem('secondItem', { prop: 'dot.notation.property' });
 	 * ```
 	 */
-	public async removeItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<void> {
+	public async removeItem(keyName: string, options?: StorageOptions): Promise<void> {
 		if (options?.prop?.length) {
-			const stored = await getItemIdb<WebPorridge.Payload>(keyName, this.#customStore);
+			const stored = await getItemIdb<Payload>(keyName, this.#customStore);
 			const item = this.#resolve(stored);
 
 			if (item === null) {
@@ -263,7 +263,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async values(): Promise<unknown[]> {
-		return (await valuesIdb<WebPorridge.Payload>(this.#customStore)).map((item) => this.#resolve(item));
+		return (await valuesIdb<Payload>(this.#customStore)).map((item) => this.#resolve(item));
 	}
 
 	/**
@@ -277,10 +277,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async entries(): Promise<[IDBValidKey, unknown][]> {
-		return (await entriesIdb<IDBValidKey, WebPorridge.Payload>(this.#customStore)).map(([key, item]) => [
-			key,
-			this.#resolve(item),
-		]);
+		return (await entriesIdb<IDBValidKey, Payload>(this.#customStore)).map(([key, item]) => [key, this.#resolve(item)]);
 	}
 
 	/**
@@ -298,13 +295,13 @@ export class PorridgeDB {
 	 * unobserve();
 	 * ```
 	 */
-	public observe(keyName: string, callback: (data: WebPorridge.StorageEvent) => void): () => void {
+	public observe(keyName: string, callback: (data: PorridgeStorageEvent) => void): () => void {
 		if (typeof callback !== 'function') {
 			throw new TypeError(`The callback argument must be of type "function", got "${typeof callback}"`);
 		}
 
 		function handler(event: Event): void {
-			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+			const customEvent = event as CustomEvent<PorridgeStorageEvent>;
 
 			// We follow the same pattern as the StorageEvent interface, so we need to allow for a null key.
 			if (customEvent.detail.key !== keyName && customEvent.detail.key !== null) {
@@ -330,7 +327,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async didExpire(keyName: string): Promise<boolean> {
-		const item: WebPorridge.Payload | null = (await getItemIdb(keyName, this.#customStore)) || null;
+		const item: Payload | null = (await getItemIdb(keyName, this.#customStore)) || null;
 
 		if (!item) {
 			return false;

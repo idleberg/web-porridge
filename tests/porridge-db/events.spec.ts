@@ -1,6 +1,6 @@
 import { beforeEach, expect, test } from 'vitest';
 import { PorridgeDB } from '../../src/index.ts';
-import type { WebPorridge } from '../../types/index.d.ts';
+import type { PorridgeStorageEvent } from '../../src/types.ts';
 
 const storage = new PorridgeDB();
 
@@ -11,7 +11,7 @@ beforeEach(async () => {
 test('db.clear()', async () => {
 	await new Promise<void>((resolve, reject) => {
 		globalThis.addEventListener('porridgeDB.didChange', (event) => {
-			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+			const customEvent = event as CustomEvent<PorridgeStorageEvent>;
 
 			try {
 				expect(customEvent.detail).toEqual({
@@ -36,7 +36,7 @@ test('db.setItem()', async () => {
 
 	await new Promise<void>((resolve, reject) => {
 		globalThis.addEventListener('porridgeDB.didChange', (event) => {
-			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+			const customEvent = event as CustomEvent<PorridgeStorageEvent>;
 
 			try {
 				expect(customEvent.detail).toEqual({
@@ -64,7 +64,7 @@ test('db.removeItem()', async () => {
 
 	await new Promise<void>((resolve, reject) => {
 		globalThis.addEventListener('porridgeDB.didChange', (event) => {
-			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+			const customEvent = event as CustomEvent<PorridgeStorageEvent>;
 
 			try {
 				expect(customEvent.detail).toEqual({

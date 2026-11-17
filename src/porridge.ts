@@ -1,7 +1,7 @@
 /*! web-porridge | MIT License | https://github.com/idleberg/web-porridge */
 
 import { deleteProperty, getProperty, setProperty } from 'dot-prop';
-import type { WebPorridge } from '../types/index.d.ts';
+import type { Payload, PorridgeStorageEvent, StorageOptions } from './types.ts';
 
 import {
 	assertHasProperties,
@@ -64,11 +64,11 @@ export class Porridge {
 	/**
 	 * Decodes a raw stored item into its value, or null if it's missing or has expired.
 	 */
-	#decode(raw: string | null, options?: WebPorridge.StorageOptions): unknown {
+	#decode(raw: string | null, options?: StorageOptions): unknown {
 		const item = raw ?? 'null';
 
 		try {
-			const decodedItem: WebPorridge.Payload = JSON.parse(item);
+			const decodedItem: Payload = JSON.parse(item);
 
 			if (decodedItem === null || didExpire(decodedItem[storageKeys.expires])) {
 				return null;
@@ -102,7 +102,7 @@ export class Porridge {
 	 * localPorridge.setItem('secondItem', 'Ada Lovelace', { prop: 'name' });
 	 * ```
 	 */
-	public setItem(keyName: string, keyValue: unknown, options?: WebPorridge.StorageOptions): void {
+	public setItem(keyName: string, keyValue: unknown, options?: StorageOptions): void {
 		if (options?.prop?.length) {
 			const raw = globalThis[this.#storageArea].getItem(keyName);
 			const item = this.#decode(raw) ?? {};
@@ -149,7 +149,7 @@ export class Porridge {
 	 * localPorridge.getItem('secondItem', { prop: 'dot.notation.property' });
 	 * ```
 	 */
-	public getItem(keyName: string, options?: WebPorridge.StorageOptions): unknown {
+	public getItem(keyName: string, options?: StorageOptions): unknown {
 		return this.#decode(globalThis[this.#storageArea].getItem(keyName), options);
 	}
 
@@ -165,7 +165,7 @@ export class Porridge {
 	 * localPorridge.removeItem('secondItem', { prop: 'dot.notation.property' });
 	 * ```
 	 */
-	public removeItem(keyName: string, options?: WebPorridge.StorageOptions): void {
+	public removeItem(keyName: string, options?: StorageOptions): void {
 		if (options?.prop?.length) {
 			const raw = globalThis[this.#storageArea].getItem(keyName);
 			const item = this.#decode(raw);
@@ -318,13 +318,13 @@ export class Porridge {
 	 * unobserve();
 	 * ```
 	 */
-	public observe(keyName: string, callback: (data: WebPorridge.StorageEvent) => void): () => void {
+	public observe(keyName: string, callback: (data: PorridgeStorageEvent) => void): () => void {
 		if (typeof callback !== 'function') {
 			throw new TypeError(`The callback argument must be of type "function", got "${typeof callback}"`);
 		}
 
 		function handler(event: Event): void {
-			const customEvent = event as CustomEvent<WebPorridge.StorageEvent>;
+			const customEvent = event as CustomEvent<PorridgeStorageEvent>;
 
 			// We follow the same pattern as the StorageEvent interface, so we need to allow for a null key.
 			if (customEvent.detail.key !== keyName && customEvent.detail.key !== null) {
@@ -378,7 +378,7 @@ export class Porridge {
 		}
 
 		try {
-			const decodedItem: WebPorridge.Payload | null = JSON.parse(item);
+			const decodedItem: Payload | null = JSON.parse(item);
 
 			return didExpire(decodedItem?.[storageKeys.expires]);
 		} catch (_error) {
