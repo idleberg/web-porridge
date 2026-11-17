@@ -240,6 +240,22 @@ const sessionPorridge = new Porridge('sessionStorage');
 		expect(actual).toStrictEqual(false);
 	});
 
+	test(`${type}.setItem() - prop keeps expiry`, async () => {
+		storage.setItem('demo', { name: 'John' }, { expires: Date.now() + 50 });
+		storage.setItem('demo', 'Ada', { prop: 'name' });
+		await new Promise((resolve) => setTimeout(resolve, 100));
+
+		expect(storage.getItem('demo')).toBe(null);
+	});
+
+	test(`${type}.removeItem() - prop keeps expiry`, async () => {
+		storage.setItem('demo', { name: 'John', age: 42 }, { expires: Date.now() + 50 });
+		storage.removeItem('demo', { prop: 'age' });
+		await new Promise((resolve) => setTimeout(resolve, 100));
+
+		expect(storage.getItem('demo')).toBe(null);
+	});
+
 	test(`${type}.didExpire() - no expiry`, () => {
 		storage.setItem('demo', 'forever');
 		const actual = storage.didExpire('demo');

@@ -47,6 +47,16 @@ export class PorridgeDB {
 		this.#customStore = createStore(db, store);
 	}
 	/**
+	 * Returns the expiry date of a stored item, if it has one and it hasn't passed yet.
+	 */
+	async #getExpires(keyName: string): Promise<Date | undefined> {
+		const item: WebPorridge.Payload | undefined = await getItemIdb(keyName, this.#customStore);
+		const expires = item?.[storageKeys.expires];
+
+		return expires && !didExpire(expires) ? new Date(expires) : undefined;
+	}
+
+	/**
 	 * Writes single data item to IndexedDB.
 	 * @param keyName
 	 * @param keyValue
@@ -71,6 +81,7 @@ export class PorridgeDB {
 
 			return await this.setItem(keyName, item, {
 				...options,
+				expires: options.expires ?? (await this.#getExpires(keyName)),
 				prop: undefined,
 			});
 		}
@@ -138,7 +149,7 @@ export class PorridgeDB {
 			const item = (await this.getItem(keyName)) || {};
 			deleteProperty(item, options.prop);
 
-			return await this.setItem(keyName, item);
+			return await this.setItem(keyName, item, { expires: await this.#getExpires(keyName) });
 		}
 
 		await removeItemIdb(keyName, this.#customStore);

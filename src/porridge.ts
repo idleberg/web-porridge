@@ -48,6 +48,19 @@ export class Porridge {
 	}
 
 	/**
+	 * Returns the expiry date of a stored item, if it has one and it hasn't passed yet.
+	 */
+	#getExpires(keyName: string): Date | undefined {
+		try {
+			const expires = JSON.parse(globalThis[this.#storageArea].getItem(keyName) || 'null')?.[storageKeys.expires];
+
+			return expires && !didExpire(expires) ? new Date(expires) : undefined;
+		} catch (_error) {
+			return undefined;
+		}
+	}
+
+	/**
 	 * Writes single data item to Storage type.
 	 * @param keyName The key to write
 	 * @param keyValue The value to write
@@ -72,6 +85,7 @@ export class Porridge {
 
 			this.setItem(keyName, item, {
 				...options,
+				expires: options.expires ?? this.#getExpires(keyName),
 				prop: undefined,
 			});
 
@@ -149,7 +163,7 @@ export class Porridge {
 			const item = this.getItem(keyName) || {};
 			deleteProperty(item, options.prop);
 
-			this.setItem(keyName, item);
+			this.setItem(keyName, item, { expires: this.#getExpires(keyName) });
 
 			return;
 		}

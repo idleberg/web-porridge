@@ -229,6 +229,22 @@ test('db.didExpire() - false', async () => {
 	expect(actual).toStrictEqual(false);
 });
 
+test('db.setItem() - prop keeps expiry', async () => {
+	await storage.setItem('demo', { name: 'John' }, { expires: Date.now() + 50 });
+	await storage.setItem('demo', 'Ada', { prop: 'name' });
+	await new Promise((resolve) => setTimeout(resolve, 100));
+
+	expect(await storage.getItem('demo')).toBe(null);
+});
+
+test('db.removeItem() - prop keeps expiry', async () => {
+	await storage.setItem('demo', { name: 'John', age: 42 }, { expires: Date.now() + 50 });
+	await storage.removeItem('demo', { prop: 'age' });
+	await new Promise((resolve) => setTimeout(resolve, 100));
+
+	expect(await storage.getItem('demo')).toBe(null);
+});
+
 test('db.didExpire() - no expiry', async () => {
 	await storage.setItem('demo', 'forever');
 	const actual = await storage.didExpire('demo');
