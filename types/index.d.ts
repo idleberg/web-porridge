@@ -5,8 +5,9 @@ declare namespace WebPorridge {
 	};
 
 	type IndexeddbOptions = {
-		db: string;
-		name: string;
+		db?: string;
+		eventName?: string;
+		store?: string;
 	};
 
 	type Payload = {

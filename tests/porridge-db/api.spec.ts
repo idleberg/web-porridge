@@ -359,3 +359,19 @@ test('db.values() - empty', async () => {
 
 	expect(actual).toStrictEqual([]);
 });
+
+test('new PorridgeDB() - custom options', async () => {
+	const custom = new PorridgeDB({ db: 'custom-db', store: 'custom-store', eventName: 'custom.didChange' });
+	const events: string[] = [];
+	const listener = (event: Event) => events.push((event as CustomEvent).detail.key);
+
+	globalThis.addEventListener('custom.didChange', listener);
+	await custom.setItem('demo', 'custom');
+	globalThis.removeEventListener('custom.didChange', listener);
+
+	expect(await custom.getItem('demo')).toBe('custom');
+	expect(await storage.getItem('demo')).toBe(null);
+	expect(events).toEqual(['demo']);
+
+	await custom.clear();
+});
