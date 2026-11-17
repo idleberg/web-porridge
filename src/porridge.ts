@@ -8,6 +8,7 @@ import {
 	deserialize,
 	didExpire,
 	eventDispatcher,
+	eventTarget,
 	getSortedStorageObject,
 	getType,
 	serialize,
@@ -321,9 +322,9 @@ export class Porridge {
 			callback(customEvent.detail);
 		}
 
-		globalThis.addEventListener(this.#eventName, handler);
+		eventTarget.addEventListener(this.#eventName, handler);
 
-		return () => globalThis.removeEventListener(this.#eventName, handler);
+		return () => eventTarget.removeEventListener(this.#eventName, handler);
 	}
 
 	/**

@@ -12,7 +12,7 @@ import {
 } from 'idb-keyval';
 import type { IDBValidKey, WebPorridge } from '../types/index.d.ts';
 
-import { assertHasProperties, didExpire, eventDispatcher, getType, storageKeys } from './util.ts';
+import { assertHasProperties, didExpire, eventDispatcher, eventTarget, getType, storageKeys } from './util.ts';
 
 /**
  * Instantiates the class with provided options.
@@ -304,9 +304,9 @@ export class PorridgeDB {
 			callback(customEvent.detail);
 		}
 
-		globalThis.addEventListener(this.#eventName, handler);
+		eventTarget.addEventListener(this.#eventName, handler);
 
-		return () => globalThis.removeEventListener(this.#eventName, handler);
+		return () => eventTarget.removeEventListener(this.#eventName, handler);
 	}
 
 	/**

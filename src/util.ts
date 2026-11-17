@@ -117,6 +117,12 @@ export function didExpire(expires?: string): boolean {
 	return !!expires && new Date(expires) <= new Date();
 }
 
+/**
+ * Target for change events: the global object in browsers, a private EventTarget in runtimes where the global object isn't one (e.g. Node.js).
+ */
+export const eventTarget: EventTarget =
+	typeof globalThis.dispatchEvent === 'function' ? (globalThis as unknown as EventTarget) : new EventTarget();
+
 export function eventDispatcher(eventName: string, payload: Omit<WebPorridge.StorageEvent, 'url'>) {
 	const storageEvent = new CustomEvent(eventName, {
 		detail: {
@@ -125,7 +131,7 @@ export function eventDispatcher(eventName: string, payload: Omit<WebPorridge.Sto
 		},
 	});
 
-	globalThis.dispatchEvent(storageEvent);
+	eventTarget.dispatchEvent(storageEvent);
 }
 
 /**
