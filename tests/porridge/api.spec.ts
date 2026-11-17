@@ -315,6 +315,12 @@ const sessionPorridge = new Porridge('sessionStorage');
 		expect(storage.getItem('demo')).toBe(null);
 	});
 
+	test(`${type}.hasItem() - expired`, () => {
+		storage.setItem('demo', 'expired', { expires: Date.now() - 1000 });
+
+		expect(storage.hasItem('demo')).toBe(false);
+	});
+
 	test(`${type}.didExpire() - no expiry`, () => {
 		storage.setItem('demo', 'forever');
 		const actual = storage.didExpire('demo');

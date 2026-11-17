@@ -239,7 +239,7 @@ export class Porridge {
 	 * ```
 	 */
 	public hasItem(keyName: string): boolean {
-		return Object.keys(globalThis[this.#storageArea]).includes(keyName);
+		return Object.keys(globalThis[this.#storageArea]).includes(keyName) && !this.didExpire(keyName);
 	}
 
 	/**

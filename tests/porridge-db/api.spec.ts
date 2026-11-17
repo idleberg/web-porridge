@@ -279,6 +279,12 @@ test('db.didExpire() - epoch', async () => {
 	expect(await storage.getItem('demo')).toBe(null);
 });
 
+test('db.hasItem() - expired', async () => {
+	await storage.setItem('demo', 'expired', { expires: Date.now() - 1000 });
+
+	expect(await storage.hasItem('demo')).toBe(false);
+});
+
 test('db.didExpire() - no expiry', async () => {
 	await storage.setItem('demo', 'forever');
 	const actual = await storage.didExpire('demo');

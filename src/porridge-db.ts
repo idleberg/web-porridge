@@ -228,7 +228,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async hasItem(keyName: string): Promise<boolean> {
-		return (await keys(this.#customStore)).includes(keyName);
+		return (await keys(this.#customStore)).includes(keyName) && !(await this.didExpire(keyName));
 	}
 
 	/**
