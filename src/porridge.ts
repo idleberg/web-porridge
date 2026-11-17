@@ -330,9 +330,30 @@ export class Porridge {
 			callback(customEvent.detail);
 		}
 
-		eventTarget.addEventListener(this.#eventName, handler);
+		// Changes made in other tabs only arrive as native storage events
+		const storageHandler = (event: Event): void => {
+			const { key, newValue, oldValue, storageArea, url } = event as StorageEvent;
 
-		return () => eventTarget.removeEventListener(this.#eventName, handler);
+			if (storageArea !== globalThis[this.#storageArea] || (key !== keyName && key !== null)) {
+				return;
+			}
+
+			callback({
+				key,
+				oldValue: this.#decode(oldValue),
+				newValue: this.#decode(newValue),
+				storageArea: Object.fromEntries(this.entries()),
+				url,
+			});
+		};
+
+		eventTarget.addEventListener(this.#eventName, handler);
+		eventTarget.addEventListener('storage', storageHandler);
+
+		return () => {
+			eventTarget.removeEventListener(this.#eventName, handler);
+			eventTarget.removeEventListener('storage', storageHandler);
+		};
 	}
 
 	/**

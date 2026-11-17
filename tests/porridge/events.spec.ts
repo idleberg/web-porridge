@@ -174,6 +174,35 @@ const sessionPorridge = new Porridge('sessionStorage');
 		});
 	});
 
+	test(`${type}.observe() - change from another tab`, () => {
+		const area = globalThis[type as 'localStorage' | 'sessionStorage'];
+		const otherArea = type === 'localStorage' ? sessionStorage : localStorage;
+		const events: WebPorridge.StorageEvent[] = [];
+		const unobserve = storage.observe('demo', (event) => events.push(event));
+		const fire = (init: StorageEventInit) =>
+			globalThis.dispatchEvent(new StorageEvent('storage', { url: 'https://example.com/', ...init }));
+
+		fire({
+			key: 'demo',
+			oldValue: null,
+			newValue: JSON.stringify({ '@value': 'from tab B', '@type': 'string' }),
+			storageArea: area,
+		});
+		fire({ key: 'other', newValue: '"ignored"', storageArea: area });
+		fire({ key: 'demo', newValue: '"ignored"', storageArea: otherArea });
+
+		unobserve();
+		fire({ key: 'demo', newValue: '"ignored"', storageArea: area });
+
+		expect(events).toHaveLength(1);
+		expect(events[0]).toMatchObject({
+			key: 'demo',
+			oldValue: null,
+			newValue: 'from tab B',
+			url: 'https://example.com/',
+		});
+	});
+
 	test(`${type}.observe() - Invalid callback type`, () => {
 		// @ts-expect-error Provide invalid callback function
 		expect(() => storage.observe('demo', undefined)).toThrowError(
