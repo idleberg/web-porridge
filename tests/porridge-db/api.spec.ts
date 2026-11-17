@@ -285,6 +285,12 @@ test('db.hasItem() - expired', async () => {
 	expect(await storage.hasItem('demo')).toBe(false);
 });
 
+test('db.key() - empty string key', async () => {
+	await storage.setItem('', 'empty');
+
+	expect(await storage.key(0)).toBe('');
+});
+
 test('db.didExpire() - no expiry', async () => {
 	await storage.setItem('demo', 'forever');
 	const actual = await storage.didExpire('demo');

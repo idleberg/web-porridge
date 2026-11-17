@@ -180,7 +180,7 @@ export class PorridgeDB {
 	 * ```
 	 */
 	public async key(index: number): Promise<unknown> {
-		return (await keys(this.#customStore))[index] || null;
+		return (await keys(this.#customStore))[index] ?? null;
 	}
 
 	/**
