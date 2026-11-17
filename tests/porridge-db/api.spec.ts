@@ -229,6 +229,13 @@ test('db.didExpire() - false', async () => {
 	expect(actual).toStrictEqual(false);
 });
 
+test('db.didExpire() - no expiry', async () => {
+	await storage.setItem('demo', 'forever');
+	const actual = await storage.didExpire('demo');
+
+	expect(actual).toStrictEqual(false);
+});
+
 test('db.didExpire() - missing', async () => {
 	await storage.clear();
 	const actual = await storage.didExpire('demo');

@@ -100,8 +100,8 @@ export function getType(item: unknown): string | undefined {
  * @param expires
  * @returns
  */
-export function didExpire(expires: string): boolean {
-	return new Date(expires) <= new Date();
+export function didExpire(expires?: string): boolean {
+	return !!expires && new Date(expires) <= new Date();
 }
 
 export function eventDispatcher(eventName: string, payload: Omit<WebPorridge.StorageEvent, 'url'>) {

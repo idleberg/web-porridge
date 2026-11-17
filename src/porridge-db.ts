@@ -108,7 +108,7 @@ export class PorridgeDB {
 	public async getItem(keyName: string, options?: WebPorridge.StorageOptions): Promise<unknown> {
 		const item: WebPorridge.Payload | null = (await getItemIdb(keyName, this.#customStore)) || null;
 
-		if (!item || didExpire(item[storageKeys.expires] || '')) {
+		if (!item || didExpire(item[storageKeys.expires])) {
 			return null;
 		}
 
@@ -308,6 +308,6 @@ export class PorridgeDB {
 			return false;
 		}
 
-		return didExpire(item[storageKeys.expires] || '-1');
+		return didExpire(item[storageKeys.expires]);
 	}
 }

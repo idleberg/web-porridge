@@ -240,6 +240,13 @@ const sessionPorridge = new Porridge('sessionStorage');
 		expect(actual).toStrictEqual(false);
 	});
 
+	test(`${type}.didExpire() - no expiry`, () => {
+		storage.setItem('demo', 'forever');
+		const actual = storage.didExpire('demo');
+
+		expect(actual).toStrictEqual(false);
+	});
+
 	test(`${type}.didExpire() - missing`, () => {
 		storage.clear();
 		const actual = storage.didExpire('demo');

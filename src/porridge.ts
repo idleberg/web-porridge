@@ -114,7 +114,7 @@ export class Porridge {
 		try {
 			const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
-			if (!decodedItem || didExpire(decodedItem[storageKeys.expires] || '')) {
+			if (!decodedItem || didExpire(decodedItem[storageKeys.expires])) {
 				return null;
 			}
 
@@ -323,6 +323,6 @@ export class Porridge {
 
 		const decodedItem: WebPorridge.Payload = JSON.parse(item);
 
-		return didExpire(decodedItem[storageKeys.expires] || '-1');
+		return didExpire(decodedItem[storageKeys.expires]);
 	}
 }
