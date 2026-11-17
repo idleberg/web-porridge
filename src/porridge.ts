@@ -343,8 +343,13 @@ export class Porridge {
 			return false;
 		}
 
-		const decodedItem: WebPorridge.Payload = JSON.parse(item);
+		try {
+			const decodedItem: WebPorridge.Payload | null = JSON.parse(item);
 
-		return didExpire(decodedItem[storageKeys.expires]);
+			return didExpire(decodedItem?.[storageKeys.expires]);
+		} catch (_error) {
+			// Values not written by Porridge have no expiry
+			return false;
+		}
 	}
 }

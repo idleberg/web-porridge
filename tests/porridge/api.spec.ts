@@ -283,6 +283,18 @@ const sessionPorridge = new Porridge('sessionStorage');
 		expect(storage.hasItem('demo')).toBe(false);
 	});
 
+	test(`${type}.didExpire() - foreign value`, () => {
+		globalThis[type as 'localStorage' | 'sessionStorage'].setItem('demo', 'not json');
+
+		expect(storage.didExpire('demo')).toBe(false);
+	});
+
+	test(`${type}.didExpire() - foreign JSON null`, () => {
+		globalThis[type as 'localStorage' | 'sessionStorage'].setItem('demo', 'null');
+
+		expect(storage.didExpire('demo')).toBe(false);
+	});
+
 	test(`${type}.didExpire() - no expiry`, () => {
 		storage.setItem('demo', 'forever');
 		const actual = storage.didExpire('demo');
