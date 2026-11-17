@@ -272,6 +272,13 @@ test('db.removeItem() - prop on missing key is a no-op', async () => {
 	expect(await storage.hasItem('demo')).toBe(false);
 });
 
+test('db.didExpire() - epoch', async () => {
+	await storage.setItem('demo', 'expired', { expires: 0 });
+
+	expect(await storage.didExpire('demo')).toBe(true);
+	expect(await storage.getItem('demo')).toBe(null);
+});
+
 test('db.didExpire() - no expiry', async () => {
 	await storage.setItem('demo', 'forever');
 	const actual = await storage.didExpire('demo');

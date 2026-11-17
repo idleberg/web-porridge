@@ -113,8 +113,8 @@ export function assertHasProperties(item: unknown, prop: string): asserts item i
  * @param expires
  * @returns
  */
-export function didExpire(expires?: string): boolean {
-	return !!expires && new Date(expires) <= new Date();
+export function didExpire(expires?: string | number | Date | null): boolean {
+	return expires != null && new Date(expires) <= new Date();
 }
 
 /**

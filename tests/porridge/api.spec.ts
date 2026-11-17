@@ -308,6 +308,13 @@ const sessionPorridge = new Porridge('sessionStorage');
 		expect(storage.didExpire('demo')).toBe(false);
 	});
 
+	test(`${type}.didExpire() - epoch`, () => {
+		storage.setItem('demo', 'expired', { expires: 0 });
+
+		expect(storage.didExpire('demo')).toBe(true);
+		expect(storage.getItem('demo')).toBe(null);
+	});
+
 	test(`${type}.didExpire() - no expiry`, () => {
 		storage.setItem('demo', 'forever');
 		const actual = storage.didExpire('demo');
